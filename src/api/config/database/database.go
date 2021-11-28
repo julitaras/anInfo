@@ -3,7 +3,8 @@ package database
 import (
 	"database/sql"
 	"fmt"
-	"gorm.io/driver/mysql"
+	_ "github.com/lib/pq"
+	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 	"proyectos/src/api/config/settings"
 	"sync"
@@ -25,7 +26,7 @@ func Connection() (*gorm.DB, error) {
 
 	once.Do(func() {
 		var sqlDB *sql.DB
-		sqlDB, err = sql.Open("mysql", connectionString)
+		sqlDB, err = sql.Open("postgres", connectionString)
 		if err != nil {
 			return
 		}
@@ -48,7 +49,7 @@ func Connection() (*gorm.DB, error) {
 
 func getInstance(conn *sql.DB) (*gorm.DB, error) {
 	var err error
-	db, err = gorm.Open(mysql.New(mysql.Config{
+	db, err = gorm.Open(postgres.New(postgres.Config{
 		Conn: conn,
 	}), &gorm.Config{
 		PrepareStmt:            true,
