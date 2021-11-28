@@ -12,6 +12,7 @@ import (
 func (r *SRV) AddHandlers() *SRV {
 	//Get configuration
 	cfg := settings.GetData()
+
 	//Set repo
 	tr := repository.NewThingRepository(cfg)
 	//Set service
