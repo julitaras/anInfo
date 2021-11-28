@@ -5,8 +5,8 @@ import (
 
 	"fmt"
 	"net/http"
-	"proyectos/src/api/thing/api/dto"
-	"proyectos/src/api/thing/domain"
+	"proyectos/src/api/project/api/dto"
+	"proyectos/src/api/project/domain"
 
 	"github.com/gin-gonic/gin"
 	"gopkg.in/go-playground/validator.v9"

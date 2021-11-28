@@ -3,9 +3,9 @@ package service
 import (
 	"context"
 	"proyectos/src/api/config/settings"
-	"proyectos/src/api/thing/domain"
-	"proyectos/src/api/thing/domain/model"
-	"proyectos/src/api/thing/repository"
+	"proyectos/src/api/project/domain"
+	"proyectos/src/api/project/domain/model"
+	"proyectos/src/api/project/repository"
 	"reflect"
 	"testing"
 
@@ -45,7 +45,7 @@ func Test_thingService_Get(t *testing.T) {
 
 	rows := sqlmock.NewRows([]string{"id", "name", "is_deleted"}).AddRow(1, "Algo", false)
 
-	mock.ExpectPrepare("SELECT * FROM thing WHERE id = ? ").ExpectQuery().WillReturnRows(rows)
+	mock.ExpectPrepare("SELECT * FROM project WHERE id = ? ").ExpectQuery().WillReturnRows(rows)
 
 	type fields struct {
 		r domain.Repository
@@ -108,7 +108,7 @@ func Test_thingService_Update(t *testing.T) {
 
 	result := sqlmock.NewResult(0, 1)
 
-	mock.ExpectPrepare("UPDATE thing SET thing.name=? WHERE thing.id=?").ExpectExec().WithArgs("Algo más", 1).WillReturnResult(result)
+	mock.ExpectPrepare("UPDATE project SET project.name=? WHERE project.id=?").ExpectExec().WithArgs("Algo más", 1).WillReturnResult(result)
 
 	type fields struct {
 		r domain.Repository
@@ -171,7 +171,7 @@ func Test_thingService_Insert(t *testing.T) {
 
 	result := sqlmock.NewResult(1, 1)
 
-	mock.ExpectPrepare("INSERT INTO thing VALUES(?, ?)").ExpectExec().WillReturnResult(result)
+	mock.ExpectPrepare("INSERT INTO project VALUES(?, ?)").ExpectExec().WillReturnResult(result)
 
 	type fields struct {
 		r domain.Repository
@@ -233,10 +233,10 @@ func Test_thingService_Delete(t *testing.T) {
 	defer db.Close()
 
 	rows := sqlmock.NewRows([]string{"id", "name", "is_deleted"}).AddRow(1, "Algo", false)
-	mock.ExpectPrepare("SELECT * FROM thing WHERE id = ? ").ExpectQuery().WillReturnRows(rows)
+	mock.ExpectPrepare("SELECT * FROM project WHERE id = ? ").ExpectQuery().WillReturnRows(rows)
 
 	result := sqlmock.NewResult(0, 1)
-	mock.ExpectPrepare("DELETE FROM thing WHERE thing.id=?").ExpectExec().WithArgs(1).WillReturnResult(result)
+	mock.ExpectPrepare("DELETE FROM project WHERE project.id=?").ExpectExec().WithArgs(1).WillReturnResult(result)
 
 	type fields struct {
 		r domain.Repository

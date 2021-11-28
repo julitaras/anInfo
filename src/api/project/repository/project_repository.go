@@ -6,8 +6,8 @@ import (
 	"errors"
 	"fmt"
 	"proyectos/src/api/config/settings"
-	"proyectos/src/api/thing/domain"
-	"proyectos/src/api/thing/domain/model"
+	"proyectos/src/api/project/domain"
+	"proyectos/src/api/project/domain/model"
 
 	_ "github.com/go-sql-driver/mysql"
 )
@@ -36,9 +36,9 @@ func (r *ThingRepository) Ping() error {
 	return r.DB.Ping()
 }
 
-//Create thing
+//Create project
 func (r *ThingRepository) Create(ctx context.Context, t *model.Thing) (*model.Thing, error) {
-	stmtIns, err := r.DB.Prepare("INSERT INTO thing VALUES(?, ?)")
+	stmtIns, err := r.DB.Prepare("INSERT INTO project VALUES(?, ?)")
 	if err != nil {
 		return nil, err
 	}
@@ -58,7 +58,7 @@ func (r *ThingRepository) Create(ctx context.Context, t *model.Thing) (*model.Th
 
 //Retrieve things
 func (r *ThingRepository) Retrieve(ctx context.Context, id int64) ([]*model.Thing, error) {
-	stmtOut, err := r.DB.Prepare("SELECT * FROM thing WHERE id = ? ")
+	stmtOut, err := r.DB.Prepare("SELECT * FROM project WHERE id = ? ")
 	if err != nil {
 		return nil, err
 	}
@@ -80,9 +80,9 @@ func (r *ThingRepository) Retrieve(ctx context.Context, id int64) ([]*model.Thin
 	return res, nil
 }
 
-//Update thing
+//Update project
 func (r *ThingRepository) Update(ctx context.Context, t *model.Thing) (*model.Thing, error) {
-	stmtOut, err := r.DB.Prepare("UPDATE thing SET thing.name=? WHERE thing.id=?")
+	stmtOut, err := r.DB.Prepare("UPDATE project SET project.name=? WHERE project.id=?")
 	if err != nil {
 		return nil, err
 	}
@@ -102,7 +102,7 @@ func (r *ThingRepository) Update(ctx context.Context, t *model.Thing) (*model.Th
 	return t, nil
 }
 
-//Delete thing
+//Delete project
 func (r *ThingRepository) Delete(ctx context.Context, id int64) (*model.Thing, error) {
 
 	t, err := r.Retrieve(ctx, id)
@@ -113,7 +113,7 @@ func (r *ThingRepository) Delete(ctx context.Context, id int64) (*model.Thing, e
 		return nil, errors.New("ID not found")
 	}
 
-	stmtIns, err := r.DB.Prepare("DELETE FROM thing WHERE thing.id=?")
+	stmtIns, err := r.DB.Prepare("DELETE FROM project WHERE project.id=?")
 	if err != nil {
 		return nil, err
 	}

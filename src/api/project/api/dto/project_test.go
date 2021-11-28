@@ -1,7 +1,7 @@
 package dto
 
 import (
-	"proyectos/src/api/thing/domain/model"
+	"proyectos/src/api/project/domain/model"
 	"reflect"
 	"testing"
 )

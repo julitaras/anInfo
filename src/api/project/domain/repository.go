@@ -2,7 +2,7 @@ package domain
 
 import (
 	"context"
-	"proyectos/src/api/thing/domain/model"
+	"proyectos/src/api/project/domain/model"
 )
 
 //Repository interface

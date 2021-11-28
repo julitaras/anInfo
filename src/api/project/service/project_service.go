@@ -2,8 +2,8 @@ package service
 
 import (
 	"context"
-	"proyectos/src/api/thing/domain"
-	"proyectos/src/api/thing/domain/model"
+	"proyectos/src/api/project/domain"
+	"proyectos/src/api/project/domain/model"
 )
 
 //thingService struct

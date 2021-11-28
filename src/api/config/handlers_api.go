@@ -2,10 +2,10 @@ package config
 
 import (
 	"proyectos/src/api/config/settings"
-	"proyectos/src/api/thing/api"
-	"proyectos/src/api/thing/domain"
-	"proyectos/src/api/thing/repository"
-	"proyectos/src/api/thing/service"
+	"proyectos/src/api/project/api"
+	"proyectos/src/api/project/domain"
+	"proyectos/src/api/project/repository"
+	"proyectos/src/api/project/service"
 )
 
 //AddHandlers routes
@@ -24,7 +24,7 @@ func (r *SRV) AddHandlers() *SRV {
 //AddThingHandler routes set
 func AddThingHandler(r *SRV, ds domain.Service) *SRV {
 
-	group := r.Group("/thing")
+	group := r.Group("/project")
 
 	group.Use() //<-- add middleware
 

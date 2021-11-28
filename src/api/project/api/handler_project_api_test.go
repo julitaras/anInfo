@@ -6,8 +6,8 @@ import (
 	"net/http"
 	"net/http/httptest"
 	"proyectos/src/api/config"
-	"proyectos/src/api/thing/repository"
-	"proyectos/src/api/thing/service"
+	"proyectos/src/api/project/repository"
+	"proyectos/src/api/project/service"
 	"testing"
 
 	"github.com/DATA-DOG/go-sqlmock"
@@ -23,7 +23,7 @@ func TestThingHandler_Get(t *testing.T) {
 	defer db.Close()
 	//mock expectation
 	rows := sqlmock.NewRows([]string{"id", "name", "is_deleted"}).AddRow(1, "Algo", false)
-	mock.ExpectPrepare("SELECT * FROM thing WHERE id = ? ").ExpectQuery().WillReturnRows(rows)
+	mock.ExpectPrepare("SELECT * FROM project WHERE id = ? ").ExpectQuery().WillReturnRows(rows)
 
 	//set handler
 	dr := &repository.ThingRepository{DB: db}
@@ -47,13 +47,13 @@ func TestThingHandler_Get(t *testing.T) {
 		{
 			name:    "first test",
 			server:  server{s: s},
-			request: request{r: makeRequest(http.MethodGet, "/thing/?ID=1", "", map[string]string{})},
+			request: request{r: makeRequest(http.MethodGet, "/project/?ID=1", "", map[string]string{})},
 			want:    200,
 		},
 		{
 			name:    "error test",
 			server:  server{s: s},
-			request: request{r: makeRequest(http.MethodGet, "/thing/", "", map[string]string{})},
+			request: request{r: makeRequest(http.MethodGet, "/project/", "", map[string]string{})},
 			want:    409,
 		},
 	}
@@ -81,7 +81,7 @@ func TestThingHandler_Post(t *testing.T) {
 	defer db.Close()
 	//mock expectation
 	result := sqlmock.NewResult(1, 1)
-	mock.ExpectPrepare("INSERT INTO thing VALUES(?, ?)").ExpectExec().WillReturnResult(result)
+	mock.ExpectPrepare("INSERT INTO project VALUES(?, ?)").ExpectExec().WillReturnResult(result)
 
 	//set handler
 	dr := &repository.ThingRepository{DB: db}
@@ -108,13 +108,13 @@ func TestThingHandler_Post(t *testing.T) {
 		{
 			name:    "first test",
 			server:  server{s: s},
-			request: request{r: makeRequest(http.MethodPost, "/thing/", `{"name":"Algo","is_deleted":false}`, headers)},
+			request: request{r: makeRequest(http.MethodPost, "/project/", `{"name":"Algo","is_deleted":false}`, headers)},
 			want:    200,
 		},
 		{
 			name:    "error test",
 			server:  server{s: s},
-			request: request{r: makeRequest(http.MethodPost, "/thing/", `{}`, headers)},
+			request: request{r: makeRequest(http.MethodPost, "/project/", `{}`, headers)},
 			want:    422,
 		},
 	}
@@ -142,7 +142,7 @@ func TestThingHandler_Put(t *testing.T) {
 	defer db.Close()
 	//mock expectation
 	result := sqlmock.NewResult(0, 1)
-	mock.ExpectPrepare("INSERT INTO thing VALUES(?, ?)").ExpectExec().WillReturnResult(result)
+	mock.ExpectPrepare("INSERT INTO project VALUES(?, ?)").ExpectExec().WillReturnResult(result)
 
 	//set handler
 	dr := &repository.ThingRepository{DB: db}
@@ -170,19 +170,19 @@ func TestThingHandler_Put(t *testing.T) {
 		{
 			name:    "first test",
 			server:  server{s: s},
-			request: request{r: makeRequest(http.MethodPut, "/thing/", `{"ID":1,"name":"Algo","is_deleted":false}`, headers)},
+			request: request{r: makeRequest(http.MethodPut, "/project/", `{"ID":1,"name":"Algo","is_deleted":false}`, headers)},
 			want:    200,
 		},
 		{
 			name:    "error test",
 			server:  server{s: s},
-			request: request{r: makeRequest(http.MethodPut, "/thing/", `{"ID":0,"name":"Inexistent","is_deleted":false}`, headers)},
+			request: request{r: makeRequest(http.MethodPut, "/project/", `{"ID":0,"name":"Inexistent","is_deleted":false}`, headers)},
 			want:    422,
 		},
 		{
 			name:    "not found test",
 			server:  server{s: s},
-			request: request{r: makeRequest(http.MethodPut, "/thing/", `{"ID":11,"name":"Inexistent","is_deleted":false}`, headers)},
+			request: request{r: makeRequest(http.MethodPut, "/project/", `{"ID":11,"name":"Inexistent","is_deleted":false}`, headers)},
 			want:    409,
 		},
 	}
@@ -210,10 +210,10 @@ func TestThingHandler_Delete(t *testing.T) {
 	defer db.Close()
 	//mock expectation
 	rows := sqlmock.NewRows([]string{"id", "name", "is_deleted"}).AddRow(1, "Algo", false)
-	mock.ExpectPrepare("SELECT * FROM thing WHERE id = ? ").ExpectQuery().WithArgs(1).WillReturnRows(rows)
+	mock.ExpectPrepare("SELECT * FROM project WHERE id = ? ").ExpectQuery().WithArgs(1).WillReturnRows(rows)
 
 	result := sqlmock.NewResult(0, 1)
-	mock.ExpectPrepare("DELETE FROM thing WHERE thing.id=?").ExpectExec().WithArgs(1).WillReturnResult(result)
+	mock.ExpectPrepare("DELETE FROM project WHERE project.id=?").ExpectExec().WithArgs(1).WillReturnResult(result)
 
 	//set handler
 	dr := &repository.ThingRepository{DB: db}
@@ -237,19 +237,19 @@ func TestThingHandler_Delete(t *testing.T) {
 		{
 			name:    "first test",
 			server:  server{s: s},
-			request: request{r: makeRequest(http.MethodDelete, "/thing/?ID=1", "", map[string]string{})},
+			request: request{r: makeRequest(http.MethodDelete, "/project/?ID=1", "", map[string]string{})},
 			want:    200,
 		},
 		{
 			name:    "error test",
 			server:  server{s: s},
-			request: request{r: makeRequest(http.MethodDelete, "/thing/", "", map[string]string{})},
+			request: request{r: makeRequest(http.MethodDelete, "/project/", "", map[string]string{})},
 			want:    422,
 		},
 		{
 			name:    "not found test",
 			server:  server{s: s},
-			request: request{r: makeRequest(http.MethodDelete, "/thing/?ID=11", "", map[string]string{})},
+			request: request{r: makeRequest(http.MethodDelete, "/project/?ID=11", "", map[string]string{})},
 			want:    409,
 		},
 	}

@@ -2,9 +2,9 @@ package config_test
 
 import (
 	"proyectos/src/api/config"
-	"proyectos/src/api/thing/domain"
-	"proyectos/src/api/thing/repository"
-	"proyectos/src/api/thing/service"
+	"proyectos/src/api/project/domain"
+	"proyectos/src/api/project/repository"
+	"proyectos/src/api/project/service"
 	"reflect"
 	"testing"
 
