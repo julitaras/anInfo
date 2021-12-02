@@ -38,10 +38,10 @@ func GetData() *Data {
 			port = "8080"
 		}
 
-		dbUsername := os.Getenv("DB_USERNAME")
-		dbPassword := os.Getenv("DB_PASSWORD")
-		dbHost := os.Getenv("DB_HOST")
-		dbName := os.Getenv("DB_NAME")
+		dbUsername := "lzdsmcqrqitpns"
+		dbPassword := "759a9d75358226257eaf1226251e085e9a22cb4920cfa145cbc6904c460ba68f"
+		dbHost := "ec2-52-71-217-158.compute-1.amazonaws.com:5432"
+		dbName := "d36jfrm60cfdgd"
 
 		instance = &Data{
 			Port:    port,
