@@ -1,42 +1,29 @@
 package config
 
 import (
-	"proyectos/src/api/config/settings"
-	"proyectos/src/api/project/api"
-	"proyectos/src/api/project/domain"
-	"proyectos/src/api/project/repository"
-	"proyectos/src/api/project/service"
+	"gorm.io/gorm"
+	"proyectos/src/api/task/api"
+	"proyectos/src/api/task/domain"
+	"proyectos/src/api/task/repository"
+	"proyectos/src/api/task/service"
 )
 
 //AddHandlers routes
-func (r *SRV) AddHandlers() *SRV {
-	//Get configuration
-	cfg := settings.GetData()
+func (r *SRV) AddHandlers(db *gorm.DB) *SRV {
+	tr := repository.NewTaskRepository(db)
+	ts := service.NewTaskService(tr)
 
-	//Set repo
-	tr := repository.NewThingRepository(cfg)
-	//Set service
-	ts := service.NewThingService(tr)
-
-	r = AddThingHandler(r, ts)
+	r = AddTaskHandler(r, ts)
 	return r
 }
 
-//AddThingHandler routes set
-func AddThingHandler(r *SRV, ds domain.Service) *SRV {
-
-	group := r.Group("/project")
-
-	group.Use() //<-- add middleware
-
-	thingHandler := &api.ThingHandler{
+//AddTaskHandler routes set
+func AddTaskHandler(r *SRV, ds domain.Service) *SRV {
+	thingHandler := &api.TaskHandler{
 		Service: ds,
 	}
 
-	group.GET("/", thingHandler.Get)
-	group.POST("/", thingHandler.Post)
-	group.PUT("/", thingHandler.Put)
-	group.DELETE("/", thingHandler.Delete)
+	r.POST("/task", thingHandler.Post)
 
 	return r
 }
