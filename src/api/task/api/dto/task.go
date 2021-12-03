@@ -29,7 +29,7 @@ func (t *Task) ToModel() *model.Task {
 		StartDate:      t.StartDate,
 		HoursWorked:    t.HoursWorked,
 		EstimatedHours: t.EstimatedHours,
-		ProjectId:      t.ProjectId,
+		ProjectID:      t.ProjectId,
 		State:          t.State,
 		CreationDate:   t.CreationDate, //TODO o ver si es la fecha de hoy en dia
 		AssignedTo:     t.AssignedTo,
@@ -44,7 +44,7 @@ func (t *Task) FromModel(dm *model.Task) {
 	t.StartDate = dm.StartDate
 	t.HoursWorked = dm.HoursWorked
 	t.EstimatedHours = dm.EstimatedHours
-	t.ProjectId = dm.ProjectId
+	t.ProjectId = dm.ProjectID
 	t.State = dm.State
 	t.CreationDate = dm.CreationDate
 	t.AssignedTo = dm.AssignedTo

@@ -1,6 +1,9 @@
 package model
 
-import "time"
+import (
+	"proyectos/src/api/project/domain/model"
+	"time"
+)
 
 //Task model
 type Task struct {
@@ -10,8 +13,9 @@ type Task struct {
 	StartDate      time.Time
 	HoursWorked    int
 	EstimatedHours int
-	ProjectId      int64
+	ProjectID      int64
 	State          string
 	CreationDate   time.Time
 	AssignedTo     string
+	Project        model.Project
 }
