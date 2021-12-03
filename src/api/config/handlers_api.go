@@ -19,11 +19,11 @@ func (r *SRV) AddHandlers(db *gorm.DB) *SRV {
 
 //AddTaskHandler routes set
 func AddTaskHandler(r *SRV, ds domain.Service) *SRV {
-	thingHandler := &api.TaskHandler{
+	taskHandler := &api.TaskHandler{
 		Service: ds,
 	}
 
-	r.POST("/task", thingHandler.Post)
+	r.POST("/task", taskHandler.Post)
 
 	return r
 }
