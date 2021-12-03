@@ -4,11 +4,11 @@ import (
 	"time"
 )
 
-//Thing model
-type Thing struct {
-	ID        int64
-	Name      string
-	IsDeleted bool
-	UpdatedAt time.Time
-	CreatedAt time.Time
+type Project struct {
+	Code int
+	Name string
+	Description string
+	StartDate time.Time
+	EndDate time.Time
+	WorkedHours int
 }

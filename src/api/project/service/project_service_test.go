@@ -14,7 +14,7 @@ import (
 
 func TestNewThingService(t *testing.T) {
 
-	r := repository.NewThingRepository(settings.GetData())
+	r := repository.NewProjectRepository(settings.GetData())
 	type args struct {
 		dr domain.Repository
 	}
@@ -64,14 +64,14 @@ func Test_thingService_Get(t *testing.T) {
 		// TODO: Add test cases.
 		{
 			name:    "first test",
-			fields:  fields{r: &repository.ThingRepository{DB: db}},
+			fields:  fields{r: &repository.ProjectRepository{DB: db}},
 			args:    args{ctx: context.Background(), id: 1},
 			want:    []*model.Thing{&model.Thing{ID: 1, Name: "Algo", IsDeleted: false}},
 			wantErr: false,
 		},
 		{
 			name:    "error test",
-			fields:  fields{r: &repository.ThingRepository{DB: db}},
+			fields:  fields{r: &repository.ProjectRepository{DB: db}},
 			args:    args{ctx: context.Background(), id: 0},
 			want:    nil,
 			wantErr: true,
@@ -127,14 +127,14 @@ func Test_thingService_Update(t *testing.T) {
 		// TODO: Add test cases.
 		{
 			name:    "first test",
-			fields:  fields{r: &repository.ThingRepository{DB: db}},
+			fields:  fields{r: &repository.ProjectRepository{DB: db}},
 			args:    args{ctx: context.Background(), t: &model.Thing{ID: 1, Name: "Algo más", IsDeleted: false}},
 			want:    &model.Thing{ID: 1, Name: "Algo más", IsDeleted: false},
 			wantErr: false,
 		},
 		{
 			name:    "error test",
-			fields:  fields{r: &repository.ThingRepository{DB: db}},
+			fields:  fields{r: &repository.ProjectRepository{DB: db}},
 			args:    args{ctx: context.Background(), t: &model.Thing{ID: 0, Name: "Inexistent", IsDeleted: false}},
 			want:    nil,
 			wantErr: true,
@@ -190,14 +190,14 @@ func Test_thingService_Insert(t *testing.T) {
 		// TODO: Add test cases.
 		{
 			name:    "insert test",
-			fields:  fields{r: &repository.ThingRepository{DB: db}},
+			fields:  fields{r: &repository.ProjectRepository{DB: db}},
 			args:    args{ctx: context.Background(), t: &model.Thing{Name: "Algo", IsDeleted: false}},
 			want:    &model.Thing{ID: 1, Name: "Algo", IsDeleted: false},
 			wantErr: false,
 		},
 		{
 			name:    "error test",
-			fields:  fields{r: &repository.ThingRepository{DB: db}},
+			fields:  fields{r: &repository.ProjectRepository{DB: db}},
 			args:    args{ctx: context.Background(), t: &model.Thing{}},
 			want:    nil,
 			wantErr: true,
@@ -255,14 +255,14 @@ func Test_thingService_Delete(t *testing.T) {
 		// TODO: Add test cases.
 		{
 			name:    "delete test",
-			fields:  fields{r: &repository.ThingRepository{DB: db}},
+			fields:  fields{r: &repository.ProjectRepository{DB: db}},
 			args:    args{ctx: context.Background(), id: 1},
 			want:    &model.Thing{ID: 1, Name: "Algo", IsDeleted: false},
 			wantErr: false,
 		},
 		{
 			name:    "delete error",
-			fields:  fields{r: &repository.ThingRepository{DB: db}},
+			fields:  fields{r: &repository.ProjectRepository{DB: db}},
 			args:    args{ctx: context.Background(), id: 0},
 			want:    nil,
 			wantErr: true,

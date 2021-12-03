@@ -14,7 +14,7 @@ func (r *SRV) AddHandlers() *SRV {
 	cfg := settings.GetData()
 
 	//Set repo
-	tr := repository.NewThingRepository(cfg)
+	tr := repository.NewProjectRepository(cfg)
 	//Set service
 	ts := service.NewThingService(tr)
 
@@ -29,7 +29,7 @@ func AddThingHandler(r *SRV, ds domain.Service) *SRV {
 
 	group.Use() //<-- add middleware
 
-	thingHandler := &api.ThingHandler{
+	thingHandler := &api.ProjectHandler{
 		Service: ds,
 	}
 

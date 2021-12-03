@@ -12,28 +12,27 @@ import (
 	"gopkg.in/go-playground/validator.v9"
 )
 
-//ThingHandler handler
-type ThingHandler struct {
+type ProjectHandler struct {
 	domain.Service
 }
 
-//Get handler
-func (dh *ThingHandler) Get(g *gin.Context) {
+// Get handler
+func (ph *ProjectHandler) Get(g *gin.Context) {
 
-	dt := dto.Thing{}
-	g.BindQuery(&dt)
+	dp := dto.Project{}
+	g.BindQuery(&dp)
 
 	validate := validator.New()
-	valerr := validate.Var(dt.ID, "gt=0")
+	valerr := validate.Var(dp.Code, "gt=0")
 	if valerr != nil {
 		g.AbortWithStatusJSON(http.StatusConflict, ErrResponse{
 			Error:   getValErr(valerr.(validator.ValidationErrors)),
-			Message: "Debe indicar un ID",
+			Message: "Debe indicar un código para el proyecto, que sea un número mayor que cero",
 		})
 		return
 	}
 
-	dd, err := dh.Service.Get(g, dt.ID)
+	dd, err := ph.Service.Get(g, dp.Code)
 
 	if err != nil {
 		g.AbortWithStatusJSON(http.StatusConflict, ErrResponse{
@@ -45,15 +44,15 @@ func (dh *ThingHandler) Get(g *gin.Context) {
 	}
 }
 
-//Post handler
-func (dh *ThingHandler) Post(g *gin.Context) {
+// Post handler
+func (ph *ProjectHandler) Post(g *gin.Context) {
 
-	dt := dto.Thing{}
-	g.BindJSON(&dt)
+	dp := dto.Project{}
+	g.BindJSON(&dp)
 
 	validate := validator.New()
 
-	valerr := validate.StructExcept(dt, "ID")
+	valerr := validate.StructExcept(dp, "ID")
 
 	if valerr != nil {
 		g.AbortWithStatusJSON(http.StatusUnprocessableEntity, ErrResponse{
@@ -63,7 +62,7 @@ func (dh *ThingHandler) Post(g *gin.Context) {
 		return
 	}
 
-	dm, err := dh.Service.Insert(g, dt.ToModel())
+	dm, err := ph.Service.Insert(g, dp.ToModel())
 	if err != nil {
 		g.AbortWithStatusJSON(http.StatusUnprocessableEntity, ErrResponse{
 			Error:   err.Error(),
@@ -74,15 +73,15 @@ func (dh *ThingHandler) Post(g *gin.Context) {
 	}
 }
 
-//Put handler
-func (dh *ThingHandler) Put(g *gin.Context) {
+// Put handler
+func (ph *ProjectHandler) Put(g *gin.Context) {
 
-	dt := dto.Thing{}
-	g.BindJSON(&dt)
+	dp := dto.Project{}
+	g.BindJSON(&dp)
 
 	validate := validator.New()
 
-	valerr := validate.Struct(dt)
+	valerr := validate.Struct(dp)
 
 	if valerr != nil {
 		g.AbortWithStatusJSON(http.StatusUnprocessableEntity, ErrResponse{
@@ -92,7 +91,7 @@ func (dh *ThingHandler) Put(g *gin.Context) {
 		return
 	}
 
-	dm, err := dh.Service.Insert(g, dt.ToModel())
+	dm, err := ph.Service.Insert(g, dp.ToModel())
 	if err != nil {
 		g.AbortWithStatusJSON(http.StatusConflict, ErrResponse{
 			Error:   err.Error(),
@@ -103,14 +102,14 @@ func (dh *ThingHandler) Put(g *gin.Context) {
 	}
 }
 
-//Delete handler
-func (dh *ThingHandler) Delete(g *gin.Context) {
+// Delete handler
+func (ph *ProjectHandler) Delete(g *gin.Context) {
 
-	dt := dto.Thing{}
-	g.BindQuery(&dt)
+	dp := dto.Project{}
+	g.BindQuery(&dp)
 
 	validate := validator.New()
-	valerr := validate.Var(dt.ID, "gt=0")
+	valerr := validate.Var(dp.Code, "gt=0")
 	if valerr != nil {
 		g.AbortWithStatusJSON(http.StatusUnprocessableEntity, ErrResponse{
 			Error:   getValErr(valerr.(validator.ValidationErrors)),
@@ -119,7 +118,7 @@ func (dh *ThingHandler) Delete(g *gin.Context) {
 		return
 	}
 
-	dd, err := dh.Service.Delete(g, dt.ID)
+	dd, err := ph.Service.Delete(g, dp.Code)
 
 	if err != nil {
 		g.AbortWithStatusJSON(http.StatusConflict, ErrResponse{

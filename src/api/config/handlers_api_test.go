@@ -38,7 +38,7 @@ func Test_addThingHandler(t *testing.T) {
 	}
 	defer db.Close()
 
-	dr := &repository.ThingRepository{DB: db}
+	dr := &repository.ProjectRepository{DB: db}
 	ds := service.NewThingService(dr)
 
 	type args struct {

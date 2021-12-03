@@ -12,13 +12,12 @@ import (
 	_ "github.com/go-sql-driver/mysql"
 )
 
-//ThingRepository type
-type ThingRepository struct {
+type ProjectRepository struct {
 	DB *sql.DB
 }
 
-//NewThingRepository builder
-func NewThingRepository(cfg *settings.Data) domain.Repository {
+//NewProjectRepository builder
+func NewProjectRepository(cfg *settings.Data) domain.Repository {
 	//cfg := config.GetData().DBConfig
 
 	connectionString := fmt.Sprintf("%s:%s@tcp(%s)/%s?charset=utf8", cfg.DBConfig.DBUsername, cfg.DBConfig.DBPassword, cfg.DBConfig.DBHost, cfg.DBConfig.DBName)
@@ -26,18 +25,18 @@ func NewThingRepository(cfg *settings.Data) domain.Repository {
 	if err != nil {
 		return nil
 	}
-	return &ThingRepository{
+	return &ProjectRepository{
 		DB: db,
 	}
 }
 
 //Ping DB
-func (r *ThingRepository) Ping() error {
+func (r *ProjectRepository) Ping() error {
 	return r.DB.Ping()
 }
 
 //Create project
-func (r *ThingRepository) Create(ctx context.Context, t *model.Thing) (*model.Thing, error) {
+func (r *ProjectRepository) Create(ctx context.Context, t *model.Project) (*model.Project, error) {
 	stmtIns, err := r.DB.Prepare("INSERT INTO project VALUES(?, ?)")
 	if err != nil {
 		return nil, err
@@ -51,18 +50,18 @@ func (r *ThingRepository) Create(ctx context.Context, t *model.Thing) (*model.Th
 		return nil, err
 	}
 
-	t.ID = int64(lid)
+	t.Code = int(lid)
 
 	return t, nil
 }
 
-//Retrieve things
-func (r *ThingRepository) Retrieve(ctx context.Context, id int64) ([]*model.Thing, error) {
+//Retrieve projects
+func (r *ProjectRepository) Retrieve(ctx context.Context, id int64) ([]*model.Project, error) {
 	stmtOut, err := r.DB.Prepare("SELECT * FROM project WHERE id = ? ")
 	if err != nil {
 		return nil, err
 	}
-	var res []*model.Thing
+	var res []*model.Project
 
 	results, err := stmtOut.Query(id)
 	if err != nil {
@@ -70,8 +69,8 @@ func (r *ThingRepository) Retrieve(ctx context.Context, id int64) ([]*model.Thin
 	}
 
 	for results.Next() {
-		var i model.Thing
-		err = results.Scan(&i.ID, &i.Name, &i.IsDeleted)
+		var i model.Project
+		err = results.Scan(&i.Code, &i.Name)
 		if err != nil {
 			return nil, err
 		}
@@ -81,12 +80,12 @@ func (r *ThingRepository) Retrieve(ctx context.Context, id int64) ([]*model.Thin
 }
 
 //Update project
-func (r *ThingRepository) Update(ctx context.Context, t *model.Thing) (*model.Thing, error) {
+func (r *ProjectRepository) Update(ctx context.Context, t *model.Project) (*model.Project, error) {
 	stmtOut, err := r.DB.Prepare("UPDATE project SET project.name=? WHERE project.id=?")
 	if err != nil {
 		return nil, err
 	}
-	res, err := stmtOut.Exec(t.Name, t.ID)
+	res, err := stmtOut.Exec(t.Name, t.Code)
 	if err != nil {
 		fmt.Println(err.Error())
 		return nil, err
@@ -103,7 +102,7 @@ func (r *ThingRepository) Update(ctx context.Context, t *model.Thing) (*model.Th
 }
 
 //Delete project
-func (r *ThingRepository) Delete(ctx context.Context, id int64) (*model.Thing, error) {
+func (r *ProjectRepository) Delete(ctx context.Context, id int64) (*model.Project, error) {
 
 	t, err := r.Retrieve(ctx, id)
 	if err != nil {
