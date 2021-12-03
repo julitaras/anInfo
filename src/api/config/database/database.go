@@ -22,7 +22,7 @@ func Connection() (*gorm.DB, error) {
 	var cfg *settings.Data
 	cfg = settings.GetData()
 
-	connectionString := fmt.Sprintf("%s:%s@tcp(%s)/%s?charset=utf8&parseTime=True", cfg.DBConfig.DBUsername, cfg.DBConfig.DBPassword, cfg.DBConfig.DBHost, cfg.DBConfig.DBName)
+	connectionString := fmt.Sprintf("host=%s user=%s password=%s dbname=%s port=%s", cfg.DBConfig.DBHost, cfg.DBConfig.DBUsername, cfg.DBConfig.DBPassword, cfg.DBConfig.DBName, cfg.DBConfig.DBPort)
 
 	once.Do(func() {
 		var sqlDB *sql.DB
