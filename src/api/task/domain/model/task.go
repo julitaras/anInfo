@@ -2,7 +2,6 @@ package model
 
 import (
 	"gorm.io/gorm"
-	"proyectos/src/api/project/domain/model"
 	"time"
 )
 
@@ -19,5 +18,4 @@ type Tasks struct {
 	State          string //TODO: Vale la pena hacer un enum?
 	CreationDate   time.Time
 	AssignedTo     string
-	Projects       model.Projects
 }
