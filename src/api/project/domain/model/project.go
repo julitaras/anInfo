@@ -1,14 +1,18 @@
 package model
 
 import (
+	"gorm.io/gorm"
 	"time"
 )
 
-type Project struct {
+type Projects struct {
+	gorm.Model
+	ID          int64 `gorm:"primary_key"`
 	Code        int
 	Name        string
 	Description string
 	StartDate   time.Time
-	EndDate     time.Time
-	WorkedHours int
+	FinishDate  time.Time
+	HoursWorked int
+	Leader      string
 }

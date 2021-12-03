@@ -7,5 +7,5 @@ import (
 
 //Repository interface
 type Repository interface {
-	Create(context.Context, *model.Task) (*model.Task, error)
+	Create(context.Context, *model.Tasks) (*model.Tasks, error)
 }

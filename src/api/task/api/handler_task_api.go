@@ -27,6 +27,7 @@ func (dh *TaskHandler) Post(g *gin.Context) {
 	validate := validator.New()
 	valErr := validate.StructExcept(dt, "ID")
 
+	//TODO Mejorar devolucion de error
 	if valErr != nil {
 		g.AbortWithStatusJSON(http.StatusUnprocessableEntity, errors.NewErrResponse(valErr))
 		return
@@ -38,5 +39,5 @@ func (dh *TaskHandler) Post(g *gin.Context) {
 		return
 	}
 
-	g.JSON(http.StatusOK, dm)
+	g.JSON(http.StatusOK, dto.FromModel(dm))
 }

@@ -20,10 +20,10 @@ func NewTaskRepository(db *gorm.DB) domain.Repository {
 	}
 }
 
-func (t TaskRepository) Create(_ context.Context, task *model.Task) (*model.Task, error) {
+func (t TaskRepository) Create(_ context.Context, task *model.Tasks) (*model.Tasks, error) {
 	err := t.DB.Create(&task).Error
 	if err != nil {
-		log.Fatalf("Error creating Task %v", err)
+		log.Printf("Error creating Tasks %v", err)
 		return nil, err
 	}
 

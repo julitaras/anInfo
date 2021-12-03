@@ -13,23 +13,23 @@ type Task struct {
 	StartDate      time.Time `validate:"required" json:"start_date"`
 	HoursWorked    int       `validate:"required" json:"hours_worked"`
 	EstimatedHours int       `validate:"required" json:"estimated_hours"`
-	ProjectId      int64     `validate:"required" json:"project_id"`
+	ProjectID      int64     `validate:"required" json:"project_id"`
 	State          string    `validate:"required" json:"state"`
 	CreationDate   time.Time `validate:"required" json:"creation_date"`
 	AssignedTo     string    `validate:"required" json:"assigned_to"`
 }
 
 //ToModel Task to Model
-func (t *Task) ToModel() *model.Task {
+func (t *Task) ToModel() *model.Tasks {
 
-	return &model.Task{
+	return &model.Tasks{
 		ID:             t.ID,
 		Name:           t.Name,
 		Description:    t.Description,
 		StartDate:      t.StartDate,
 		HoursWorked:    t.HoursWorked,
 		EstimatedHours: t.EstimatedHours,
-		ProjectID:      t.ProjectId,
+		ProjectID:      t.ProjectID,
 		State:          t.State,
 		CreationDate:   t.CreationDate, //TODO o ver si es la fecha de hoy en dia
 		AssignedTo:     t.AssignedTo,
@@ -37,15 +37,17 @@ func (t *Task) ToModel() *model.Task {
 }
 
 //FromModel Model from model
-func (t *Task) FromModel(dm *model.Task) {
-	t.ID = dm.ID
-	t.Name = dm.Name
-	t.Description = dm.Description
-	t.StartDate = dm.StartDate
-	t.HoursWorked = dm.HoursWorked
-	t.EstimatedHours = dm.EstimatedHours
-	t.ProjectId = dm.ProjectID
-	t.State = dm.State
-	t.CreationDate = dm.CreationDate
-	t.AssignedTo = dm.AssignedTo
+func FromModel(dm *model.Tasks) *Task {
+	return &Task{
+		ID:             dm.ID,
+		Name:           dm.Name,
+		Description:    dm.Description,
+		StartDate:      dm.StartDate,
+		HoursWorked:    dm.HoursWorked,
+		EstimatedHours: dm.EstimatedHours,
+		ProjectID:      dm.ProjectID,
+		State:          dm.State,
+		CreationDate:   dm.CreationDate,
+		AssignedTo:     dm.AssignedTo,
+	}
 }

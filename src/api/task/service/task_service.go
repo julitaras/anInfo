@@ -19,9 +19,8 @@ func NewTaskService(dr domain.Repository) domain.Service {
 }
 
 //Insert service
-func (s *TaskService) Insert(ctx context.Context, t *model.Task) (*model.Task, error) {
+func (s *TaskService) Insert(ctx context.Context, t *model.Tasks) (*model.Tasks, error) {
 	r, err := s.r.Create(ctx, t)
-
 	if err != nil {
 		return nil, err
 	}

@@ -7,5 +7,5 @@ import (
 
 //Service interface
 type Service interface{
-	Insert(context.Context, *model.Task) (*model.Task, error)
+	Insert(context.Context, *model.Tasks) (*model.Tasks, error)
 }
