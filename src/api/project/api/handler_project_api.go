@@ -45,6 +45,34 @@ func (ph *ProjectHandler) Post(g *gin.Context) {
 	}
 }
 
+func (ph *ProjectHandler) Patch(g *gin.Context) {
+
+	dp := dto.Project{}
+	g.BindJSON(&dp)
+
+	validate := validator.New()
+
+	valerr := validate.StructPartial(dp, "ID", "State")
+
+	if valerr != nil {
+		g.AbortWithStatusJSON(http.StatusUnprocessableEntity, ErrResponse{
+			Error:   getValErr(valerr.(validator.ValidationErrors)),
+			Message: "Unprocessable Entity",
+		})
+		return
+	}
+
+	dm, err := ph.Service.Update(g, dp.ToModel())
+	if err != nil {
+		g.AbortWithStatusJSON(http.StatusUnprocessableEntity, ErrResponse{
+			Error:   err.Error(),
+			Message: "Cannot Save",
+		})
+	} else {
+		g.JSON(http.StatusOK, dm)
+	}
+}
+
 func getValErr(e validator.ValidationErrors) string {
 	var ee string
 	for _, err := range e {

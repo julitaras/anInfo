@@ -1,8 +1,9 @@
 package model
 
 import (
-	"gorm.io/gorm"
 	"time"
+
+	"gorm.io/gorm"
 )
 
 type Projects struct {
@@ -14,4 +15,5 @@ type Projects struct {
 	FinishDate  time.Time
 	WorkedHours int
 	Leader      string
+	State       string
 }

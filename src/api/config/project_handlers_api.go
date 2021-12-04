@@ -1,11 +1,12 @@
 package config
 
 import (
-	"gorm.io/gorm"
 	"proyectos/src/api/project/api"
 	"proyectos/src/api/project/domain"
 	"proyectos/src/api/project/repository"
 	"proyectos/src/api/project/service"
+
+	"gorm.io/gorm"
 )
 
 //AddProjectHandlers routes
@@ -24,6 +25,7 @@ func AddProjectHandler(r *SRV, ds domain.Service) *SRV {
 	}
 
 	r.POST("/project", projectHandler.Post)
+	r.PATCH("/project/finish", projectHandler.Patch)
 
 	return r
 }

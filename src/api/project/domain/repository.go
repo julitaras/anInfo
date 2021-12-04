@@ -8,4 +8,5 @@ import (
 //Repository interface
 type Repository interface {
 	Create(context.Context, *model.Projects) (*model.Projects, error)
+	Update(context.Context, *model.Projects) (*model.Projects, error)
 }

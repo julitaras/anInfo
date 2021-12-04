@@ -2,10 +2,12 @@ package repository
 
 import (
 	"context"
-	"gorm.io/gorm"
 	"log"
+	"proyectos/src/api/project/api/dto"
 	"proyectos/src/api/project/domain"
 	"proyectos/src/api/project/domain/model"
+
+	"gorm.io/gorm"
 
 	_ "github.com/go-sql-driver/mysql"
 )
@@ -26,6 +28,17 @@ func (r ProjectRepository) Create(_ context.Context, project *model.Projects) (*
 	err := r.DB.Create(&project).Error
 	if err != nil {
 		log.Printf("Error creating Project #{err}")
+		return nil, err
+	}
+
+	return project, nil
+}
+
+//Update project
+func (r ProjectRepository) Update(_ context.Context, project *model.Projects) (*model.Projects, error) {
+	err := r.DB.Model(&dto.Project{}).Updates(project).Error
+	if err != nil {
+		log.Printf("Error updating Project #{err}")
 		return nil, err
 	}
 
