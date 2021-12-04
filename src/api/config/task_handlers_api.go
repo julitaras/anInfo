@@ -8,8 +8,8 @@ import (
 	"proyectos/src/api/task/service"
 )
 
-//AddHandlers routes
-func (r *SRV) AddHandlers(db *gorm.DB) *SRV {
+//AddTaskHandlers routes
+func (r *SRV) AddTaskHandlers(db *gorm.DB) *SRV {
 	tr := repository.NewTaskRepository(db)
 	ts := service.NewTaskService(tr)
 

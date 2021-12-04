@@ -23,8 +23,8 @@ func TestSRV_AddHandlers(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			if got := tt.r.AddHandlers(); !(reflect.TypeOf(got) == reflect.TypeOf(tt.want)) {
-				t.Errorf("SRV.AddHandlers() = %v, want %v", got, tt.want)
+			if got := tt.r.AddTaskHandlers(); !(reflect.TypeOf(got) == reflect.TypeOf(tt.want)) {
+				t.Errorf("SRV.AddTaskHandlers() = %v, want %v", got, tt.want)
 			}
 		})
 	}
