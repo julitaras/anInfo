@@ -11,7 +11,7 @@ type ProjectService struct {
 }
 
 func NewProjectService(dr domain.Repository) domain.Service {
-	return &ProjectService {
+	return &ProjectService{
 		r: dr,
 	}
 }
@@ -27,4 +27,3 @@ func (s *ProjectService) Insert(ctx context.Context, t *model.Projects) (*model.
 
 	return r, nil
 }
-

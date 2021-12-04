@@ -11,7 +11,7 @@ type Task struct {
 	Name           string    `validate:"required,min=2,max=50" json:"name"`
 	Description    string    `validate:"required" json:"description"`
 	StartDate      time.Time `validate:"required" json:"start_date"`
-	HoursWorked    int       `validate:"required" json:"hours_worked"`
+	WorkedHours    int       `validate:"required" json:"worked_hours"`
 	EstimatedHours int       `validate:"required" json:"estimated_hours"`
 	ProjectID      int64     `validate:"required" json:"project_id"`
 	State          string    `validate:"required" json:"state"`
@@ -27,7 +27,7 @@ func (t *Task) ToModel() *model.Tasks {
 		Name:           t.Name,
 		Description:    t.Description,
 		StartDate:      t.StartDate,
-		HoursWorked:    t.HoursWorked,
+		WorkedHours:    t.WorkedHours,
 		EstimatedHours: t.EstimatedHours,
 		ProjectID:      t.ProjectID,
 		State:          t.State,
@@ -43,7 +43,7 @@ func FromModel(dm *model.Tasks) *Task {
 		Name:           dm.Name,
 		Description:    dm.Description,
 		StartDate:      dm.StartDate,
-		HoursWorked:    dm.HoursWorked,
+		WorkedHours:    dm.WorkedHours,
 		EstimatedHours: dm.EstimatedHours,
 		ProjectID:      dm.ProjectID,
 		State:          dm.State,

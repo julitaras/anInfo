@@ -16,7 +16,7 @@ type ProjectRepository struct {
 
 //NewProjectRepository builder
 func NewProjectRepository(db *gorm.DB) domain.Repository {
-	return &ProjectRepository {
+	return &ProjectRepository{
 		DB: db,
 	}
 }
@@ -26,7 +26,7 @@ func (r ProjectRepository) Create(_ context.Context, project *model.Projects) (*
 	err := r.DB.Create(&project).Error
 	if err != nil {
 		log.Printf("Error creating Project #{err}")
-		return nil,err
+		return nil, err
 	}
 
 	return project, nil

@@ -18,5 +18,4 @@ func main() {
 	srv.AddProjectHandlers(db)
 	srv.AddTaskHandlers(db).Run(settings.GetData())
 
-
 }
