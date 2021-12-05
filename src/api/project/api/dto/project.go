@@ -30,13 +30,15 @@ func (project *Project) ToModel() *model.Projects {
 	}
 }
 
-func (project *Project) FromModel(modelProject *model.Projects) {
-	project.ID = modelProject.ID
-	project.Name = modelProject.Name
-	project.Description = modelProject.Description
-	project.StartDate = modelProject.StartDate
-	project.FinishDate = modelProject.FinishDate
-	project.WorkedHours = modelProject.WorkedHours
-	project.Leader = modelProject.Leader
-	project.State = modelProject.State
+func (project *Project) FromModel(modelProject *model.Projects) *Project {
+	return &Project{
+		ID:          modelProject.ID,
+		Name:        modelProject.Name,
+		Description: modelProject.Description,
+		StartDate:   modelProject.StartDate,
+		FinishDate:  modelProject.FinishDate,
+		WorkedHours: modelProject.WorkedHours,
+		Leader:      modelProject.Leader,
+		State:       modelProject.State,
+	}
 }

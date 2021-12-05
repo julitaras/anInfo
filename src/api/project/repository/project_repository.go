@@ -41,5 +41,11 @@ func (r ProjectRepository) Update(_ context.Context, project *model.Projects) (*
 		return nil, err
 	}
 
+	err = r.DB.Find(&project).Where("id = ?", project.ID).Error
+	if err != nil {
+		log.Printf("Error finding Project #{err}")
+		return nil, err
+	}
+
 	return project, nil
 }

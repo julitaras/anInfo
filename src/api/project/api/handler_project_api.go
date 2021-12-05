@@ -74,9 +74,9 @@ func (ph *ProjectHandler) Patch(g *gin.Context) {
 			Error:   err.Error(),
 			Message: "Cannot Save",
 		})
-	} else {
-		g.JSON(http.StatusOK, dm)
+		return
 	}
+	g.JSON(http.StatusOK, dp.FromModel(dm))
 }
 
 func getValErr(e validator.ValidationErrors) string {
