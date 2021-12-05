@@ -3,7 +3,6 @@ package repository
 import (
 	"context"
 	"log"
-	"proyectos/src/api/project/api/dto"
 	"proyectos/src/api/project/domain"
 	"proyectos/src/api/project/domain/model"
 
@@ -36,7 +35,7 @@ func (r ProjectRepository) Create(_ context.Context, project *model.Projects) (*
 
 //Update project
 func (r ProjectRepository) Update(_ context.Context, project *model.Projects) (*model.Projects, error) {
-	err := r.DB.Model(&dto.Project{}).Updates(project).Error
+	err := r.DB.Model(project).Updates(project).Error
 	if err != nil {
 		log.Printf("Error updating Project #{err}")
 		return nil, err
