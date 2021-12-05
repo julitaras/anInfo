@@ -57,17 +57,6 @@ func (ph *ProjectHandler) Patch(g *gin.Context) {
 	dp.ID = i
 	g.BindJSON(&dp)
 
-	validate := validator.New()
-	valerr := validate.StructPartial(dp, "state")
-
-	if valerr != nil {
-		g.AbortWithStatusJSON(http.StatusUnprocessableEntity, ErrResponse{
-			Error:   getValErr(valerr.(validator.ValidationErrors)),
-			Message: "Unprocessable Entity",
-		})
-		return
-	}
-
 	dm, err := ph.Service.Update(g, dp.ToModel())
 	if err != nil {
 		g.AbortWithStatusJSON(http.StatusUnprocessableEntity, ErrResponse{
