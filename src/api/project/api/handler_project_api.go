@@ -7,6 +7,7 @@ import (
 	"net/http"
 	"proyectos/src/api/project/api/dto"
 	"proyectos/src/api/project/domain"
+	"strconv"
 
 	"github.com/gin-gonic/gin"
 	"gopkg.in/go-playground/validator.v9"
@@ -48,11 +49,16 @@ func (ph *ProjectHandler) Post(g *gin.Context) {
 func (ph *ProjectHandler) Patch(g *gin.Context) {
 
 	dp := dto.Project{}
+
+	i, err := strconv.ParseInt(g.Param("id"), 10, 64)
+	if err != nil {
+		fmt.Println(err)
+	}
+	dp.ID = i
 	g.BindJSON(&dp)
 
 	validate := validator.New()
-
-	valerr := validate.StructPartial(dp, "ID", "State")
+	valerr := validate.StructPartial(dp, "state")
 
 	if valerr != nil {
 		g.AbortWithStatusJSON(http.StatusUnprocessableEntity, ErrResponse{
