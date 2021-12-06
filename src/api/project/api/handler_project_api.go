@@ -47,6 +47,27 @@ func (ph *ProjectHandler) Post(g *gin.Context) {
 }
 
 func (ph *ProjectHandler) Patch(g *gin.Context) {
+	dp := dto.Project{}
+
+	i, err := strconv.ParseInt(g.Param("id"), 10, 64)
+	if err != nil {
+		fmt.Println(err)
+	}
+	dp.ID = i
+	g.BindJSON(&dp)
+
+	dm, err := ph.Service.Update(g, dp.ToModel())
+	if err != nil {
+		g.AbortWithStatusJSON(http.StatusUnprocessableEntity, ErrResponse{
+			Error:   err.Error(),
+			Message: "Cannot Save",
+		})
+		return
+	}
+	g.JSON(http.StatusOK, dp.FromModel(dm))
+}
+
+func (ph *ProjectHandler) Put(g *gin.Context) {
 
 	dp := dto.Project{}
 
@@ -58,8 +79,9 @@ func (ph *ProjectHandler) Patch(g *gin.Context) {
 	g.BindJSON(&dp)
 
 	validate := validator.New()
-	valerr := validate.StructPartial(dp, "state")
 
+	// Validamos que se hayan pasado los valores necesarios del struct para el Put
+	valerr := validate.Struct(dp)
 	if valerr != nil {
 		g.AbortWithStatusJSON(http.StatusUnprocessableEntity, ErrResponse{
 			Error:   getValErr(valerr.(validator.ValidationErrors)),
