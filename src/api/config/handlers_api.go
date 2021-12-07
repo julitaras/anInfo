@@ -23,7 +23,7 @@ func AddTaskHandler(r *SRV, ds domain.Service) *SRV {
 		Service: ds,
 	}
 
-	r.POST("/task", taskHandler.Post)
+	r.POST("/tasks", taskHandler.Post)
 
 	return r
 }
