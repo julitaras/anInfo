@@ -14,8 +14,8 @@ type Tasks struct {
 	StartDate      time.Time
 	HoursWorked    int
 	EstimatedHours int
-	ProjectID      int64  `gorm:"foreignKey:ProjectsID"`
-	State          string //TODO: Vale la pena hacer un enum?
+	ProjectID      int64 `gorm:"foreignKey:ProjectsID"`
+	State          string
 	CreationDate   time.Time
 	AssignedTo     string
 }
