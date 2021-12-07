@@ -22,6 +22,7 @@ type DBConfig struct {
 	DBPassword string `json:"db_password,omitempty"`
 	DBHost     string `json:"db_host,omitempty"`
 	DBName     string `json:"db_name,omitempty"`
+	DBPort     string `json:"db_port,omitempty"`
 }
 
 //GetData builder
@@ -40,8 +41,9 @@ func GetData() *Data {
 
 		dbUsername := "lzdsmcqrqitpns"
 		dbPassword := "759a9d75358226257eaf1226251e085e9a22cb4920cfa145cbc6904c460ba68f"
-		dbHost := "ec2-52-71-217-158.compute-1.amazonaws.com:5432"
+		dbHost := "ec2-52-71-217-158.compute-1.amazonaws.com"
 		dbName := "d36jfrm60cfdgd"
+		dbPort := "5432"
 
 		instance = &Data{
 			Port:    port,
@@ -52,6 +54,7 @@ func GetData() *Data {
 				DBPassword: dbPassword,
 				DBHost:     dbHost,
 				DBName:     dbName,
+				DBPort:     dbPort,
 			},
 		}
 	}

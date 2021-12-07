@@ -1,14 +1,18 @@
 package model
 
 import (
+	"gorm.io/gorm"
 	"time"
 )
 
-//Thing model
-type Thing struct {
-	ID        int64
-	Name      string
-	IsDeleted bool
-	UpdatedAt time.Time
-	CreatedAt time.Time
+type Projects struct {
+	gorm.Model
+	ID          int64 `gorm:"primary_key"`
+	Code        int
+	Name        string
+	Description string
+	StartDate   time.Time
+	FinishDate  time.Time
+	HoursWorked int
+	Leader      string
 }
