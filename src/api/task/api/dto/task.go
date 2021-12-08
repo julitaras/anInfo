@@ -1,14 +1,23 @@
 package dto
 
 import (
+	"proyectos/src/api/errors"
 	"proyectos/src/api/task/domain/model"
 	"time"
+)
+
+type State string
+
+const (
+	Done       State = "DONE"
+	InProgress       = "IN_PROGRESS"
+	ToDo             = "TODO"
 )
 
 // Task dto
 type Task struct {
 	ID             int64     `validate:"gt=0" json:"id"`
-	Name           string    `validate:"required,min=2,max=50" json:"name"`
+	Name           string    `validate:"required,min=2,max=500" json:"name"`
 	Description    string    `validate:"required" json:"description"`
 	StartDate      time.Time `validate:"required" json:"start_date"`
 	WorkedHours    int       `validate:"required" json:"worked_hours"`
@@ -50,4 +59,19 @@ func FromModel(dm *model.Tasks) *Task {
 		CreationDate:   dm.CreationDate,
 		AssignedTo:     dm.AssignedTo,
 	}
+}
+
+func (t *Task) ValidateState() error {
+	if !State(t.State).IsValid() {
+		return errors.NewErrInvalidState(t.State)
+	}
+	return nil
+}
+
+func (s State) IsValid() bool {
+	switch s {
+	case Done, InProgress, ToDo:
+		return true
+	}
+	return false
 }

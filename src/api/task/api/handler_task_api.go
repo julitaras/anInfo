@@ -32,6 +32,12 @@ func (dh *TaskHandler) Post(g *gin.Context) {
 		return
 	}
 
+	err = dt.ValidateState()
+	if err != nil {
+		g.AbortWithStatusJSON(http.StatusBadRequest, errors.NewErrResponse(err))
+		return
+	}
+
 	dm, err := dh.Service.Insert(g, dt.ToModel())
 	if err != nil {
 		g.AbortWithStatusJSON(http.StatusUnprocessableEntity, errors.NewErrResponse(err))
