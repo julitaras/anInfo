@@ -25,7 +25,7 @@ func NewProjectRepository(db *gorm.DB) domain.Repository {
 func (r ProjectRepository) Create(_ context.Context, project *model.Projects) (*model.Projects, error) {
 	err := r.DB.Create(&project).Error
 	if err != nil {
-		log.Printf("Error creating Project #{err}")
+		log.Printf("Error creating Project %v", err)
 		return nil, err
 	}
 

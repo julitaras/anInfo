@@ -13,6 +13,7 @@ type Project struct {
 	FinishDate  time.Time `validate:"required" json:"finish_date"`
 	WorkedHours int       `json:"worked_hours"`
 	Leader      string    `json:"leader"`
+	State       string    `validate:"required" json:"state"`
 }
 
 func (project *Project) ToModel() *model.Projects {
@@ -25,15 +26,19 @@ func (project *Project) ToModel() *model.Projects {
 		FinishDate:  project.FinishDate,
 		WorkedHours: project.WorkedHours,
 		Leader:      project.Leader,
+		State:       project.State,
 	}
 }
 
-func (project *Project) FromModel(modelProject *model.Projects) {
-	project.ID = modelProject.ID
-	project.Name = modelProject.Name
-	project.Description = modelProject.Description
-	project.StartDate = modelProject.StartDate
-	project.FinishDate = modelProject.FinishDate
-	project.WorkedHours = modelProject.WorkedHours
-	project.Leader = modelProject.Leader
+func FromModel(dm *model.Projects) *Project {
+	return &Project{
+		ID:          dm.ID,
+		Name:        dm.Name,
+		Description: dm.Description,
+		StartDate:   dm.StartDate,
+		FinishDate:  dm.FinishDate,
+		WorkedHours: dm.WorkedHours,
+		Leader:      dm.Leader,
+		State:       dm.State,
+	}
 }

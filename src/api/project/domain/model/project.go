@@ -14,4 +14,5 @@ type Projects struct {
 	FinishDate  time.Time
 	WorkedHours int
 	Leader      string
+	State       string
 }
