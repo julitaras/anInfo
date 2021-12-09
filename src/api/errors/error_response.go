@@ -6,12 +6,13 @@ import (
 
 //ErrResponse struct
 type ErrResponse struct {
-	Err error
+	Err     error
+	Message string
 }
 
 //NewErrResponse constructor.
 func NewErrResponse(err error) *ErrResponse {
-	return &ErrResponse{Err: err}
+	return &ErrResponse{Err: err, Message: err.Error()}
 }
 
 //Error taking the cause.

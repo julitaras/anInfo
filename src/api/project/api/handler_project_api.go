@@ -1,10 +1,8 @@
 package api
 
 import (
-	//todo
-
-	"fmt"
 	"net/http"
+	"proyectos/src/api/errors"
 	"proyectos/src/api/project/api/dto"
 	"proyectos/src/api/project/domain"
 	"strconv"
@@ -21,29 +19,26 @@ type ProjectHandler struct {
 func (ph *ProjectHandler) Post(g *gin.Context) {
 
 	dp := dto.Project{}
-	g.BindJSON(&dp)
+	err := g.BindJSON(&dp)
+	if err != nil {
+		return
+	}
 
 	validate := validator.New()
-
 	valerr := validate.StructExcept(dp, "ID")
 
 	if valerr != nil {
-		g.AbortWithStatusJSON(http.StatusUnprocessableEntity, ErrResponse{
-			Error:   getValErr(valerr.(validator.ValidationErrors)),
-			Message: "Unprocessable Entity",
-		})
+		g.AbortWithStatusJSON(http.StatusUnprocessableEntity, errors.NewErrResponse(valerr))
 		return
 	}
 
 	dm, err := ph.Service.Insert(g, dp.ToModel())
 	if err != nil {
-		g.AbortWithStatusJSON(http.StatusUnprocessableEntity, ErrResponse{
-			Error:   err.Error(),
-			Message: "Cannot Save",
-		})
-	} else {
-		g.JSON(http.StatusOK, dm)
+		g.AbortWithStatusJSON(http.StatusUnprocessableEntity, errors.NewErrResponse(valerr))
+		return
 	}
+	g.JSON(http.StatusOK, dto.FromModel(dm))
+
 }
 
 func (ph *ProjectHandler) Patch(g *gin.Context) {
@@ -67,8 +62,8 @@ func (ph *ProjectHandler) Patch(g *gin.Context) {
 
 	if valerr != nil {
 		g.AbortWithStatusJSON(http.StatusUnprocessableEntity, ErrResponse{
-			Error:   getValErr(valerr.(validator.ValidationErrors)),
-			Message: "Unprocessable Entity",
+			Error:   err.Error(),
+			Message: "Invalid state",
 		})
 		return
 	}
@@ -82,12 +77,4 @@ func (ph *ProjectHandler) Patch(g *gin.Context) {
 		return
 	}
 	g.JSON(http.StatusOK, dp.FromModel(dm))
-}
-
-func getValErr(e validator.ValidationErrors) string {
-	var ee string
-	for _, err := range e {
-		ee = fmt.Sprintf("%s Field: %s, Type: %s, Error Value: %s /n", ee, err.Field(), err.Type(), err.Value())
-	}
-	return ee
 }
