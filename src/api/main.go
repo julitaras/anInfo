@@ -14,8 +14,6 @@ func main() {
 		log.Fatalf("Error al conectar a la base de datos: %v\n", err)
 	}
 
-	srv := config.NewServer(gin.New())
-	srv.AddProjectHandlers(db)
-	srv.AddTaskHandlers(db).Run(settings.GetData())
+	config.NewServer(gin.New()).AddHandlers(db).Run(settings.GetData())
 
 }
