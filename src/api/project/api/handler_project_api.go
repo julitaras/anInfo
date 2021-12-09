@@ -76,5 +76,5 @@ func (ph *ProjectHandler) Patch(g *gin.Context) {
 		})
 		return
 	}
-	g.JSON(http.StatusOK, dp.FromModel(dm))
+	g.JSON(http.StatusOK, dto.FromModel(dm))
 }

@@ -6,9 +6,6 @@ import (
 	"log"
 	"proyectos/src/api/project/domain"
 	"proyectos/src/api/project/domain/model"
-
-	"gorm.io/gorm"
-
 	_ "github.com/go-sql-driver/mysql"
 )
 

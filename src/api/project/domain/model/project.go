@@ -3,8 +3,6 @@ package model
 import (
 	"gorm.io/gorm"
 	"time"
-
-	"gorm.io/gorm"
 )
 
 type Projects struct {
