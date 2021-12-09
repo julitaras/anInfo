@@ -1,8 +1,6 @@
 package api
 
 import (
-	//todo
-
 	"net/http"
 	"proyectos/src/api/errors"
 	"proyectos/src/api/project/api/dto"

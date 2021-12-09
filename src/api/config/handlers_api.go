@@ -12,7 +12,7 @@ import (
 	taskService "proyectos/src/api/task/service"
 )
 
-//AddTaskHandlers routes
+//AddHandlers routes
 func (r *SRV) AddHandlers(db *gorm.DB) *SRV {
 	tr := taskRepository.NewTaskRepository(db)
 	ts := taskService.NewTaskService(tr)
