@@ -52,10 +52,26 @@ func (ph *ProjectHandler) Patch(g *gin.Context) {
 
 	i, err := strconv.ParseInt(g.Param("id"), 10, 64)
 	if err != nil {
-		fmt.Println(err)
+		g.AbortWithStatusJSON(http.StatusUnprocessableEntity, ErrResponse{
+			Error:   err.Error(),
+			Message: "Cannot parse ID",
+		})
+		return
 	}
 	dp.ID = i
 	g.BindJSON(&dp)
+
+	validate := validator.New()
+
+	valerr := validate.StructPartial(dp, "state")
+
+	if valerr != nil {
+		g.AbortWithStatusJSON(http.StatusUnprocessableEntity, ErrResponse{
+			Error:   getValErr(valerr.(validator.ValidationErrors)),
+			Message: "Unprocessable Entity",
+		})
+		return
+	}
 
 	dm, err := ph.Service.Update(g, dp.ToModel())
 	if err != nil {

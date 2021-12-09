@@ -24,7 +24,7 @@ func AddProjectHandler(r *SRV, ds domain.Service) *SRV {
 		Service: ds,
 	}
 
-	r.POST("/project", projectHandler.Post)
+	r.POST("/projects/create", projectHandler.Post)
 	r.PATCH("/projects/:id/state", projectHandler.Patch)
 
 	return r
