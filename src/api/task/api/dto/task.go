@@ -1,17 +1,10 @@
 package dto
 
 import (
+	"proyectos/src/api/constants"
 	"proyectos/src/api/errors"
 	"proyectos/src/api/task/domain/model"
 	"time"
-)
-
-type State string
-
-const (
-	Done       State = "DONE"
-	InProgress       = "IN_PROGRESS"
-	ToDo             = "TODO"
 )
 
 // Task dto
@@ -62,16 +55,8 @@ func FromModel(dm *model.Tasks) *Task {
 }
 
 func (t *Task) ValidateState() error {
-	if !State(t.State).IsValid() {
+	if !constants.State(t.State).IsValid() {
 		return errors.NewErrInvalidState(t.State)
 	}
 	return nil
-}
-
-func (s State) IsValid() bool {
-	switch s {
-	case Done, InProgress, ToDo:
-		return true
-	}
-	return false
 }
