@@ -29,3 +29,19 @@ func (t TaskRepository) Create(_ context.Context, task *model.Tasks) (*model.Tas
 
 	return task, nil
 }
+
+func (r TaskRepository) Update(_ context.Context, task *model.Tasks) (*model.Tasks, error) {
+	err := r.DB.Model(task).Updates(task).Error
+	if err != nil {
+		log.Printf("Error updating Project %v", err)
+		return nil, err
+	}
+
+	err = r.DB.Find(&task).Where("id = ?", task.ID).Error
+	if err != nil {
+		log.Printf("Error finding Project %v", err)
+		return nil, err
+	}
+
+	return task, nil
+}

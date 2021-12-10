@@ -1,10 +1,12 @@
 package api
 
 import (
+	"fmt"
 	"net/http"
 	"proyectos/src/api/errors"
 	"proyectos/src/api/task/api/dto"
 	"proyectos/src/api/task/domain"
+	"strconv"
 
 	"github.com/gin-gonic/gin"
 	"gopkg.in/go-playground/validator.v9"
@@ -44,5 +46,32 @@ func (dh *TaskHandler) Post(g *gin.Context) {
 		return
 	}
 
+	g.JSON(http.StatusOK, dto.FromModel(dm))
+}
+
+func (dh *TaskHandler) Put(g *gin.Context) {
+
+	dp := dto.Task{}
+
+	i, err := strconv.ParseInt(g.Param("id"), 10, 64)
+	if err != nil {
+		fmt.Println(err)
+	}
+	dp.ID = i
+	g.BindJSON(&dp)
+
+	validate := validator.New()
+
+	valErr := validate.Struct(dp)
+	if valErr != nil {
+		g.AbortWithStatusJSON(http.StatusUnprocessableEntity, errors.NewErrResponse(valErr))
+		return
+	}
+
+	dm, err := dh.Service.Update(g, dp.ToModel())
+	if err != nil {
+		g.AbortWithStatusJSON(http.StatusUnprocessableEntity, errors.NewErrResponse(valErr))
+		return
+	}
 	g.JSON(http.StatusOK, dto.FromModel(dm))
 }

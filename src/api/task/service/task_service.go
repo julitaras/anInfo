@@ -27,3 +27,15 @@ func (s *TaskService) Insert(ctx context.Context, t *model.Tasks) (*model.Tasks,
 
 	return r, nil
 }
+
+//Update service
+func (s *TaskService) Update(ctx context.Context, t *model.Tasks) (*model.Tasks, error) {
+
+	r, err := s.r.Update(ctx, t)
+
+	if err != nil {
+		return nil, err
+	}
+
+	return r, nil
+}
