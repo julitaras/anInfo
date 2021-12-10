@@ -1,8 +1,6 @@
 package settings
 
 import (
-	"github.com/joho/godotenv"
-	"log"
 	"os"
 )
 
@@ -29,10 +27,6 @@ type DBConfig struct {
 func GetData() *Data {
 
 	if instance == nil {
-		if godotenv.Load(".env") != nil {
-			log.Fatal("can't load .env")
-		}
-
 		port := os.Getenv("PORT")
 		env := os.Getenv("GIN_MODE")
 		if port == "" {

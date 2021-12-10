@@ -33,7 +33,7 @@ func (t *TaskRepository) Create(_ context.Context, task *model.Tasks) (*model.Ta
 func (t *TaskRepository) GetAll(_ context.Context) ([]*model.Tasks, error) {
 	var tasks []*model.Tasks
 
-	err := t.DB.Find(&tasks).Error
+	err := t.DB.Order("id desc").Find(&tasks).Error
 	if err != nil {
 		log.Printf("Error getting Tasks %v", err)
 		return nil, err

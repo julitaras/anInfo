@@ -62,7 +62,7 @@ func (dh *TaskHandler) GetAll(g *gin.Context) {
 //GetByID handler
 func (dh *TaskHandler) GetByID(g *gin.Context) {
 
-	dm, err := dh.Service.GetById(g, "")
+	dm, err := dh.Service.GetById(g, g.Param("id"))
 	if err != nil {
 		g.AbortWithStatusJSON(http.StatusUnprocessableEntity, errors.NewErrResponse(err))
 		return
