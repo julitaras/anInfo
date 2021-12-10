@@ -5,6 +5,7 @@ import (
 	"proyectos/src/api/errors"
 	"proyectos/src/api/task/api/dto"
 	"proyectos/src/api/task/domain"
+	"strconv"
 
 	"github.com/gin-gonic/gin"
 	"gopkg.in/go-playground/validator.v9"
@@ -45,4 +46,33 @@ func (dh *TaskHandler) Post(g *gin.Context) {
 	}
 
 	g.JSON(http.StatusOK, dto.FromModel(dm))
+}
+
+func (dh *TaskHandler) Delete(g *gin.Context) {
+	dp := dto.Task{}
+
+	i, err := strconv.ParseInt(g.Param("id"), 10, 64)
+	if err != nil {
+		g.AbortWithStatusJSON(http.StatusUnprocessableEntity, ErrResponse{
+			Error:   err.Error(),
+			Message: "Cannot parse ID",
+		})
+		return
+	}
+
+	dp.ID = i
+	g.BindJSON(&dp)
+
+	dm, err := dh.Service.Delete(g, dp.ToModel())
+
+	if err != nil {
+		g.AbortWithStatusJSON(http.StatusUnprocessableEntity, ErrResponse{
+			Error:   err.Error(),
+			Message: "Cannot delete task",
+		})
+		return
+	}
+
+	g.JSON(http.StatusOK, dto.FromModel(dm))
+
 }

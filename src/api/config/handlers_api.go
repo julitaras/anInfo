@@ -31,6 +31,7 @@ func AddTaskHandler(r *SRV, ds taskDomain.Service) *SRV {
 	}
 
 	r.POST("/tasks", taskHandler.Post)
+	r.DELETE("/tasks/:id", taskHandler.Delete)
 
 	return r
 }

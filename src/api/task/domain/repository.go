@@ -8,4 +8,5 @@ import (
 //Repository interface
 type Repository interface {
 	Create(context.Context, *model.Tasks) (*model.Tasks, error)
+	Delete(context.Context, *model.Tasks) (*model.Tasks, error)
 }

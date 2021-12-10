@@ -27,3 +27,12 @@ func (s *TaskService) Insert(ctx context.Context, t *model.Tasks) (*model.Tasks,
 
 	return r, nil
 }
+
+func (s *TaskService) Delete(ctx context.Context, t *model.Tasks) (*model.Tasks, error) {
+	r, err := s.r.Delete(ctx, t)
+	if err != nil {
+		return nil, err
+	}
+
+	return r, nil
+}
