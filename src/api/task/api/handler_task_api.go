@@ -53,8 +53,8 @@ func (dh *TaskHandler) Delete(g *gin.Context) {
 
 	i, err := strconv.ParseInt(g.Param("id"), 10, 64)
 	if err != nil {
-		g.AbortWithStatusJSON(http.StatusUnprocessableEntity, ErrResponse{
-			Error:   err.Error(),
+		g.AbortWithStatusJSON(http.StatusUnprocessableEntity, errors.ErrResponse{
+			Err:     err,
 			Message: "Cannot parse ID",
 		})
 		return
@@ -65,8 +65,8 @@ func (dh *TaskHandler) Delete(g *gin.Context) {
 	dm, err := dh.Service.Delete(g, dp.ToModel())
 
 	if err != nil {
-		g.AbortWithStatusJSON(http.StatusUnprocessableEntity, ErrResponse{
-			Error:   err.Error(),
+		g.AbortWithStatusJSON(http.StatusUnprocessableEntity, errors.ErrResponse{
+			Err:     err,
 			Message: "Cannot delete task",
 		})
 		return
