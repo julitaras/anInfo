@@ -1,6 +1,8 @@
 package dto
 
 import (
+	"proyectos/src/api/constants"
+	"proyectos/src/api/errors"
 	"proyectos/src/api/project/domain/model"
 	"time"
 )
@@ -13,32 +15,43 @@ type Project struct {
 	FinishDate  time.Time `validate:"required" json:"finish_date"`
 	WorkedHours int       `json:"worked_hours"`
 	Leader      string    `json:"leader"`
-	State       string    `validate:"required" json:"state"`
+	State       string    `json:"state"`
 }
 
-func (project *Project) ToModel() *model.Projects {
+func (p *Project) ToModel() *model.Projects {
+	state := constants.ToDo
+	if len(p.State) > 0 {
+		state = p.State
+	}
 
 	return &model.Projects{
-		ID:          project.ID,
-		Name:        project.Name,
-		Description: project.Description,
-		StartDate:   project.StartDate,
-		FinishDate:  project.FinishDate,
-		WorkedHours: project.WorkedHours,
-		Leader:      project.Leader,
-		State:       project.State,
+		ID:          p.ID,
+		Name:        p.Name,
+		Description: p.Description,
+		StartDate:   p.StartDate,
+		FinishDate:  p.FinishDate,
+		WorkedHours: p.WorkedHours,
+		Leader:      p.Leader,
+		State:       state,
 	}
 }
 
-func FromModel(dm *model.Projects) *Project {
+func FromModel(modelProject *model.Projects) *Project {
 	return &Project{
-		ID:          dm.ID,
-		Name:        dm.Name,
-		Description: dm.Description,
-		StartDate:   dm.StartDate,
-		FinishDate:  dm.FinishDate,
-		WorkedHours: dm.WorkedHours,
-		Leader:      dm.Leader,
-		State:       dm.State,
+		ID:          modelProject.ID,
+		Name:        modelProject.Name,
+		Description: modelProject.Description,
+		StartDate:   modelProject.StartDate,
+		FinishDate:  modelProject.FinishDate,
+		WorkedHours: modelProject.WorkedHours,
+		Leader:      modelProject.Leader,
+		State:       modelProject.State,
 	}
+}
+
+func (p *Project) ValidateState() error {
+	if !constants.State(p.State).IsValid() {
+		return errors.NewErrInvalidState(p.State)
+	}
+	return nil
 }
