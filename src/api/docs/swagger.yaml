@@ -1,0 +1,86 @@
+definitions:
+  dto.Task:
+    properties:
+      assigned_to:
+        type: string
+      creation_date:
+        type: string
+      description:
+        type: string
+      estimated_hours:
+        type: integer
+      id:
+        type: integer
+      name:
+        type: string
+      project_id:
+        type: integer
+      start_date:
+        type: string
+      state:
+        type: string
+      worked_hours:
+        type: integer
+    required:
+    - assigned_to
+    - creation_date
+    - description
+    - estimated_hours
+    - name
+    - project_id
+    - start_date
+    - state
+    - worked_hours
+    type: object
+  errors.ErrResponse:
+    properties:
+      err:
+        type: error
+      message:
+        type: string
+    type: object
+host: localhost:8080
+info:
+  contact: {}
+  description: This API gives access to the projects module.
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  title: PSA Projects API
+  version: "1.0"
+paths:
+  /tasks:
+    post:
+      consumes:
+      - application/json
+      description: Add a task to the system
+      parameters:
+      - description: Create a task
+        in: body
+        name: task
+        required: true
+        schema:
+          $ref: '#/definitions/dto.Task'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.Task'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/errors.ErrResponse'
+        "422":
+          description: Unprocessable Entity
+          schema:
+            $ref: '#/definitions/errors.ErrResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/errors.ErrResponse'
+      summary: Add a task
+      tags:
+      - Tasks
+swagger: "2.0"

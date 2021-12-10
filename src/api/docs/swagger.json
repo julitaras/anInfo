@@ -1,0 +1,127 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "description": "This API gives access to the projects module.",
+        "title": "PSA Projects API",
+        "contact": {},
+        "license": {
+            "name": "Apache 2.0",
+            "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+        },
+        "version": "1.0"
+    },
+    "host": "localhost:8080",
+    "paths": {
+        "/tasks": {
+            "post": {
+                "description": "Add a task to the system",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Tasks"
+                ],
+                "summary": "Add a task",
+                "parameters": [
+                    {
+                        "description": "Create a task",
+                        "name": "task",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/dto.Task"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/dto.Task"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/errors.ErrResponse"
+                        }
+                    },
+                    "422": {
+                        "description": "Unprocessable Entity",
+                        "schema": {
+                            "$ref": "#/definitions/errors.ErrResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/errors.ErrResponse"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "dto.Task": {
+            "type": "object",
+            "required": [
+                "assigned_to",
+                "creation_date",
+                "description",
+                "estimated_hours",
+                "name",
+                "project_id",
+                "start_date",
+                "state",
+                "worked_hours"
+            ],
+            "properties": {
+                "assigned_to": {
+                    "type": "string"
+                },
+                "creation_date": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "estimated_hours": {
+                    "type": "integer"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "project_id": {
+                    "type": "integer"
+                },
+                "start_date": {
+                    "type": "string"
+                },
+                "state": {
+                    "type": "string"
+                },
+                "worked_hours": {
+                    "type": "integer"
+                }
+            }
+        },
+        "errors.ErrResponse": {
+            "type": "object",
+            "properties": {
+                "err": {
+                    "type": "error"
+                },
+                "message": {
+                    "type": "string"
+                }
+            }
+        }
+    }
+}

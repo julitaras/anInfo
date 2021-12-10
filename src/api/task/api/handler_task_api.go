@@ -1,13 +1,13 @@
 package api
 
 import (
+	"github.com/gin-gonic/gin"
+	"gopkg.in/go-playground/validator.v9"
 	"net/http"
+	_ "proyectos/src/api/docs"
 	"proyectos/src/api/errors"
 	"proyectos/src/api/task/api/dto"
 	"proyectos/src/api/task/domain"
-
-	"github.com/gin-gonic/gin"
-	"gopkg.in/go-playground/validator.v9"
 )
 
 //TaskHandler handler
@@ -15,7 +15,18 @@ type TaskHandler struct {
 	domain.Service
 }
 
-//Post handler
+// TaskHandler godoc
+// @Summary      Add a task
+// @Description  Add a task to the system
+// @Tags         Tasks
+// @Accept       json
+// @Produce      json
+// @Param        task body dto.Task true "Create a task"
+// @Success      200  {object}  dto.Task
+// @Failure      400  {object}	errors.ErrResponse
+// @Failure      422  {object}	errors.ErrResponse
+// @Failure      500  {object}	errors.ErrResponse
+// @Router       /tasks [post]
 func (dh *TaskHandler) Post(g *gin.Context) {
 
 	dt := dto.Task{}
