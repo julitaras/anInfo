@@ -61,7 +61,6 @@ func (dh *TaskHandler) Delete(g *gin.Context) {
 	}
 
 	dp.ID = i
-	g.BindJSON(&dp)
 
 	dm, err := dh.Service.Delete(g, dp.ToModel())
 
