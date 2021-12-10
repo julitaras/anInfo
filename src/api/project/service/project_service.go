@@ -6,44 +6,18 @@ import (
 	"proyectos/src/api/project/domain/model"
 )
 
-//thingService struct
-type thingService struct {
+type ProjectService struct {
 	r domain.Repository
 }
 
-//NewThingService builder
-func NewThingService(dr domain.Repository) domain.Service {
-	return &thingService{
+func NewProjectService(dr domain.Repository) domain.Service {
+	return &ProjectService{
 		r: dr,
 	}
 }
 
-//Get service implemetation
-func (s *thingService) Get(ctx context.Context, id int64) ([]*model.Thing, error) {
-
-	rr, err := s.r.Retrieve(ctx, id)
-
-	if err != nil {
-		return nil, err
-	}
-
-	return rr, nil
-}
-
-//Update service
-func (s *thingService) Update(ctx context.Context, t *model.Thing) (*model.Thing, error) {
-
-	r, err := s.r.Update(ctx, t)
-
-	if err != nil {
-		return nil, err
-	}
-
-	return r, nil
-}
-
 //Insert service
-func (s *thingService) Insert(ctx context.Context, t *model.Thing) (*model.Thing, error) {
+func (s *ProjectService) Insert(ctx context.Context, t *model.Projects) (*model.Projects, error) {
 
 	r, err := s.r.Create(ctx, t)
 
@@ -54,10 +28,10 @@ func (s *thingService) Insert(ctx context.Context, t *model.Thing) (*model.Thing
 	return r, nil
 }
 
-//Delete service
-func (s *thingService) Delete(ctx context.Context, id int64) (*model.Thing, error) {
+//Update service
+func (s *ProjectService) Update(ctx context.Context, t *model.Projects) (*model.Projects, error) {
 
-	r, err := s.r.Delete(ctx, id)
+	r, err := s.r.Update(ctx, t)
 
 	if err != nil {
 		return nil, err

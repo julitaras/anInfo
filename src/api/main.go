@@ -15,4 +15,5 @@ func main() {
 	}
 
 	config.NewServer(gin.New()).AddHandlers(db).Run(settings.GetData())
+
 }

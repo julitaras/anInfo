@@ -1,141 +1,114 @@
 package api
 
 import (
-	//todo
-
 	"fmt"
 	"net/http"
+	"proyectos/src/api/errors"
 	"proyectos/src/api/project/api/dto"
 	"proyectos/src/api/project/domain"
+	"strconv"
 
 	"github.com/gin-gonic/gin"
 	"gopkg.in/go-playground/validator.v9"
 )
 
-//ThingHandler handler
-type ThingHandler struct {
+type ProjectHandler struct {
 	domain.Service
 }
 
-//Get handler
-func (dh *ThingHandler) Get(g *gin.Context) {
+// Post handler
+func (ph *ProjectHandler) Post(g *gin.Context) {
 
-	dt := dto.Thing{}
-	g.BindQuery(&dt)
+	dp := dto.Project{}
+	err := g.BindJSON(&dp)
+	if err != nil {
+		return
+	}
 
 	validate := validator.New()
-	valerr := validate.Var(dt.ID, "gt=0")
+	valerr := validate.StructExcept(dp, "ID")
+
 	if valerr != nil {
-		g.AbortWithStatusJSON(http.StatusConflict, ErrResponse{
-			Error:   getValErr(valerr.(validator.ValidationErrors)),
-			Message: "Debe indicar un ID",
+		g.AbortWithStatusJSON(http.StatusUnprocessableEntity, errors.NewErrResponse(valerr))
+		return
+	}
+
+	dm, err := ph.Service.Insert(g, dp.ToModel())
+	if err != nil {
+		g.AbortWithStatusJSON(http.StatusUnprocessableEntity, errors.NewErrResponse(valerr))
+		return
+	}
+	g.JSON(http.StatusOK, dto.FromModel(dm))
+
+}
+
+func (ph *ProjectHandler) Patch(g *gin.Context) {
+
+	dp := dto.Project{}
+
+	i, err := strconv.ParseInt(g.Param("id"), 10, 64)
+	if err != nil {
+		g.AbortWithStatusJSON(http.StatusUnprocessableEntity, ErrResponse{
+			Error:   err.Error(),
+			Message: "Cannot parse ID",
+		})
+		return
+	}
+	dp.ID = i
+	g.BindJSON(&dp)
+
+	validate := validator.New()
+
+	valerr := validate.StructPartial(dp, "state")
+
+	if valerr != nil {
+		g.AbortWithStatusJSON(http.StatusUnprocessableEntity, ErrResponse{
+			Error:   err.Error(),
+			Message: "Invalid state",
 		})
 		return
 	}
 
-	dd, err := dh.Service.Get(g, dt.ID)
-
+	dm, err := ph.Service.Update(g, dp.ToModel())
 	if err != nil {
-		g.AbortWithStatusJSON(http.StatusConflict, ErrResponse{
+		g.AbortWithStatusJSON(http.StatusUnprocessableEntity, ErrResponse{
 			Error:   err.Error(),
-			Message: "Error obteniendo datos.",
+			Message: "Cannot Save",
 		})
-	} else {
-		g.JSON(http.StatusOK, dd)
+		return
 	}
+	g.JSON(http.StatusOK, dto.FromModel(dm))
 }
 
-//Post handler
-func (dh *ThingHandler) Post(g *gin.Context) {
+func (ph *ProjectHandler) Put(g *gin.Context) {
 
-	dt := dto.Thing{}
-	g.BindJSON(&dt)
+	dp := dto.Project{}
+
+	i, err := strconv.ParseInt(g.Param("id"), 10, 64)
+	if err != nil {
+		fmt.Println(err)
+	}
+	dp.ID = i
+	g.BindJSON(&dp)
 
 	validate := validator.New()
 
-	valerr := validate.StructExcept(dt, "ID")
-
+	valerr := validate.Struct(dp)
 	if valerr != nil {
 		g.AbortWithStatusJSON(http.StatusUnprocessableEntity, ErrResponse{
-			Error:   getValErr(valerr.(validator.ValidationErrors)),
+			Error:   err.Error(),
 			Message: "Unprocessable Entity",
 		})
 		return
 	}
 
-	dm, err := dh.Service.Insert(g, dt.ToModel())
+	dm, err := ph.Service.Update(g, dp.ToModel())
 	if err != nil {
 		g.AbortWithStatusJSON(http.StatusUnprocessableEntity, ErrResponse{
 			Error:   err.Error(),
 			Message: "Cannot Save",
 		})
-	} else {
-		g.JSON(http.StatusOK, dm)
-	}
-}
-
-//Put handler
-func (dh *ThingHandler) Put(g *gin.Context) {
-
-	dt := dto.Thing{}
-	g.BindJSON(&dt)
-
-	validate := validator.New()
-
-	valerr := validate.Struct(dt)
-
-	if valerr != nil {
-		g.AbortWithStatusJSON(http.StatusUnprocessableEntity, ErrResponse{
-			Error:   getValErr(valerr.(validator.ValidationErrors)),
-			Message: "Unprocessable Entity",
-		})
 		return
 	}
-
-	dm, err := dh.Service.Insert(g, dt.ToModel())
-	if err != nil {
-		g.AbortWithStatusJSON(http.StatusConflict, ErrResponse{
-			Error:   err.Error(),
-			Message: "Cannot Save",
-		})
-	} else {
-		g.JSON(http.StatusOK, dm)
-	}
-}
-
-//Delete handler
-func (dh *ThingHandler) Delete(g *gin.Context) {
-
-	dt := dto.Thing{}
-	g.BindQuery(&dt)
-
-	validate := validator.New()
-	valerr := validate.Var(dt.ID, "gt=0")
-	if valerr != nil {
-		g.AbortWithStatusJSON(http.StatusUnprocessableEntity, ErrResponse{
-			Error:   getValErr(valerr.(validator.ValidationErrors)),
-			Message: "Debe indicar un ID",
-		})
-		return
-	}
-
-	dd, err := dh.Service.Delete(g, dt.ID)
-
-	if err != nil {
-		g.AbortWithStatusJSON(http.StatusConflict, ErrResponse{
-			Error:   err.Error(),
-			Message: "Error obteniendo datos.",
-		})
-		return
-	}
-	g.JSON(http.StatusOK, dd)
-
-}
-
-func getValErr(e validator.ValidationErrors) string {
-	var ee string
-	for _, err := range e {
-		ee = fmt.Sprintf("%s Field: %s, Type: %s, Error Value: %s /n", ee, err.Field(), err.Type(), err.Value())
-	}
-	return ee
+	g.JSON(http.StatusOK, dto.FromModel(dm))
 }

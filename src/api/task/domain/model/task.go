@@ -12,7 +12,7 @@ type Tasks struct {
 	Name           string
 	Description    string
 	StartDate      time.Time
-	HoursWorked    int
+	WorkedHours    int
 	EstimatedHours int
 	ProjectID      int64 `gorm:"foreignKey:ProjectsID"`
 	State          string

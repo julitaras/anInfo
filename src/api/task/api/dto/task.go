@@ -1,17 +1,10 @@
 package dto
 
 import (
+	"proyectos/src/api/constants"
 	"proyectos/src/api/errors"
 	"proyectos/src/api/task/domain/model"
 	"time"
-)
-
-type State string
-
-const (
-	Done       State = "DONE"
-	InProgress       = "IN_PROGRESS"
-	ToDo             = "TODO"
 )
 
 // Task dto
@@ -20,7 +13,7 @@ type Task struct {
 	Name           string    `validate:"required,min=2,max=500" json:"name"`
 	Description    string    `validate:"required" json:"description"`
 	StartDate      time.Time `validate:"required" json:"start_date"`
-	HoursWorked    int       `validate:"required" json:"worked_hours"`
+	WorkedHours    int       `validate:"required" json:"worked_hours"`
 	EstimatedHours int       `validate:"required" json:"estimated_hours"`
 	ProjectID      int64     `validate:"required" json:"project_id"`
 	State          string    `validate:"required" json:"state"`
@@ -36,7 +29,7 @@ func (t *Task) ToModel() *model.Tasks {
 		Name:           t.Name,
 		Description:    t.Description,
 		StartDate:      t.StartDate,
-		HoursWorked:    t.HoursWorked,
+		WorkedHours:    t.WorkedHours,
 		EstimatedHours: t.EstimatedHours,
 		ProjectID:      t.ProjectID,
 		State:          t.State,
@@ -52,7 +45,7 @@ func FromModel(dm *model.Tasks) *Task {
 		Name:           dm.Name,
 		Description:    dm.Description,
 		StartDate:      dm.StartDate,
-		HoursWorked:    dm.HoursWorked,
+		WorkedHours:    dm.WorkedHours,
 		EstimatedHours: dm.EstimatedHours,
 		ProjectID:      dm.ProjectID,
 		State:          dm.State,
@@ -62,16 +55,8 @@ func FromModel(dm *model.Tasks) *Task {
 }
 
 func (t *Task) ValidateState() error {
-	if !State(t.State).IsValid() {
+	if !constants.State(t.State).IsValid() {
 		return errors.NewErrInvalidState(t.State)
 	}
 	return nil
-}
-
-func (s State) IsValid() bool {
-	switch s {
-	case Done, InProgress, ToDo:
-		return true
-	}
-	return false
 }
