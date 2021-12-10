@@ -56,7 +56,7 @@ func (dh *TaskHandler) GetAll(g *gin.Context) {
 		return
 	}
 
-	g.JSON(http.StatusOK, dm)
+	g.JSON(http.StatusOK, dto.MapToTasks(dm))
 }
 
 //GetByID handler
