@@ -1,6 +1,7 @@
 package dto
 
 import (
+	"proyectos/src/api/constants"
 	"proyectos/src/api/errors"
 	"proyectos/src/api/project/domain/model"
 	"time"
@@ -26,7 +27,7 @@ type Project struct {
 }
 
 func (p *Project) ToModel() *model.Projects {
-	state := ToDo
+	state := constants.ToDo
 	if len(p.State) > 0 {
 		state = p.State
 	}
@@ -57,16 +58,8 @@ func FromModel(modelProject *model.Projects) *Project {
 }
 
 func (p *Project) ValidateState() error {
-	if !State(p.State).IsValid() {
+	if !constants.State(p.State).IsValid() {
 		return errors.NewErrInvalidState(p.State)
 	}
 	return nil
-}
-
-func (s State) IsValid() bool {
-	switch s {
-	case Done, InProgress, ToDo:
-		return true
-	}
-	return false
 }
