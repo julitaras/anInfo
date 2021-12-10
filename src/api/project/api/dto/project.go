@@ -22,10 +22,14 @@ type Project struct {
 	FinishDate  time.Time `validate:"required" json:"finish_date"`
 	WorkedHours int       `json:"worked_hours"`
 	Leader      string    `json:"leader"`
-	State       string    `validate:"required" json:"state"`
+	State       string    `json:"state"`
 }
 
 func (p *Project) ToModel() *model.Projects {
+	state := ToDo
+	if len(p.State) > 0 {
+		state = p.State
+	}
 
 	return &model.Projects{
 		ID:          p.ID,
@@ -35,7 +39,7 @@ func (p *Project) ToModel() *model.Projects {
 		FinishDate:  p.FinishDate,
 		WorkedHours: p.WorkedHours,
 		Leader:      p.Leader,
-		State:       p.State,
+		State:       state,
 	}
 }
 
