@@ -1,7 +1,6 @@
 package dto
 
 import (
-	"proyectos/src/api/errors"
 	"proyectos/src/api/constants"
 	"proyectos/src/api/errors"
 	"proyectos/src/api/project/domain/model"
@@ -56,6 +55,16 @@ func FromModel(modelProject *model.Projects) *Project {
 		Leader:      modelProject.Leader,
 		State:       modelProject.State,
 	}
+}
+
+func MapToProjects(modelProjects []*model.Projects) []*Project {
+	var projects []*Project
+
+	for _, t := range modelProjects {
+		projects = append(projects, FromModel(t))
+	}
+
+	return projects
 }
 
 func (p *Project) ValidateState() error {

@@ -16,6 +16,30 @@ type ProjectHandler struct {
 	domain.Service
 }
 
+//GetAll handler
+func (dh *ProjectHandler) GetAll(g *gin.Context) {
+
+	dm, err := dh.Service.GetAll(g)
+	if err != nil {
+		g.AbortWithStatusJSON(http.StatusUnprocessableEntity, errors.NewErrResponse(err))
+		return
+	}
+
+	g.JSON(http.StatusOK, dto.MapToProjects(dm))
+}
+
+//GetByID handler
+func (dh *ProjectHandler) GetByID(g *gin.Context) {
+
+	dm, err := dh.Service.GetById(g, g.Param("id"))
+	if err != nil {
+		g.AbortWithStatusJSON(http.StatusUnprocessableEntity, errors.NewErrResponse(err))
+		return
+	}
+
+	g.JSON(http.StatusOK, dto.FromModel(dm))
+}
+
 // Post handler
 func (ph *ProjectHandler) Post(g *gin.Context) {
 
