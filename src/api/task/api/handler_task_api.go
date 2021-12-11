@@ -15,7 +15,7 @@ type TaskHandler struct {
 	domain.Service
 }
 
-// TaskHandler godoc
+// Post TaskHandler godoc
 // @Summary      Add a task
 // @Description  Add a task to the system
 // @Tags         Tasks

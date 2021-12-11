@@ -16,7 +16,17 @@ type ProjectHandler struct {
 	domain.Service
 }
 
-// Post handler
+// Post ProjectCreator godoc
+// @Summary      Add a project
+// @Description  Add a project to the system
+// @Tags         Projects
+// @Accept       json
+// @Produce      json
+// @Param        task body dto.Project true "Create a project"
+// @Success      200  {object}  dto.Project
+// @Failure      422  {object}	errors.ErrResponse
+// @Failure      500  {object}	errors.ErrResponse
+// @Router       /projects [post]
 func (ph *ProjectHandler) Post(g *gin.Context) {
 
 	dp := dto.Project{}
@@ -42,6 +52,17 @@ func (ph *ProjectHandler) Post(g *gin.Context) {
 
 }
 
+// Patch ProjectUpdater godoc
+// @Summary      Update a project
+// @Description  Update a project that is already in the system
+// @Tags         Projects
+// @Accept       json
+// @Produce      json
+// @Param        task body dto.Project true "Update a project"
+// @Success      200  {object}  dto.Project
+// @Failure      422  {object}	errors.ErrResponse
+// @Failure      500  {object}	errors.ErrResponse
+// @Router       /projects [patch]
 func (ph *ProjectHandler) Patch(g *gin.Context) {
 
 	dp := dto.Project{}
@@ -80,6 +101,17 @@ func (ph *ProjectHandler) Patch(g *gin.Context) {
 	g.JSON(http.StatusOK, dto.FromModel(dm))
 }
 
+// Put ProjectPatcher godoc
+// @Summary      Modify a project
+// @Description  Modify a project that is already in the system
+// @Tags         Projects
+// @Accept       json
+// @Produce      json
+// @Param        task body dto.Project true "Create a project"
+// @Success      200  {object}  dto.Project
+// @Failure      422  {object}	errors.ErrResponse
+// @Failure      500  {object}	errors.ErrResponse
+// @Router       /projects [put]
 func (ph *ProjectHandler) Put(g *gin.Context) {
 
 	dp := dto.Project{}

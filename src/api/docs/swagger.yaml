@@ -1,4 +1,28 @@
 definitions:
+  dto.Project:
+    properties:
+      description:
+        type: string
+      finish_date:
+        type: string
+      id:
+        type: integer
+      leader:
+        type: string
+      name:
+        type: string
+      start_date:
+        type: string
+      state:
+        type: string
+      worked_hours:
+        type: integer
+    required:
+    - description
+    - finish_date
+    - name
+    - start_date
+    type: object
   dto.Task:
     properties:
       assigned_to:
@@ -49,6 +73,94 @@ info:
   title: PSA Projects API
   version: "1.0"
 paths:
+  /projects:
+    patch:
+      consumes:
+      - application/json
+      description: Update a project that is already in the system
+      parameters:
+      - description: Update a project
+        in: body
+        name: task
+        required: true
+        schema:
+          $ref: '#/definitions/dto.Project'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.Project'
+        "422":
+          description: Unprocessable Entity
+          schema:
+            $ref: '#/definitions/errors.ErrResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/errors.ErrResponse'
+      summary: Update a project
+      tags:
+      - Projects
+    post:
+      consumes:
+      - application/json
+      description: Add a project to the system
+      parameters:
+      - description: Create a project
+        in: body
+        name: task
+        required: true
+        schema:
+          $ref: '#/definitions/dto.Project'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.Project'
+        "422":
+          description: Unprocessable Entity
+          schema:
+            $ref: '#/definitions/errors.ErrResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/errors.ErrResponse'
+      summary: Add a project
+      tags:
+      - Projects
+    put:
+      consumes:
+      - application/json
+      description: Modify a project that is already in the system
+      parameters:
+      - description: Create a project
+        in: body
+        name: task
+        required: true
+        schema:
+          $ref: '#/definitions/dto.Project'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.Project'
+        "422":
+          description: Unprocessable Entity
+          schema:
+            $ref: '#/definitions/errors.ErrResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/errors.ErrResponse'
+      summary: Modify a project
+      tags:
+      - Projects
   /tasks:
     post:
       consumes:
