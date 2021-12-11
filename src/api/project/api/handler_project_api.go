@@ -16,13 +16,6 @@ type ProjectHandler struct {
 	domain.Service
 }
 
-// Get handler
-func (ph *ProjectHandler) Get(g *gin.Context) {
-
-	// TODO
-
-}
-
 // Post handler
 func (ph *ProjectHandler) Post(g *gin.Context) {
 
