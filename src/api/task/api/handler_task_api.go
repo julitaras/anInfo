@@ -62,16 +62,16 @@ func (dh *TaskHandler) Delete(g *gin.Context) {
 
 	dp.ID = i
 
-	dm, err := dh.Service.Delete(g, dp.ToModel())
+	_, err = dh.Service.Delete(g, dp.ToModel())
 
 	if err != nil {
-		g.AbortWithStatusJSON(http.StatusUnprocessableEntity, errors.ErrResponse{
+		g.AbortWithStatusJSON(http.StatusBadRequest, errors.ErrResponse{
 			Err:     err,
 			Message: "Cannot delete task",
 		})
 		return
 	}
 
-	g.JSON(http.StatusOK, dto.FromModel(dm))
+	g.JSON(http.StatusOK, map[string]string{"code": strconv.FormatInt(http.StatusOK, 10), "message": "Task " + g.Param("id") + " deleted successfully"})
 
 }
