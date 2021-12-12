@@ -25,7 +25,7 @@ func (t *ProjectRepository) GetAll(_ context.Context) ([]*model.Projects, error)
 
 	err := t.DB.Order("id desc").Find(&projects).Error
 	if err != nil {
-		log.Printf("Error getting Tasks %v", err)
+		log.Printf("Error getting Projects %v", err)
 		return nil, err
 	}
 
@@ -37,7 +37,7 @@ func (t *ProjectRepository) GetById(_ context.Context, id string) (*model.Projec
 
 	err := t.DB.First(&project, id).Error
 	if err != nil {
-		log.Printf("Error getting Task %v", err)
+		log.Printf("Error getting Project %v", err)
 		return nil, err
 	}
 
