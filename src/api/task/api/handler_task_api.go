@@ -75,3 +75,27 @@ func (dh *TaskHandler) Delete(g *gin.Context) {
 	g.JSON(http.StatusOK, map[string]string{"code": strconv.FormatInt(http.StatusOK, 10), "message": "Task " + g.Param("id") + " deleted successfully"})
 
 }
+
+//GetAll handler
+func (dh *TaskHandler) GetAll(g *gin.Context) {
+
+	dm, err := dh.Service.GetAll(g)
+	if err != nil {
+		g.AbortWithStatusJSON(http.StatusUnprocessableEntity, errors.NewErrResponse(err))
+		return
+	}
+
+	g.JSON(http.StatusOK, dto.MapToTasks(dm))
+}
+
+//GetByID handler
+func (dh *TaskHandler) GetByID(g *gin.Context) {
+
+	dm, err := dh.Service.GetById(g, g.Param("id"))
+	if err != nil {
+		g.AbortWithStatusJSON(http.StatusUnprocessableEntity, errors.NewErrResponse(err))
+		return
+	}
+
+	g.JSON(http.StatusOK, dto.FromModel(dm))
+}
