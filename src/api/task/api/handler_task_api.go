@@ -3,6 +3,7 @@ package api
 import (
 	"fmt"
 	"net/http"
+	_ "proyectos/src/api/docs"
 	"proyectos/src/api/errors"
 	"proyectos/src/api/task/api/dto"
 	"proyectos/src/api/task/domain"
@@ -17,7 +18,18 @@ type TaskHandler struct {
 	domain.Service
 }
 
-//Post handler
+// Post TaskCreator godoc
+// @Summary      Add a task
+// @Description  Add a task to the system
+// @Tags         Tasks
+// @Accept       json
+// @Produce      json
+// @Param        task body dto.Task true "Create a task"
+// @Success      200  {object}  dto.Task
+// @Failure      400  {object}	errors.ErrResponse
+// @Failure      422  {object}	errors.ErrResponse
+// @Failure      500  {object}	errors.ErrResponse
+// @Router       /tasks [post]
 func (dh *TaskHandler) Post(g *gin.Context) {
 
 	dt := dto.Task{}
@@ -50,6 +62,18 @@ func (dh *TaskHandler) Post(g *gin.Context) {
 	g.JSON(http.StatusOK, dto.FromModel(dm))
 }
 
+// Put TaskUpdater godoc
+// @Summary      Update a task
+// @Description  Update a task that is already on the system
+// @Tags         Tasks
+// @Accept       json
+// @Produce      json
+// @Param        task body dto.Task true "Update a task"
+// @Success      200  {object}  dto.Task
+// @Failure      400  {object}	errors.ErrResponse
+// @Failure      422  {object}	errors.ErrResponse
+// @Failure      500  {object}	errors.ErrResponse
+// @Router       /tasks/:id [put]
 func (dh *TaskHandler) Put(g *gin.Context) {
 
 	dp := dto.Task{}
@@ -74,6 +98,18 @@ func (dh *TaskHandler) Put(g *gin.Context) {
 	g.JSON(http.StatusOK, dto.FromModel(dm))
 }
 
+// Delete TaskDeleter godoc
+// @Summary      Delete a task
+// @Description  Delete a task that is already on the system
+// @Tags         Tasks
+// @Accept       json
+// @Produce      json
+// @Param        task body dto.Task true "Update a task"
+// @Success      200  {object}  dto.Task
+// @Failure      400  {object}	errors.ErrResponse
+// @Failure      422  {object}	errors.ErrResponse
+// @Failure      500  {object}	errors.ErrResponse
+// @Router       /tasks/:id [delete]
 func (dh *TaskHandler) Delete(g *gin.Context) {
 	dp := dto.Task{}
 
@@ -102,7 +138,17 @@ func (dh *TaskHandler) Delete(g *gin.Context) {
 
 }
 
-//GetAll handler
+// GetAll TaskGetter godoc
+// @Summary      Get all tasks
+// @Description  Gat all the tasks
+// @Tags         Tasks
+// @Accept       json
+// @Produce      json
+// @Param        task body dto.Task true "Get all tasks"
+// @Success      200  {object}  dto.Task
+// @Failure      422  {object}	errors.ErrResponse
+// @Failure      500  {object}	errors.ErrResponse
+// @Router       /tasks [get]
 func (dh *TaskHandler) GetAll(g *gin.Context) {
 
 	dm, err := dh.Service.GetAll(g)
@@ -114,7 +160,17 @@ func (dh *TaskHandler) GetAll(g *gin.Context) {
 	g.JSON(http.StatusOK, dto.MapToTasks(dm))
 }
 
-//GetByID handler
+// GetByID TaskGetterByID godoc
+// @Summary      Get a task
+// @Description  Gat a specific task based on it's ID
+// @Tags         Tasks
+// @Accept       json
+// @Produce      json
+// @Param        task body dto.Task true "Get a task"
+// @Success      200  {object}  dto.Task
+// @Failure      422  {object}	errors.ErrResponse
+// @Failure      500  {object}	errors.ErrResponse
+// @Router       /tasks/:id [get]
 func (dh *TaskHandler) GetByID(g *gin.Context) {
 
 	dm, err := dh.Service.GetById(g, g.Param("id"))

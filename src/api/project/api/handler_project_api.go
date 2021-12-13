@@ -16,7 +16,17 @@ type ProjectHandler struct {
 	domain.Service
 }
 
-//GetAll handler
+// GetAll ProjectGetter godoc
+// @Summary      Get all projects
+// @Description  Get all the projects in the system
+// @Tags         Projects
+// @Accept       json
+// @Produce      json
+// @Param        project body dto.Project true "Get all projects"
+// @Success      200  {object}  dto.Project
+// @Failure      422  {object}	errors.ErrResponse
+// @Failure      500  {object}	errors.ErrResponse
+// @Router       /projects [get]
 func (dh *ProjectHandler) GetAll(g *gin.Context) {
 
 	dm, err := dh.Service.GetAll(g)
@@ -28,7 +38,17 @@ func (dh *ProjectHandler) GetAll(g *gin.Context) {
 	g.JSON(http.StatusOK, dto.MapToProjects(dm))
 }
 
-//GetByID handler
+// GetByID ProjectGetterByID godoc
+// @Summary      Get a project
+// @Description  Get a specific project based on it's ID
+// @Tags         Projects
+// @Accept       json
+// @Produce      json
+// @Param        project body dto.Project true "Get a project"
+// @Success      200  {object}  dto.Project
+// @Failure      422  {object}	errors.ErrResponse
+// @Failure      500  {object}	errors.ErrResponse
+// @Router       /projects/:id [get]
 func (dh *ProjectHandler) GetByID(g *gin.Context) {
 
 	dm, err := dh.Service.GetById(g, g.Param("id"))
@@ -40,7 +60,17 @@ func (dh *ProjectHandler) GetByID(g *gin.Context) {
 	g.JSON(http.StatusOK, dto.FromModel(dm))
 }
 
-// Post handler
+// Post ProjectCreator godoc
+// @Summary      Add a project
+// @Description  Add a project to the system
+// @Tags         Projects
+// @Accept       json
+// @Produce      json
+// @Param        project body dto.Project true "Create a project"
+// @Success      200  {object}  dto.Project
+// @Failure      422  {object}	errors.ErrResponse
+// @Failure      500  {object}	errors.ErrResponse
+// @Router       /projects [post]
 func (ph *ProjectHandler) Post(g *gin.Context) {
 
 	dp := dto.Project{}
@@ -66,6 +96,17 @@ func (ph *ProjectHandler) Post(g *gin.Context) {
 
 }
 
+// Patch ProjectStateUpdater godoc
+// @Summary      Update a project's state
+// @Description  Update a project's state that is already in the system
+// @Tags         Projects
+// @Accept       json
+// @Produce      json
+// @Param        project body dto.Project true "Update a project's state"
+// @Success      200  {object}  dto.Project
+// @Failure      422  {object}	errors.ErrResponse
+// @Failure      500  {object}	errors.ErrResponse
+// @Router       /projects/:id/state [patch]
 func (ph *ProjectHandler) Patch(g *gin.Context) {
 
 	dp := dto.Project{}
@@ -101,6 +142,17 @@ func (ph *ProjectHandler) Patch(g *gin.Context) {
 	g.JSON(http.StatusOK, dto.FromModel(dm))
 }
 
+// Put ProjectPatcher godoc
+// @Summary      Modify a project
+// @Description  Modify a project that is already in the system
+// @Tags         Projects
+// @Accept       json
+// @Produce      json
+// @Param        project body dto.Project true "Create a project"
+// @Success      200  {object}  dto.Project
+// @Failure      422  {object}	errors.ErrResponse
+// @Failure      500  {object}	errors.ErrResponse
+// @Router       /projects/:id [put]
 func (ph *ProjectHandler) Put(g *gin.Context) {
 
 	dp := dto.Project{}
