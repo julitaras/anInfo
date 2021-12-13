@@ -30,6 +30,22 @@ func (t *TaskRepository) Create(_ context.Context, task *model.Tasks) (*model.Ta
 	return task, nil
 }
 
+func (t *TaskRepository) Update(_ context.Context, task *model.Tasks) (*model.Tasks, error) {
+	err := t.DB.Model(task).Updates(task).Error
+	if err != nil {
+		log.Printf("Error updating Task %v", err)
+		return nil, err
+	}
+
+	err = t.DB.Find(&task).Where("id = ?", task.ID).Error
+	if err != nil {
+		log.Printf("Error finding Task %v", err)
+		return nil, err
+	}
+
+	return task, nil
+}
+
 func (t *TaskRepository) Delete(_ context.Context, task *model.Tasks) (*model.Tasks, error) {
 	err := t.DB.Delete(&task).Error
 	if err != nil {

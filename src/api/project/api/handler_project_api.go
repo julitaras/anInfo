@@ -33,7 +33,7 @@ func (ph *ProjectHandler) Post(g *gin.Context) {
 		return
 	}
 
-	dm, err := ph.Service.Insert(g, dp.ToModel())
+	dm, valerr := ph.Service.Insert(g, dp.ToModel())
 	if err != nil {
 		g.AbortWithStatusJSON(http.StatusUnprocessableEntity, errors.NewErrResponse(valerr))
 		return
@@ -62,10 +62,7 @@ func (ph *ProjectHandler) Patch(g *gin.Context) {
 	valerr := validate.StructPartial(dp, "state")
 
 	if valerr != nil {
-		g.AbortWithStatusJSON(http.StatusUnprocessableEntity, ErrResponse{
-			Error:   err.Error(),
-			Message: "Invalid state",
-		})
+		g.AbortWithStatusJSON(http.StatusUnprocessableEntity, errors.NewErrResponse(valerr))
 		return
 	}
 
@@ -95,10 +92,7 @@ func (ph *ProjectHandler) Put(g *gin.Context) {
 
 	valerr := validate.Struct(dp)
 	if valerr != nil {
-		g.AbortWithStatusJSON(http.StatusUnprocessableEntity, ErrResponse{
-			Error:   err.Error(),
-			Message: "Unprocessable Entity",
-		})
+		g.AbortWithStatusJSON(http.StatusUnprocessableEntity, errors.NewErrResponse(valerr))
 		return
 	}
 
