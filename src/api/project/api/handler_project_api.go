@@ -22,7 +22,7 @@ type ProjectHandler struct {
 // @Tags         Projects
 // @Accept       json
 // @Produce      json
-// @Param        task body dto.Project true "Get all projects"
+// @Param        project body dto.Project true "Get all projects"
 // @Success      200  {object}  dto.Project
 // @Failure      422  {object}	errors.ErrResponse
 // @Failure      500  {object}	errors.ErrResponse
@@ -44,7 +44,7 @@ func (dh *ProjectHandler) GetAll(g *gin.Context) {
 // @Tags         Projects
 // @Accept       json
 // @Produce      json
-// @Param        task body dto.Project true "Get a project"
+// @Param        project body dto.Project true "Get a project"
 // @Success      200  {object}  dto.Project
 // @Failure      422  {object}	errors.ErrResponse
 // @Failure      500  {object}	errors.ErrResponse
@@ -66,7 +66,7 @@ func (dh *ProjectHandler) GetByID(g *gin.Context) {
 // @Tags         Projects
 // @Accept       json
 // @Produce      json
-// @Param        task body dto.Project true "Create a project"
+// @Param        project body dto.Project true "Create a project"
 // @Success      200  {object}  dto.Project
 // @Failure      422  {object}	errors.ErrResponse
 // @Failure      500  {object}	errors.ErrResponse
@@ -102,7 +102,7 @@ func (ph *ProjectHandler) Post(g *gin.Context) {
 // @Tags         Projects
 // @Accept       json
 // @Produce      json
-// @Param        task body dto.Project true "Update a project's state"
+// @Param        project body dto.Project true "Update a project's state"
 // @Success      200  {object}  dto.Project
 // @Failure      422  {object}	errors.ErrResponse
 // @Failure      500  {object}	errors.ErrResponse
@@ -148,7 +148,7 @@ func (ph *ProjectHandler) Patch(g *gin.Context) {
 // @Tags         Projects
 // @Accept       json
 // @Produce      json
-// @Param        task body dto.Project true "Create a project"
+// @Param        project body dto.Project true "Create a project"
 // @Success      200  {object}  dto.Project
 // @Failure      422  {object}	errors.ErrResponse
 // @Failure      500  {object}	errors.ErrResponse
