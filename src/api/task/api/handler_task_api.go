@@ -1,6 +1,7 @@
 package api
 
 import (
+	"fmt"
 	"net/http"
 	"proyectos/src/api/errors"
 	"proyectos/src/api/task/api/dto"
@@ -22,6 +23,7 @@ func (dh *TaskHandler) Post(g *gin.Context) {
 	dt := dto.Task{}
 	err := g.BindJSON(&dt)
 	if err != nil {
+		g.AbortWithStatusJSON(http.StatusBadRequest, errors.NewErrResponse(err))
 		return
 	}
 
@@ -45,6 +47,30 @@ func (dh *TaskHandler) Post(g *gin.Context) {
 		return
 	}
 
+	g.JSON(http.StatusOK, dto.FromModel(dm))
+}
+
+func (dh *TaskHandler) Put(g *gin.Context) {
+
+	dp := dto.Task{}
+
+	i, err := strconv.ParseInt(g.Param("id"), 10, 64)
+	if err != nil {
+		fmt.Println(err)
+	}
+	dp.ID = i
+
+	err = g.BindJSON(&dp)
+	if err != nil {
+		g.AbortWithStatusJSON(http.StatusBadRequest, errors.NewErrResponse(err))
+		return
+	}
+
+	dm, err := dh.Service.Update(g, dp.ToModel())
+	if err != nil {
+		g.AbortWithStatusJSON(http.StatusUnprocessableEntity, errors.NewErrResponse(err))
+		return
+	}
 	g.JSON(http.StatusOK, dto.FromModel(dm))
 }
 
