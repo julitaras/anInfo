@@ -74,12 +74,12 @@ info:
   version: "1.0"
 paths:
   /projects:
-    patch:
+    get:
       consumes:
       - application/json
-      description: Update a project that is already in the system
+      description: Get all the projects in the system
       parameters:
-      - description: Update a project
+      - description: Get all projects
         in: body
         name: task
         required: true
@@ -100,7 +100,7 @@ paths:
           description: Internal Server Error
           schema:
             $ref: '#/definitions/errors.ErrResponse'
-      summary: Update a project
+      summary: Get all projects
       tags:
       - Projects
     post:
@@ -132,6 +132,36 @@ paths:
       summary: Add a project
       tags:
       - Projects
+  /projects/:id:
+    get:
+      consumes:
+      - application/json
+      description: Get a specific project based on it's ID
+      parameters:
+      - description: Get a project
+        in: body
+        name: task
+        required: true
+        schema:
+          $ref: '#/definitions/dto.Project'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.Project'
+        "422":
+          description: Unprocessable Entity
+          schema:
+            $ref: '#/definitions/errors.ErrResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/errors.ErrResponse'
+      summary: Get a project
+      tags:
+      - Projects
     put:
       consumes:
       - application/json
@@ -161,7 +191,66 @@ paths:
       summary: Modify a project
       tags:
       - Projects
+  /projects/:id/state:
+    patch:
+      consumes:
+      - application/json
+      description: Update a project's state that is already in the system
+      parameters:
+      - description: Update a project's state
+        in: body
+        name: task
+        required: true
+        schema:
+          $ref: '#/definitions/dto.Project'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.Project'
+        "422":
+          description: Unprocessable Entity
+          schema:
+            $ref: '#/definitions/errors.ErrResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/errors.ErrResponse'
+      summary: Update a project's state
+      tags:
+      - Projects
   /tasks:
+    get:
+      consumes:
+      - application/json
+      description: Gat all the tasks
+      parameters:
+      - description: Get all tasks
+        in: body
+        name: task
+        required: true
+        schema:
+          $ref: '#/definitions/dto.Task'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.Task'
+        "422":
+          description: Unprocessable Entity
+          schema:
+            $ref: '#/definitions/errors.ErrResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/errors.ErrResponse'
+      summary: Get all tasks
+      tags:
+      - Tasks
     post:
       consumes:
       - application/json
@@ -193,6 +282,102 @@ paths:
           schema:
             $ref: '#/definitions/errors.ErrResponse'
       summary: Add a task
+      tags:
+      - Tasks
+  /tasks/:id:
+    delete:
+      consumes:
+      - application/json
+      description: Delete a task that is already on the system
+      parameters:
+      - description: Update a task
+        in: body
+        name: task
+        required: true
+        schema:
+          $ref: '#/definitions/dto.Task'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.Task'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/errors.ErrResponse'
+        "422":
+          description: Unprocessable Entity
+          schema:
+            $ref: '#/definitions/errors.ErrResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/errors.ErrResponse'
+      summary: Delete a task
+      tags:
+      - Tasks
+    get:
+      consumes:
+      - application/json
+      description: Gat a specific task based on it's ID
+      parameters:
+      - description: Get a task
+        in: body
+        name: task
+        required: true
+        schema:
+          $ref: '#/definitions/dto.Task'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.Task'
+        "422":
+          description: Unprocessable Entity
+          schema:
+            $ref: '#/definitions/errors.ErrResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/errors.ErrResponse'
+      summary: Get a task
+      tags:
+      - Tasks
+    put:
+      consumes:
+      - application/json
+      description: Update a task that is already on the system
+      parameters:
+      - description: Update a task
+        in: body
+        name: task
+        required: true
+        schema:
+          $ref: '#/definitions/dto.Task'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.Task'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/errors.ErrResponse'
+        "422":
+          description: Unprocessable Entity
+          schema:
+            $ref: '#/definitions/errors.ErrResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/errors.ErrResponse'
+      summary: Update a task
       tags:
       - Tasks
 swagger: "2.0"

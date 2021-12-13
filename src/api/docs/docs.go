@@ -29,8 +29,8 @@ var doc = `{
     "basePath": "{{.BasePath}}",
     "paths": {
         "/projects": {
-            "put": {
-                "description": "Modify a project that is already in the system",
+            "get": {
+                "description": "Get all the projects in the system",
                 "consumes": [
                     "application/json"
                 ],
@@ -40,10 +40,10 @@ var doc = `{
                 "tags": [
                     "Projects"
                 ],
-                "summary": "Modify a project",
+                "summary": "Get all projects",
                 "parameters": [
                     {
-                        "description": "Create a project",
+                        "description": "Get all projects",
                         "name": "task",
                         "in": "body",
                         "required": true,
@@ -116,9 +116,11 @@ var doc = `{
                         }
                     }
                 }
-            },
-            "patch": {
-                "description": "Update a project that is already in the system",
+            }
+        },
+        "/projects/:id": {
+            "get": {
+                "description": "Get a specific project based on it's ID",
                 "consumes": [
                     "application/json"
                 ],
@@ -128,10 +130,100 @@ var doc = `{
                 "tags": [
                     "Projects"
                 ],
-                "summary": "Update a project",
+                "summary": "Get a project",
                 "parameters": [
                     {
-                        "description": "Update a project",
+                        "description": "Get a project",
+                        "name": "task",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/dto.Project"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/dto.Project"
+                        }
+                    },
+                    "422": {
+                        "description": "Unprocessable Entity",
+                        "schema": {
+                            "$ref": "#/definitions/errors.ErrResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/errors.ErrResponse"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "description": "Modify a project that is already in the system",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Projects"
+                ],
+                "summary": "Modify a project",
+                "parameters": [
+                    {
+                        "description": "Create a project",
+                        "name": "task",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/dto.Project"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/dto.Project"
+                        }
+                    },
+                    "422": {
+                        "description": "Unprocessable Entity",
+                        "schema": {
+                            "$ref": "#/definitions/errors.ErrResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/errors.ErrResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/projects/:id/state": {
+            "patch": {
+                "description": "Update a project's state that is already in the system",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Projects"
+                ],
+                "summary": "Update a project's state",
+                "parameters": [
+                    {
+                        "description": "Update a project's state",
                         "name": "task",
                         "in": "body",
                         "required": true,
@@ -163,6 +255,50 @@ var doc = `{
             }
         },
         "/tasks": {
+            "get": {
+                "description": "Gat all the tasks",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Tasks"
+                ],
+                "summary": "Get all tasks",
+                "parameters": [
+                    {
+                        "description": "Get all tasks",
+                        "name": "task",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/dto.Task"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/dto.Task"
+                        }
+                    },
+                    "422": {
+                        "description": "Unprocessable Entity",
+                        "schema": {
+                            "$ref": "#/definitions/errors.ErrResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/errors.ErrResponse"
+                        }
+                    }
+                }
+            },
             "post": {
                 "description": "Add a task to the system",
                 "consumes": [
@@ -178,6 +314,152 @@ var doc = `{
                 "parameters": [
                     {
                         "description": "Create a task",
+                        "name": "task",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/dto.Task"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/dto.Task"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/errors.ErrResponse"
+                        }
+                    },
+                    "422": {
+                        "description": "Unprocessable Entity",
+                        "schema": {
+                            "$ref": "#/definitions/errors.ErrResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/errors.ErrResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/tasks/:id": {
+            "get": {
+                "description": "Gat a specific task based on it's ID",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Tasks"
+                ],
+                "summary": "Get a task",
+                "parameters": [
+                    {
+                        "description": "Get a task",
+                        "name": "task",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/dto.Task"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/dto.Task"
+                        }
+                    },
+                    "422": {
+                        "description": "Unprocessable Entity",
+                        "schema": {
+                            "$ref": "#/definitions/errors.ErrResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/errors.ErrResponse"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "description": "Update a task that is already on the system",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Tasks"
+                ],
+                "summary": "Update a task",
+                "parameters": [
+                    {
+                        "description": "Update a task",
+                        "name": "task",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/dto.Task"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/dto.Task"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/errors.ErrResponse"
+                        }
+                    },
+                    "422": {
+                        "description": "Unprocessable Entity",
+                        "schema": {
+                            "$ref": "#/definitions/errors.ErrResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/errors.ErrResponse"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "description": "Delete a task that is already on the system",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Tasks"
+                ],
+                "summary": "Delete a task",
+                "parameters": [
+                    {
+                        "description": "Update a task",
                         "name": "task",
                         "in": "body",
                         "required": true,
