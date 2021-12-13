@@ -59,7 +59,12 @@ func (dh *TaskHandler) Put(g *gin.Context) {
 		fmt.Println(err)
 	}
 	dp.ID = i
-	g.BindJSON(&dp)
+
+	err = g.BindJSON(&dp)
+	if err != nil {
+		g.AbortWithStatusJSON(http.StatusBadRequest, errors.NewErrResponse(err))
+		return
+	}
 
 	dm, err := dh.Service.Update(g, dp.ToModel())
 	if err != nil {
