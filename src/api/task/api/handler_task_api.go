@@ -23,6 +23,7 @@ func (dh *TaskHandler) Post(g *gin.Context) {
 	dt := dto.Task{}
 	err := g.BindJSON(&dt)
 	if err != nil {
+		g.AbortWithStatusJSON(http.StatusBadRequest, errors.NewErrResponse(err))
 		return
 	}
 
