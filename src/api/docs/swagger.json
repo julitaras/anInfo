@@ -10,7 +10,7 @@
         },
         "version": "1.0"
     },
-    "host": "localhost:8080",
+    "host": "https://squad14-2c-2021.herokuapp.com/",
     "paths": {
         "/projects": {
             "get": {
@@ -28,7 +28,7 @@
                 "parameters": [
                     {
                         "description": "Get all projects",
-                        "name": "task",
+                        "name": "project",
                         "in": "body",
                         "required": true,
                         "schema": {
@@ -72,7 +72,7 @@
                 "parameters": [
                     {
                         "description": "Create a project",
-                        "name": "task",
+                        "name": "project",
                         "in": "body",
                         "required": true,
                         "schema": {
@@ -118,7 +118,7 @@
                 "parameters": [
                     {
                         "description": "Get a project",
-                        "name": "task",
+                        "name": "project",
                         "in": "body",
                         "required": true,
                         "schema": {
@@ -162,7 +162,7 @@
                 "parameters": [
                     {
                         "description": "Create a project",
-                        "name": "task",
+                        "name": "project",
                         "in": "body",
                         "required": true,
                         "schema": {
@@ -208,7 +208,7 @@
                 "parameters": [
                     {
                         "description": "Update a project's state",
-                        "name": "task",
+                        "name": "project",
                         "in": "body",
                         "required": true,
                         "schema": {

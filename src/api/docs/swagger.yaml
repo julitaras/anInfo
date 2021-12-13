@@ -63,7 +63,7 @@ definitions:
       message:
         type: string
     type: object
-host: localhost:8080
+host: https://squad14-2c-2021.herokuapp.com/
 info:
   contact: {}
   description: This API gives access to the projects module.
@@ -81,7 +81,7 @@ paths:
       parameters:
       - description: Get all projects
         in: body
-        name: task
+        name: project
         required: true
         schema:
           $ref: '#/definitions/dto.Project'
@@ -110,7 +110,7 @@ paths:
       parameters:
       - description: Create a project
         in: body
-        name: task
+        name: project
         required: true
         schema:
           $ref: '#/definitions/dto.Project'
@@ -140,7 +140,7 @@ paths:
       parameters:
       - description: Get a project
         in: body
-        name: task
+        name: project
         required: true
         schema:
           $ref: '#/definitions/dto.Project'
@@ -169,7 +169,7 @@ paths:
       parameters:
       - description: Create a project
         in: body
-        name: task
+        name: project
         required: true
         schema:
           $ref: '#/definitions/dto.Project'
@@ -199,7 +199,7 @@ paths:
       parameters:
       - description: Update a project's state
         in: body
-        name: task
+        name: project
         required: true
         schema:
           $ref: '#/definitions/dto.Project'

@@ -44,7 +44,7 @@ var doc = `{
                 "parameters": [
                     {
                         "description": "Get all projects",
-                        "name": "task",
+                        "name": "project",
                         "in": "body",
                         "required": true,
                         "schema": {
@@ -88,7 +88,7 @@ var doc = `{
                 "parameters": [
                     {
                         "description": "Create a project",
-                        "name": "task",
+                        "name": "project",
                         "in": "body",
                         "required": true,
                         "schema": {
@@ -134,7 +134,7 @@ var doc = `{
                 "parameters": [
                     {
                         "description": "Get a project",
-                        "name": "task",
+                        "name": "project",
                         "in": "body",
                         "required": true,
                         "schema": {
@@ -178,7 +178,7 @@ var doc = `{
                 "parameters": [
                     {
                         "description": "Create a project",
-                        "name": "task",
+                        "name": "project",
                         "in": "body",
                         "required": true,
                         "schema": {
@@ -224,7 +224,7 @@ var doc = `{
                 "parameters": [
                     {
                         "description": "Update a project's state",
-                        "name": "task",
+                        "name": "project",
                         "in": "body",
                         "required": true,
                         "schema": {
@@ -605,7 +605,7 @@ type swaggerInfo struct {
 // SwaggerInfo holds exported Swagger Info so clients can modify it
 var SwaggerInfo = swaggerInfo{
 	Version:     "1.0",
-	Host:        "localhost:8080",
+	Host:        "https://squad14-2c-2021.herokuapp.com/",
 	BasePath:    "",
 	Schemes:     []string{},
 	Title:       "PSA Projects API",
