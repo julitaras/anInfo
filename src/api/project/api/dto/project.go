@@ -7,8 +7,6 @@ import (
 	"time"
 )
 
-type State string
-
 type Project struct {
 	ID          int64     `validate:"gt=0" json:"id"`
 	Name        string    `validate:"required,min=2,max=100" json:"name"`
