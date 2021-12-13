@@ -16,7 +16,7 @@ func NewProjectService(dr domain.Repository) domain.Service {
 	}
 }
 
-// Get service
+//GetAll service
 func (s *ProjectService) GetAll(ctx context.Context) ([]*model.Projects, error) {
 	r, err := s.r.GetAll(ctx)
 	if err != nil {
@@ -26,7 +26,7 @@ func (s *ProjectService) GetAll(ctx context.Context) ([]*model.Projects, error) 
 	return r, nil
 }
 
-// Get service
+//GetById service
 func (s *ProjectService) GetById(ctx context.Context, id string) (*model.Projects, error) {
 	r, err := s.r.GetById(ctx, id)
 	if err != nil {
@@ -59,3 +59,13 @@ func (s *ProjectService) Update(ctx context.Context, t *model.Projects) (*model.
 
 	return r, nil
 }
+
+func (s *ProjectService) Delete(ctx context.Context, t *model.Projects) (*model.Projects, error) {
+	r, err := s.r.Delete(ctx, t)
+	if err != nil {
+		return nil, err
+	}
+
+	return r, nil
+}
+

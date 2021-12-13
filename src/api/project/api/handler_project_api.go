@@ -27,9 +27,9 @@ type ProjectHandler struct {
 // @Failure      422  {object}	errors.ErrResponse
 // @Failure      500  {object}	errors.ErrResponse
 // @Router       /projects [get]
-func (dh *ProjectHandler) GetAll(g *gin.Context) {
+func (ph *ProjectHandler) GetAll(g *gin.Context) {
 
-	dm, err := dh.Service.GetAll(g)
+	dm, err := ph.Service.GetAll(g)
 	if err != nil {
 		g.AbortWithStatusJSON(http.StatusUnprocessableEntity, errors.NewErrResponse(err))
 		return
@@ -49,9 +49,9 @@ func (dh *ProjectHandler) GetAll(g *gin.Context) {
 // @Failure      422  {object}	errors.ErrResponse
 // @Failure      500  {object}	errors.ErrResponse
 // @Router       /projects/:id [get]
-func (dh *ProjectHandler) GetByID(g *gin.Context) {
+func (ph *ProjectHandler) GetByID(g *gin.Context) {
 
-	dm, err := dh.Service.GetById(g, g.Param("id"))
+	dm, err := ph.Service.GetById(g, g.Param("id"))
 	if err != nil {
 		g.AbortWithStatusJSON(http.StatusUnprocessableEntity, errors.NewErrResponse(err))
 		return
@@ -181,4 +181,44 @@ func (ph *ProjectHandler) Put(g *gin.Context) {
 		return
 	}
 	g.JSON(http.StatusOK, dto.FromModel(dm))
+}
+
+// Delete ProjectDeleter godoc
+// @Summary      Delete a project
+// @Description  Delete a project that is already on the system
+// @Tags         Projects
+// @Accept       json
+// @Produce      json
+// @Param        project body dto.Project true "Update a task"
+// @Success      200  {object}  dto.Project
+// @Failure      400  {object}	errors.ErrResponse
+// @Failure      422  {object}	errors.ErrResponse
+// @Failure      500  {object}	errors.ErrResponse
+// @Router       /projects/:id [delete]
+func (ph *ProjectHandler) Delete(g *gin.Context) {
+	dp := dto.Project{}
+
+	i, err := strconv.ParseInt(g.Param("id"), 10, 64)
+	if err != nil {
+		g.AbortWithStatusJSON(http.StatusUnprocessableEntity, errors.ErrResponse{
+			Err:     err,
+			Message: "Cannot parse ID",
+		})
+		return
+	}
+
+	dp.ID = i
+
+	_, err = ph.Service.Delete(g, dp.ToModel())
+
+	if err != nil {
+		g.AbortWithStatusJSON(http.StatusBadRequest, errors.ErrResponse{
+			Err:     err,
+			Message: "Cannot delete project",
+		})
+		return
+	}
+
+	g.JSON(http.StatusOK, map[string]string{"code": strconv.FormatInt(http.StatusOK, 10), "message": "Project " + g.Param("id") + " deleted successfully"})
+
 }

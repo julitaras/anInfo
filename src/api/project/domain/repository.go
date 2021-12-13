@@ -11,4 +11,5 @@ type Repository interface {
 	GetById(context.Context, string) (*model.Projects, error)
 	Create(context.Context, *model.Projects) (*model.Projects, error)
 	Update(context.Context, *model.Projects) (*model.Projects, error)
+	Delete(context.Context, *model.Projects) (*model.Projects, error)
 }

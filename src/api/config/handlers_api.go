@@ -64,6 +64,7 @@ func AddProjectHandler(r *SRV, ds projectDomain.Service) *SRV {
 	r.POST("/projects", projectHandler.Post)
 	r.PATCH("/projects/:id/state", projectHandler.Patch)
 	r.PUT("/projects/:id", projectHandler.Put)
+	r.DELETE("/projects/:id", projectHandler.Delete)
 
 	return r
 }
