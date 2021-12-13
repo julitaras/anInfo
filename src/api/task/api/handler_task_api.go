@@ -104,7 +104,7 @@ func (dh *TaskHandler) Put(g *gin.Context) {
 // @Tags         Tasks
 // @Accept       json
 // @Produce      json
-// @Param        task body dto.Task true "Update a task"
+// @Param        task body dto.Task true "Delete a task"
 // @Success      200  {object}  dto.Task
 // @Failure      400  {object}	errors.ErrResponse
 // @Failure      422  {object}	errors.ErrResponse

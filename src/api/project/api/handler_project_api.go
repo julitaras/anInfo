@@ -148,7 +148,7 @@ func (ph *ProjectHandler) Patch(g *gin.Context) {
 // @Tags         Projects
 // @Accept       json
 // @Produce      json
-// @Param        project body dto.Project true "Create a project"
+// @Param        project body dto.Project true "Update a project"
 // @Success      200  {object}  dto.Project
 // @Failure      422  {object}	errors.ErrResponse
 // @Failure      500  {object}	errors.ErrResponse
@@ -189,7 +189,7 @@ func (ph *ProjectHandler) Put(g *gin.Context) {
 // @Tags         Projects
 // @Accept       json
 // @Produce      json
-// @Param        project body dto.Project true "Update a task"
+// @Param        project body dto.Project true "Delete a task"
 // @Success      200  {object}  dto.Project
 // @Failure      400  {object}	errors.ErrResponse
 // @Failure      422  {object}	errors.ErrResponse

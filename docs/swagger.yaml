@@ -138,7 +138,7 @@ paths:
       - application/json
       description: Delete a project that is already on the system
       parameters:
-      - description: Update a task
+      - description: Delete a task
         in: body
         name: project
         required: true
@@ -200,7 +200,7 @@ paths:
       - application/json
       description: Modify a project that is already in the system
       parameters:
-      - description: Create a project
+      - description: Update a project
         in: body
         name: project
         required: true
@@ -323,7 +323,7 @@ paths:
       - application/json
       description: Delete a task that is already on the system
       parameters:
-      - description: Update a task
+      - description: Delete a task
         in: body
         name: task
         required: true

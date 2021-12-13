@@ -177,7 +177,7 @@ var doc = `{
                 "summary": "Modify a project",
                 "parameters": [
                     {
-                        "description": "Create a project",
+                        "description": "Update a project",
                         "name": "project",
                         "in": "body",
                         "required": true,
@@ -221,7 +221,7 @@ var doc = `{
                 "summary": "Delete a project",
                 "parameters": [
                     {
-                        "description": "Update a task",
+                        "description": "Delete a task",
                         "name": "project",
                         "in": "body",
                         "required": true,
@@ -509,7 +509,7 @@ var doc = `{
                 "summary": "Delete a task",
                 "parameters": [
                     {
-                        "description": "Update a task",
+                        "description": "Delete a task",
                         "name": "task",
                         "in": "body",
                         "required": true,
