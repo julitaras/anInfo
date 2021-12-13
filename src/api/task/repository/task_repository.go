@@ -40,7 +40,6 @@ func (t *TaskRepository) Delete(_ context.Context, task *model.Tasks) (*model.Ta
 	return task, nil
 }
 
-
 func (t *TaskRepository) GetAll(_ context.Context) ([]*model.Tasks, error) {
 	var tasks []*model.Tasks
 
