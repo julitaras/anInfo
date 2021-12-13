@@ -54,6 +54,17 @@ func FromModel(dm *model.Tasks) *Task {
 	}
 }
 
+//MapToTasks List of tasks to list of dto task
+func MapToTasks(dm []*model.Tasks) []*Task {
+	var tasks []*Task
+
+	for _, t := range dm {
+		tasks = append(tasks, FromModel(t))
+	}
+
+	return tasks
+}
+
 func (t *Task) ValidateState() error {
 	if !constants.State(t.State).IsValid() {
 		return errors.NewErrInvalidState(t.State)
