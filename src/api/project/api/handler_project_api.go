@@ -16,6 +16,30 @@ type ProjectHandler struct {
 	domain.Service
 }
 
+//GetAll handler
+func (dh *ProjectHandler) GetAll(g *gin.Context) {
+
+	dm, err := dh.Service.GetAll(g)
+	if err != nil {
+		g.AbortWithStatusJSON(http.StatusUnprocessableEntity, errors.NewErrResponse(err))
+		return
+	}
+
+	g.JSON(http.StatusOK, dto.MapToProjects(dm))
+}
+
+//GetByID handler
+func (dh *ProjectHandler) GetByID(g *gin.Context) {
+
+	dm, err := dh.Service.GetById(g, g.Param("id"))
+	if err != nil {
+		g.AbortWithStatusJSON(http.StatusUnprocessableEntity, errors.NewErrResponse(err))
+		return
+	}
+
+	g.JSON(http.StatusOK, dto.FromModel(dm))
+}
+
 // Post ProjectCreator godoc
 // @Summary      Add a project
 // @Description  Add a project to the system
@@ -43,7 +67,7 @@ func (ph *ProjectHandler) Post(g *gin.Context) {
 		return
 	}
 
-	dm, err := ph.Service.Insert(g, dp.ToModel())
+	dm, valerr := ph.Service.Insert(g, dp.ToModel())
 	if err != nil {
 		g.AbortWithStatusJSON(http.StatusUnprocessableEntity, errors.NewErrResponse(valerr))
 		return
@@ -83,10 +107,7 @@ func (ph *ProjectHandler) Patch(g *gin.Context) {
 	valerr := validate.StructPartial(dp, "state")
 
 	if valerr != nil {
-		g.AbortWithStatusJSON(http.StatusUnprocessableEntity, ErrResponse{
-			Error:   err.Error(),
-			Message: "Invalid state",
-		})
+		g.AbortWithStatusJSON(http.StatusUnprocessableEntity, errors.NewErrResponse(valerr))
 		return
 	}
 
@@ -127,10 +148,7 @@ func (ph *ProjectHandler) Put(g *gin.Context) {
 
 	valerr := validate.Struct(dp)
 	if valerr != nil {
-		g.AbortWithStatusJSON(http.StatusUnprocessableEntity, ErrResponse{
-			Error:   err.Error(),
-			Message: "Unprocessable Entity",
-		})
+		g.AbortWithStatusJSON(http.StatusUnprocessableEntity, errors.NewErrResponse(valerr))
 		return
 	}
 

@@ -45,6 +45,10 @@ func AddTaskHandler(r *SRV, ds taskDomain.Service) *SRV {
 	}
 
 	r.POST("/tasks", taskHandler.Post)
+	r.PUT("/tasks/:id", taskHandler.Put)
+	r.DELETE("/tasks/:id", taskHandler.Delete)
+	r.GET("/tasks", taskHandler.GetAll)
+	r.GET("/tasks/:id", taskHandler.GetByID)
 
 	return r
 }
@@ -55,6 +59,8 @@ func AddProjectHandler(r *SRV, ds projectDomain.Service) *SRV {
 		Service: ds,
 	}
 
+	r.GET("/projects", projectHandler.GetAll)
+	r.GET("/projects/:id", projectHandler.GetByID)
 	r.POST("/projects", projectHandler.Post)
 	r.PATCH("/projects/:id/state", projectHandler.Patch)
 	r.PUT("/projects/:id", projectHandler.Put)
