@@ -27,3 +27,23 @@ func (s *TaskService) Insert(ctx context.Context, t *model.Tasks) (*model.Tasks,
 
 	return r, nil
 }
+
+//Insert service
+func (s *TaskService) GetAll(ctx context.Context) ([]*model.Tasks, error) {
+	r, err := s.r.GetAll(ctx)
+	if err != nil {
+		return nil, err
+	}
+
+	return r, nil
+}
+
+//Insert service
+func (s *TaskService) GetById(ctx context.Context, id string) (*model.Tasks, error) {
+	r, err := s.r.GetById(ctx, id)
+	if err != nil {
+		return nil, err
+	}
+
+	return r, nil
+}
