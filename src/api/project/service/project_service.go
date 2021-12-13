@@ -16,6 +16,26 @@ func NewProjectService(dr domain.Repository) domain.Service {
 	}
 }
 
+// Get service
+func (s *ProjectService) GetAll(ctx context.Context) ([]*model.Projects, error) {
+	r, err := s.r.GetAll(ctx)
+	if err != nil {
+		return nil, err
+	}
+
+	return r, nil
+}
+
+// Get service
+func (s *ProjectService) GetById(ctx context.Context, id string) (*model.Projects, error) {
+	r, err := s.r.GetById(ctx, id)
+	if err != nil {
+		return nil, err
+	}
+
+	return r, nil
+}
+
 //Insert service
 func (s *ProjectService) Insert(ctx context.Context, t *model.Projects) (*model.Projects, error) {
 

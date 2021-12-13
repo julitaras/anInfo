@@ -49,6 +49,16 @@ func FromModel(modelProject *model.Projects) *Project {
 	}
 }
 
+func MapToProjects(modelProjects []*model.Projects) []*Project {
+	var projects []*Project
+
+	for _, t := range modelProjects {
+		projects = append(projects, FromModel(t))
+	}
+
+	return projects
+}
+
 func (p *Project) ValidateState() error {
 	if !constants.State(p.State).IsValid() {
 		return errors.NewErrInvalidState(p.State)

@@ -45,6 +45,8 @@ func AddProjectHandler(r *SRV, ds projectDomain.Service) *SRV {
 		Service: ds,
 	}
 
+	r.GET("/projects", projectHandler.GetAll)
+	r.GET("/projects/:id", projectHandler.GetByID)
 	r.POST("/projects", projectHandler.Post)
 	r.PATCH("/projects/:id/state", projectHandler.Patch)
 	r.PUT("/projects/:id", projectHandler.Put)
