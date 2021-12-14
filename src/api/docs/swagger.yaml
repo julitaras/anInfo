@@ -138,12 +138,11 @@ paths:
       - application/json
       description: Delete a project that is already on the system
       parameters:
-      - description: Delete a project
-        in: body
-        name: project
+      - description: Project ID
+        in: path
+        name: id
         required: true
-        schema:
-          $ref: '#/definitions/dto.Project'
+        type: integer
       produces:
       - application/json
       responses:

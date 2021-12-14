@@ -218,13 +218,11 @@ var doc = `{
                 "summary": "Delete a project",
                 "parameters": [
                     {
-                        "description": "Delete a project",
-                        "name": "project",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/dto.Project"
-                        }
+                        "type": "integer",
+                        "description": "Project ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
                     }
                 ],
                 "responses": {

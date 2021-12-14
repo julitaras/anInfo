@@ -190,7 +190,7 @@ func (ph *ProjectHandler) Put(g *gin.Context) {
 // @Tags         Projects
 // @Accept       json
 // @Produce      json
-// @Param        project body dto.Project true "Delete a project"
+// @Param        id path int true "Project ID"
 // @Success      200  {object}  dto.Project
 // @Failure      400  {object}	errors.ErrResponse
 // @Failure      422  {object}	errors.ErrResponse
