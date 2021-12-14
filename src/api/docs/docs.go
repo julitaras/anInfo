@@ -76,7 +76,7 @@ var doc = `{
                 "tags": [
                     "Projects"
                 ],
-                "summary": "Add a project",
+                "summary": "Create a project",
                 "parameters": [
                     {
                         "description": "Create a project",
@@ -372,7 +372,7 @@ var doc = `{
                 "tags": [
                     "Tasks"
                 ],
-                "summary": "Add a task",
+                "summary": "Create a task",
                 "parameters": [
                     {
                         "description": "Create a task",
@@ -655,11 +655,13 @@ var doc = `{
         "errors.ErrResponse": {
             "type": "object",
             "properties": {
-                "errCode": {
-                    "type": "string"
+                "err_code": {
+                    "type": "string",
+                    "example": "error.Put.validateState.projects"
                 },
                 "message": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "Invalid state sarcasm"
                 }
             }
         },
@@ -722,7 +724,12 @@ var doc = `{
             "type": "object",
             "properties": {
                 "state": {
-                    "type": "string"
+                    "type": "string",
+                    "enum": [
+                        "TODO",
+                        "IN_PROGRESS",
+                        "DONE"
+                    ]
                 }
             }
         }

@@ -20,7 +20,7 @@ type TaskHandler struct {
 }
 
 // Post TaskCreator godoc
-// @Summary      Add a task
+// @Summary      Create a task
 // @Description  Add a task to the system
 // @Tags         Tasks
 // @Accept       json
