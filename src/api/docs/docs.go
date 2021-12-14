@@ -47,7 +47,7 @@ var doc = `{
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/dto.Project"
+                                "$ref": "#/definitions/utils.Project"
                             }
                         }
                     },
@@ -92,7 +92,13 @@ var doc = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/dto.Project"
+                            "$ref": "#/definitions/utils.Project"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/errors.ErrResponse"
                         }
                     },
                     "422": {
@@ -136,7 +142,7 @@ var doc = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/dto.Project"
+                            "$ref": "#/definitions/utils.Project"
                         }
                     },
                     "422": {
@@ -187,7 +193,13 @@ var doc = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/dto.Project"
+                            "$ref": "#/definitions/utils.Project"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/errors.ErrResponse"
                         }
                     },
                     "422": {
@@ -229,7 +241,7 @@ var doc = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/dto.Project"
+                            "$ref": "#/definitions/utils.Response"
                         }
                     },
                     "400": {
@@ -280,7 +292,7 @@ var doc = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/constants.StateDTO"
+                            "$ref": "#/definitions/utils.StateDTO"
                         }
                     }
                 ],
@@ -288,7 +300,13 @@ var doc = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/dto.Project"
+                            "$ref": "#/definitions/utils.Project"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/errors.ErrResponse"
                         }
                     },
                     "422": {
@@ -325,7 +343,7 @@ var doc = `{
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/dto.Task"
+                                "$ref": "#/definitions/utils.Project"
                             }
                         }
                     },
@@ -370,7 +388,7 @@ var doc = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/dto.Task"
+                            "$ref": "#/definitions/utils.Project"
                         }
                     },
                     "400": {
@@ -420,7 +438,7 @@ var doc = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/dto.Task"
+                            "$ref": "#/definitions/utils.Project"
                         }
                     },
                     "422": {
@@ -471,7 +489,7 @@ var doc = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/dto.Task"
+                            "$ref": "#/definitions/utils.Project"
                         }
                     },
                     "400": {
@@ -519,7 +537,7 @@ var doc = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/dto.Task"
+                            "$ref": "#/definitions/utils.Response"
                         }
                     },
                     "400": {
@@ -545,14 +563,6 @@ var doc = `{
         }
     },
     "definitions": {
-        "constants.StateDTO": {
-            "type": "object",
-            "properties": {
-                "state": {
-                    "type": "string"
-                }
-            }
-        },
         "dto.Project": {
             "type": "object",
             "required": [
@@ -563,25 +573,33 @@ var doc = `{
             ],
             "properties": {
                 "description": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "Project's description"
                 },
                 "finish_date": {
-                    "type": "string"
-                },
-                "id": {
-                    "type": "integer"
+                    "type": "string",
+                    "example": "2021-12-14T12:41:09.993-04:00"
                 },
                 "leader": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "Project's leader"
                 },
                 "name": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "Project's name"
                 },
                 "start_date": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "2021-12-14T12:41:09.993-04:00"
                 },
                 "state": {
-                    "type": "string"
+                    "type": "string",
+                    "enum": [
+                        "TODO",
+                        "IN_PROGRESS",
+                        "DONE"
+                    ],
+                    "example": "Project's state"
                 },
                 "worked_hours": {
                     "type": "integer"
@@ -591,43 +609,43 @@ var doc = `{
         "dto.Task": {
             "type": "object",
             "required": [
-                "assigned_to",
-                "creation_date",
                 "description",
-                "estimated_hours",
                 "name",
-                "project_id",
-                "start_date",
-                "state",
-                "worked_hours"
+                "project_id"
             ],
             "properties": {
                 "assigned_to": {
                     "type": "string"
                 },
                 "creation_date": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "2021-12-14T12:41:09.993-04:00"
                 },
                 "description": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "task's description"
                 },
                 "estimated_hours": {
                     "type": "integer"
                 },
-                "id": {
-                    "type": "integer"
-                },
                 "name": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "task's name"
                 },
                 "project_id": {
                     "type": "integer"
                 },
                 "start_date": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "2021-12-14T12:41:09.993-04:00"
                 },
                 "state": {
-                    "type": "string"
+                    "type": "string",
+                    "enum": [
+                        "TODO",
+                        "IN_PROGRESS",
+                        "DONE"
+                    ]
                 },
                 "worked_hours": {
                     "type": "integer"
@@ -637,10 +655,73 @@ var doc = `{
         "errors.ErrResponse": {
             "type": "object",
             "properties": {
-                "err": {
-                    "type": "error"
+                "errCode": {
+                    "type": "string"
                 },
                 "message": {
+                    "type": "string"
+                }
+            }
+        },
+        "utils.Project": {
+            "type": "object",
+            "required": [
+                "description",
+                "finish_date",
+                "name",
+                "start_date"
+            ],
+            "properties": {
+                "description": {
+                    "type": "string",
+                    "example": "Project's description"
+                },
+                "finish_date": {
+                    "type": "string",
+                    "example": "2021-12-14T12:41:09.993-04:00"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "leader": {
+                    "type": "string",
+                    "example": "Project's leader"
+                },
+                "name": {
+                    "type": "string",
+                    "example": "Project's name"
+                },
+                "start_date": {
+                    "type": "string",
+                    "example": "2021-12-14T12:41:09.993-04:00"
+                },
+                "state": {
+                    "type": "string",
+                    "enum": [
+                        "TODO",
+                        "IN_PROGRESS",
+                        "DONE"
+                    ],
+                    "example": "Project's state"
+                },
+                "worked_hours": {
+                    "type": "integer"
+                }
+            }
+        },
+        "utils.Response": {
+            "type": "object",
+            "properties": {
+                "message": {
+                    "type": "string",
+                    "example": "Deleted ok"
+                }
+            }
+        },
+        "utils.StateDTO": {
+            "type": "object",
+            "properties": {
+                "state": {
                     "type": "string"
                 }
             }

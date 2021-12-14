@@ -1,24 +1,27 @@
 definitions:
-  constants.StateDTO:
-    properties:
-      state:
-        type: string
-    type: object
   dto.Project:
     properties:
       description:
+        example: Project's description
         type: string
       finish_date:
+        example: "2021-12-14T12:41:09.993-04:00"
         type: string
-      id:
-        type: integer
       leader:
+        example: Project's leader
         type: string
       name:
+        example: Project's name
         type: string
       start_date:
+        example: "2021-12-14T12:41:09.993-04:00"
         type: string
       state:
+        enum:
+        - TODO
+        - IN_PROGRESS
+        - DONE
+        example: Project's state
         type: string
       worked_hours:
         type: integer
@@ -33,39 +36,84 @@ definitions:
       assigned_to:
         type: string
       creation_date:
+        example: "2021-12-14T12:41:09.993-04:00"
         type: string
       description:
+        example: task's description
         type: string
       estimated_hours:
         type: integer
-      id:
-        type: integer
       name:
+        example: task's name
         type: string
       project_id:
         type: integer
       start_date:
+        example: "2021-12-14T12:41:09.993-04:00"
         type: string
       state:
+        enum:
+        - TODO
+        - IN_PROGRESS
+        - DONE
         type: string
       worked_hours:
         type: integer
     required:
-    - assigned_to
-    - creation_date
     - description
-    - estimated_hours
     - name
     - project_id
-    - start_date
-    - state
-    - worked_hours
     type: object
   errors.ErrResponse:
     properties:
-      err:
-        type: error
+      errCode:
+        type: string
       message:
+        type: string
+    type: object
+  utils.Project:
+    properties:
+      description:
+        example: Project's description
+        type: string
+      finish_date:
+        example: "2021-12-14T12:41:09.993-04:00"
+        type: string
+      id:
+        type: integer
+      leader:
+        example: Project's leader
+        type: string
+      name:
+        example: Project's name
+        type: string
+      start_date:
+        example: "2021-12-14T12:41:09.993-04:00"
+        type: string
+      state:
+        enum:
+        - TODO
+        - IN_PROGRESS
+        - DONE
+        example: Project's state
+        type: string
+      worked_hours:
+        type: integer
+    required:
+    - description
+    - finish_date
+    - name
+    - start_date
+    type: object
+  utils.Response:
+    properties:
+      message:
+        example: Deleted ok
+        type: string
+    type: object
+  utils.StateDTO:
+    properties:
+      state:
         type: string
     type: object
 host: https://squad14-2c-2021.herokuapp.com/
@@ -90,7 +138,7 @@ paths:
           description: OK
           schema:
             items:
-              $ref: '#/definitions/dto.Project'
+              $ref: '#/definitions/utils.Project'
             type: array
         "422":
           description: Unprocessable Entity
@@ -120,7 +168,11 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/dto.Project'
+            $ref: '#/definitions/utils.Project'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/errors.ErrResponse'
         "422":
           description: Unprocessable Entity
           schema:
@@ -149,7 +201,7 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/dto.Project'
+            $ref: '#/definitions/utils.Response'
         "400":
           description: Bad Request
           schema:
@@ -181,7 +233,7 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/dto.Project'
+            $ref: '#/definitions/utils.Project'
         "422":
           description: Unprocessable Entity
           schema:
@@ -215,7 +267,11 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/dto.Project'
+            $ref: '#/definitions/utils.Project'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/errors.ErrResponse'
         "422":
           description: Unprocessable Entity
           schema:
@@ -243,14 +299,18 @@ paths:
         name: state
         required: true
         schema:
-          $ref: '#/definitions/constants.StateDTO'
+          $ref: '#/definitions/utils.StateDTO'
       produces:
       - application/json
       responses:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/dto.Project'
+            $ref: '#/definitions/utils.Project'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/errors.ErrResponse'
         "422":
           description: Unprocessable Entity
           schema:
@@ -274,7 +334,7 @@ paths:
           description: OK
           schema:
             items:
-              $ref: '#/definitions/dto.Task'
+              $ref: '#/definitions/utils.Project'
             type: array
         "422":
           description: Unprocessable Entity
@@ -304,7 +364,7 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/dto.Task'
+            $ref: '#/definitions/utils.Project'
         "400":
           description: Bad Request
           schema:
@@ -337,7 +397,7 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/dto.Task'
+            $ref: '#/definitions/utils.Response'
         "400":
           description: Bad Request
           schema:
@@ -369,7 +429,7 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/dto.Task'
+            $ref: '#/definitions/utils.Project'
         "422":
           description: Unprocessable Entity
           schema:
@@ -403,7 +463,7 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/dto.Task'
+            $ref: '#/definitions/utils.Project'
         "400":
           description: Bad Request
           schema:

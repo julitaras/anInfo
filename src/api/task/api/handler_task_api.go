@@ -7,6 +7,7 @@ import (
 	"proyectos/src/api/errors"
 	"proyectos/src/api/task/api/dto"
 	"proyectos/src/api/task/domain"
+	"proyectos/src/api/utils"
 	"strconv"
 
 	"github.com/gin-gonic/gin"
@@ -25,7 +26,7 @@ type TaskHandler struct {
 // @Accept       json
 // @Produce      json
 // @Param        task body dto.Task true "Create a task"
-// @Success      200  {object}  dto.Task
+// @Success      200  {object}  utils.Project
 // @Failure      400  {object}	errors.ErrResponse
 // @Failure      422  {object}	errors.ErrResponse
 // @Failure      500  {object}	errors.ErrResponse
@@ -35,7 +36,7 @@ func (dh *TaskHandler) Post(g *gin.Context) {
 	dt := dto.Task{}
 	err := g.BindJSON(&dt)
 	if err != nil {
-		g.AbortWithStatusJSON(http.StatusBadRequest, errors.NewErrResponse(err))
+		g.AbortWithStatusJSON(http.StatusBadRequest, errors.NewErrResponse(err, "error.Post.bindJson.tasks"))
 		return
 	}
 
@@ -43,19 +44,21 @@ func (dh *TaskHandler) Post(g *gin.Context) {
 	valErr := validate.StructExcept(dt, "ID")
 
 	if valErr != nil {
-		g.AbortWithStatusJSON(http.StatusUnprocessableEntity, errors.NewErrResponse(valErr))
+		g.AbortWithStatusJSON(http.StatusUnprocessableEntity, errors.NewErrResponse(err, "error.Post.validate.tasks"))
 		return
 	}
 
-	err = dt.ValidateState()
-	if err != nil {
-		g.AbortWithStatusJSON(http.StatusBadRequest, errors.NewErrResponse(err))
-		return
+	if len(dt.State) > 0 {
+		err = dt.ValidateState()
+		if err != nil {
+			g.AbortWithStatusJSON(http.StatusBadRequest, errors.NewErrResponse(err, "error.Post.validateState.tasks"))
+			return
+		}
 	}
 
 	dm, err := dh.Service.Insert(g, dt.ToModel())
 	if err != nil {
-		g.AbortWithStatusJSON(http.StatusUnprocessableEntity, errors.NewErrResponse(err))
+		g.AbortWithStatusJSON(http.StatusUnprocessableEntity, errors.NewErrResponse(err, "error.Post.insert.tasks"))
 		return
 	}
 
@@ -70,30 +73,38 @@ func (dh *TaskHandler) Post(g *gin.Context) {
 // @Produce      json
 // @Param        id path int true "Task ID"
 // @Param        task body dto.Task true "Update a task"
-// @Success      200  {object}  dto.Task
+// @Success      200  {object}  utils.Project
 // @Failure      400  {object}	errors.ErrResponse
 // @Failure      422  {object}	errors.ErrResponse
 // @Failure      500  {object}	errors.ErrResponse
 // @Router       /tasks/:id [put]
 func (dh *TaskHandler) Put(g *gin.Context) {
 
-	dp := dto.Task{}
+	dt := dto.Task{}
 
 	i, err := strconv.ParseInt(g.Param("id"), 10, 64)
 	if err != nil {
 		fmt.Println(err)
 	}
-	dp.ID = i
+	dt.ID = i
 
-	err = g.BindJSON(&dp)
+	err = g.BindJSON(&dt)
 	if err != nil {
-		g.AbortWithStatusJSON(http.StatusBadRequest, errors.NewErrResponse(err))
+		g.AbortWithStatusJSON(http.StatusBadRequest, errors.NewErrResponse(err, "error.Put.bindJson.tasks"))
 		return
 	}
 
-	dm, err := dh.Service.Update(g, dp.ToModel())
+	if len(dt.State) > 0 {
+		err = dt.ValidateState()
+		if err != nil {
+			g.AbortWithStatusJSON(http.StatusBadRequest, errors.NewErrResponse(err, "error.Put.validateState.tasks"))
+			return
+		}
+	}
+
+	dm, err := dh.Service.Update(g, dt.ToModel())
 	if err != nil {
-		g.AbortWithStatusJSON(http.StatusUnprocessableEntity, errors.NewErrResponse(err))
+		g.AbortWithStatusJSON(http.StatusUnprocessableEntity, errors.NewErrResponse(err, "error.Put.update.tasks"))
 		return
 	}
 	g.JSON(http.StatusOK, dto.FromModel(dm))
@@ -106,37 +117,32 @@ func (dh *TaskHandler) Put(g *gin.Context) {
 // @Accept       json
 // @Produce      json
 // @Param        id path int true "Task ID"
-// @Success      200  {object}  dto.Task
+// @Success      200  {object}  utils.Response
 // @Failure      400  {object}	errors.ErrResponse
 // @Failure      422  {object}	errors.ErrResponse
 // @Failure      500  {object}	errors.ErrResponse
 // @Router       /tasks/:id [delete]
 func (dh *TaskHandler) Delete(g *gin.Context) {
-	dp := dto.Task{}
+	dt := dto.Task{}
 
 	i, err := strconv.ParseInt(g.Param("id"), 10, 64)
 	if err != nil {
-		g.AbortWithStatusJSON(http.StatusUnprocessableEntity, errors.ErrResponse{
-			Err:     err,
-			Message: "Cannot parse ID",
-		})
+		g.AbortWithStatusJSON(http.StatusUnprocessableEntity, errors.NewErrResponse(err, "error.Delete.parseID.tasks"))
 		return
 	}
 
-	dp.ID = i
+	dt.ID = i
 
-	_, err = dh.Service.Delete(g, dp.ToModel())
+	_, err = dh.Service.Delete(g, dt.ToModel())
 
 	if err != nil {
-		g.AbortWithStatusJSON(http.StatusBadRequest, errors.ErrResponse{
-			Err:     err,
-			Message: "Cannot delete task",
-		})
+		g.AbortWithStatusJSON(http.StatusBadRequest, errors.NewErrResponse(err, "error.Delete.delete.tasks"))
 		return
 	}
 
-	g.JSON(http.StatusOK, map[string]string{"code": strconv.FormatInt(http.StatusOK, 10), "message": "Task " + g.Param("id") + " deleted successfully"})
-
+	g.JSON(http.StatusOK, utils.Response{
+		Message: "Task " + g.Param("id") + " deleted successfully",
+	})
 }
 
 // GetAll TaskGetter godoc
@@ -145,15 +151,15 @@ func (dh *TaskHandler) Delete(g *gin.Context) {
 // @Tags         Tasks
 // @Accept       json
 // @Produce      json
-// @Success      200  {array}  dto.Task
-// @Failure      422  {object}	errors.ErrResponse
-// @Failure      500  {object}	errors.ErrResponse
+// @Success      200  {array}  utils.Project
+// @Failure      422  {object} errors.ErrResponse
+// @Failure      500  {object} errors.ErrResponse
 // @Router       /tasks [get]
 func (dh *TaskHandler) GetAll(g *gin.Context) {
 
 	dm, err := dh.Service.GetAll(g)
 	if err != nil {
-		g.AbortWithStatusJSON(http.StatusUnprocessableEntity, errors.NewErrResponse(err))
+		g.AbortWithStatusJSON(http.StatusUnprocessableEntity, errors.NewErrResponse(err, "error.GetAll.tasks"))
 		return
 	}
 
@@ -167,7 +173,7 @@ func (dh *TaskHandler) GetAll(g *gin.Context) {
 // @Accept       json
 // @Produce      json
 // @Param        id path int true "Task ID"
-// @Success      200  {object}  dto.Task
+// @Success      200  {object}  utils.Project
 // @Failure      422  {object}	errors.ErrResponse
 // @Failure      500  {object}	errors.ErrResponse
 // @Router       /tasks/:id [get]
@@ -175,7 +181,7 @@ func (dh *TaskHandler) GetByID(g *gin.Context) {
 
 	dm, err := dh.Service.GetById(g, g.Param("id"))
 	if err != nil {
-		g.AbortWithStatusJSON(http.StatusUnprocessableEntity, errors.NewErrResponse(err))
+		g.AbortWithStatusJSON(http.StatusUnprocessableEntity, errors.NewErrResponse(err, "error.GetByID.tasks"))
 		return
 	}
 

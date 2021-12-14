@@ -1,28 +1,37 @@
 package dto
 
 import (
-	"proyectos/src/api/constants"
 	"proyectos/src/api/errors"
 	"proyectos/src/api/task/domain/model"
+	"proyectos/src/api/utils"
 	"time"
 )
 
 // Task dto
 type Task struct {
-	ID             int64     `validate:"gt=0" json:"id"`
-	Name           string    `validate:"required,min=2,max=500" json:"name"`
-	Description    string    `validate:"required" json:"description"`
-	StartDate      time.Time `validate:"required" json:"start_date"`
-	WorkedHours    int       `validate:"required" json:"worked_hours"`
-	EstimatedHours int       `validate:"required" json:"estimated_hours"`
+	ID             int64     `validate:"gt=0" json:"id,omitempty" swaggerignore:"true"`
+	Name           string    `validate:"required,min=2,max=500" json:"name" example:"task's name"`
+	Description    string    `validate:"required" json:"description" example:"task's description"`
+	StartDate      time.Time `json:"start_date" example:"2021-12-14T12:41:09.993-04:00"`
+	WorkedHours    int       `json:"worked_hours"`
+	EstimatedHours int       `json:"estimated_hours"`
 	ProjectID      int64     `validate:"required" json:"project_id"`
-	State          string    `validate:"required" json:"state"`
-	CreationDate   time.Time `validate:"required" json:"creation_date"`
-	AssignedTo     string    `validate:"required" json:"assigned_to"`
+	State          string    `json:"state" enums:"TODO,IN_PROGRESS,DONE"`
+	CreationDate   time.Time `json:"creation_date" example:"2021-12-14T12:41:09.993-04:00"`
+	AssignedTo     string    `json:"assigned_to"`
 }
 
 //ToModel Task to Model
 func (t *Task) ToModel() *model.Tasks {
+	state := utils.ToDo
+	if len(t.State) > 0 {
+		state = t.State
+	}
+
+	creationDate := time.Now().UTC()
+	if !t.CreationDate.IsZero() {
+		creationDate = t.CreationDate
+	}
 
 	return &model.Tasks{
 		ID:             t.ID,
@@ -32,8 +41,8 @@ func (t *Task) ToModel() *model.Tasks {
 		WorkedHours:    t.WorkedHours,
 		EstimatedHours: t.EstimatedHours,
 		ProjectID:      t.ProjectID,
-		State:          t.State,
-		CreationDate:   t.CreationDate, //TODO o ver si es la fecha de hoy en dia
+		State:          state,
+		CreationDate:   creationDate,
 		AssignedTo:     t.AssignedTo,
 	}
 }
@@ -66,7 +75,7 @@ func MapToTasks(dm []*model.Tasks) []*Task {
 }
 
 func (t *Task) ValidateState() error {
-	if !constants.State(t.State).IsValid() {
+	if !utils.State(t.State).IsValid() {
 		return errors.NewErrInvalidState(t.State)
 	}
 	return nil
