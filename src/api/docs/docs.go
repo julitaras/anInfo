@@ -41,22 +41,14 @@ var doc = `{
                     "Projects"
                 ],
                 "summary": "Get all projects",
-                "parameters": [
-                    {
-                        "description": "Get all projects",
-                        "name": "project",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/dto.Project"
-                        }
-                    }
-                ],
                 "responses": {
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/dto.Project"
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/dto.Project"
+                            }
                         }
                     },
                     "422": {
@@ -133,13 +125,11 @@ var doc = `{
                 "summary": "Get a project",
                 "parameters": [
                     {
-                        "description": "Get a project",
-                        "name": "project",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/dto.Project"
-                        }
+                        "type": "integer",
+                        "description": "project ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
                     }
                 ],
                 "responses": {
@@ -177,7 +167,14 @@ var doc = `{
                 "summary": "Modify a project",
                 "parameters": [
                     {
-                        "description": "Create a project",
+                        "type": "integer",
+                        "description": "Project ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Update a project",
                         "name": "project",
                         "in": "body",
                         "required": true,
@@ -191,6 +188,56 @@ var doc = `{
                         "description": "OK",
                         "schema": {
                             "$ref": "#/definitions/dto.Project"
+                        }
+                    },
+                    "422": {
+                        "description": "Unprocessable Entity",
+                        "schema": {
+                            "$ref": "#/definitions/errors.ErrResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/errors.ErrResponse"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "description": "Delete a project that is already on the system",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Projects"
+                ],
+                "summary": "Delete a project",
+                "parameters": [
+                    {
+                        "description": "Delete a project",
+                        "name": "project",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/dto.Project"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/dto.Project"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/errors.ErrResponse"
                         }
                     },
                     "422": {
@@ -223,12 +270,19 @@ var doc = `{
                 "summary": "Update a project's state",
                 "parameters": [
                     {
+                        "type": "integer",
+                        "description": "project ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
                         "description": "Update a project's state",
-                        "name": "project",
+                        "name": "state",
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/dto.Project"
+                            "$ref": "#/definitions/constants.StateDTO"
                         }
                     }
                 ],
@@ -267,22 +321,14 @@ var doc = `{
                     "Tasks"
                 ],
                 "summary": "Get all tasks",
-                "parameters": [
-                    {
-                        "description": "Get all tasks",
-                        "name": "task",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/dto.Task"
-                        }
-                    }
-                ],
                 "responses": {
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/dto.Task"
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/dto.Task"
+                            }
                         }
                     },
                     "422": {
@@ -365,13 +411,11 @@ var doc = `{
                 "summary": "Get a task",
                 "parameters": [
                     {
-                        "description": "Get a task",
-                        "name": "task",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/dto.Task"
-                        }
+                        "type": "integer",
+                        "description": "Task ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
                     }
                 ],
                 "responses": {
@@ -408,6 +452,13 @@ var doc = `{
                 ],
                 "summary": "Update a task",
                 "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Task ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
                     {
                         "description": "Update a task",
                         "name": "task",
@@ -459,13 +510,11 @@ var doc = `{
                 "summary": "Delete a task",
                 "parameters": [
                     {
-                        "description": "Update a task",
-                        "name": "task",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/dto.Task"
-                        }
+                        "type": "integer",
+                        "description": "Task ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
                     }
                 ],
                 "responses": {
@@ -498,6 +547,14 @@ var doc = `{
         }
     },
     "definitions": {
+        "constants.StateDTO": {
+            "type": "object",
+            "properties": {
+                "state": {
+                    "type": "string"
+                }
+            }
+        },
         "dto.Project": {
             "type": "object",
             "required": [
