@@ -61,7 +61,7 @@ func (ph *ProjectHandler) GetByID(g *gin.Context) {
 }
 
 // Post ProjectCreator godoc
-// @Summary      Add a project
+// @Summary      Create a project
 // @Description  Add a project to the system
 // @Tags         Projects
 // @Accept       json

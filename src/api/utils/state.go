@@ -1,7 +1,7 @@
 package utils
 
 type StateDTO struct {
-	State State `json:"state"`
+	State State `json:"state" enums:"TODO,IN_PROGRESS,DONE"`
 }
 
 type State string

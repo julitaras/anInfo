@@ -6,8 +6,8 @@ import (
 
 //ErrResponse struct
 type ErrResponse struct {
-	ErrCode string
-	Message string
+	ErrCode string `json:"err_code" example:"error.Put.validateState.projects"`
+	Message string `json:"message" example:"Invalid state sarcasm"`
 }
 
 //NewErrResponse constructor.
