@@ -1,4 +1,9 @@
 definitions:
+  constants.StateDTO:
+    properties:
+      state:
+        type: string
+    type: object
   dto.Project:
     properties:
       description:
@@ -78,20 +83,15 @@ paths:
       consumes:
       - application/json
       description: Get all the projects in the system
-      parameters:
-      - description: Get all projects
-        in: body
-        name: project
-        required: true
-        schema:
-          $ref: '#/definitions/dto.Project'
       produces:
       - application/json
       responses:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/dto.Project'
+            items:
+              $ref: '#/definitions/dto.Project'
+            type: array
         "422":
           description: Unprocessable Entity
           schema:
@@ -133,17 +133,48 @@ paths:
       tags:
       - Projects
   /projects/:id:
+    delete:
+      consumes:
+      - application/json
+      description: Delete a project that is already on the system
+      parameters:
+      - description: Project ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.Project'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/errors.ErrResponse'
+        "422":
+          description: Unprocessable Entity
+          schema:
+            $ref: '#/definitions/errors.ErrResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/errors.ErrResponse'
+      summary: Delete a project
+      tags:
+      - Projects
     get:
       consumes:
       - application/json
       description: Get a specific project based on it's ID
       parameters:
-      - description: Get a project
-        in: body
-        name: project
+      - description: project ID
+        in: path
+        name: id
         required: true
-        schema:
-          $ref: '#/definitions/dto.Project'
+        type: integer
       produces:
       - application/json
       responses:
@@ -167,7 +198,12 @@ paths:
       - application/json
       description: Modify a project that is already in the system
       parameters:
-      - description: Create a project
+      - description: Project ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Update a project
         in: body
         name: project
         required: true
@@ -197,12 +233,17 @@ paths:
       - application/json
       description: Update a project's state that is already in the system
       parameters:
+      - description: project ID
+        in: path
+        name: id
+        required: true
+        type: integer
       - description: Update a project's state
         in: body
-        name: project
+        name: state
         required: true
         schema:
-          $ref: '#/definitions/dto.Project'
+          $ref: '#/definitions/constants.StateDTO'
       produces:
       - application/json
       responses:
@@ -226,20 +267,15 @@ paths:
       consumes:
       - application/json
       description: Gat all the tasks
-      parameters:
-      - description: Get all tasks
-        in: body
-        name: task
-        required: true
-        schema:
-          $ref: '#/definitions/dto.Task'
       produces:
       - application/json
       responses:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/dto.Task'
+            items:
+              $ref: '#/definitions/dto.Task'
+            type: array
         "422":
           description: Unprocessable Entity
           schema:
@@ -290,12 +326,11 @@ paths:
       - application/json
       description: Delete a task that is already on the system
       parameters:
-      - description: Update a task
-        in: body
-        name: task
+      - description: Task ID
+        in: path
+        name: id
         required: true
-        schema:
-          $ref: '#/definitions/dto.Task'
+        type: integer
       produces:
       - application/json
       responses:
@@ -323,12 +358,11 @@ paths:
       - application/json
       description: Gat a specific task based on it's ID
       parameters:
-      - description: Get a task
-        in: body
-        name: task
+      - description: Task ID
+        in: path
+        name: id
         required: true
-        schema:
-          $ref: '#/definitions/dto.Task'
+        type: integer
       produces:
       - application/json
       responses:
@@ -352,6 +386,11 @@ paths:
       - application/json
       description: Update a task that is already on the system
       parameters:
+      - description: Task ID
+        in: path
+        name: id
+        required: true
+        type: integer
       - description: Update a task
         in: body
         name: task

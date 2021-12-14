@@ -20,10 +20,10 @@ func NewProjectRepository(db *gorm.DB) domain.Repository {
 	}
 }
 
-func (t *ProjectRepository) GetAll(_ context.Context) ([]*model.Projects, error) {
+func (r *ProjectRepository) GetAll(_ context.Context) ([]*model.Projects, error) {
 	var projects []*model.Projects
 
-	err := t.DB.Order("id desc").Find(&projects).Error
+	err := r.DB.Order("id desc").Find(&projects).Error
 	if err != nil {
 		log.Printf("Error getting Projects %v", err)
 		return nil, err
@@ -32,10 +32,10 @@ func (t *ProjectRepository) GetAll(_ context.Context) ([]*model.Projects, error)
 	return projects, nil
 }
 
-func (t *ProjectRepository) GetById(_ context.Context, id string) (*model.Projects, error) {
+func (r *ProjectRepository) GetById(_ context.Context, id string) (*model.Projects, error) {
 	var project *model.Projects
 
-	err := t.DB.First(&project, id).Error
+	err := r.DB.First(&project, id).Error
 	if err != nil {
 		log.Printf("Error getting Project %v", err)
 		return nil, err
@@ -56,7 +56,7 @@ func (r *ProjectRepository) Create(_ context.Context, project *model.Projects) (
 }
 
 //Update project
-func (r ProjectRepository) Update(_ context.Context, project *model.Projects) (*model.Projects, error) {
+func (r *ProjectRepository) Update(_ context.Context, project *model.Projects) (*model.Projects, error) {
 	err := r.DB.Model(project).Updates(project).Error
 	if err != nil {
 		log.Printf("Error updating Project %v", err)
@@ -70,4 +70,14 @@ func (r ProjectRepository) Update(_ context.Context, project *model.Projects) (*
 	}
 
 	return project, nil
+}
+
+func (r *ProjectRepository) Delete(_ context.Context, task *model.Projects) (*model.Projects, error) {
+	err := r.DB.Delete(&task).Error
+	if err != nil {
+		log.Printf("Error deleting Project %v", err)
+		return nil, err
+	}
+
+	return task, nil
 }
