@@ -68,6 +68,7 @@ func (dh *TaskHandler) Post(g *gin.Context) {
 // @Tags         Tasks
 // @Accept       json
 // @Produce      json
+// @Param        id path int true "Task ID"
 // @Param        task body dto.Task true "Update a task"
 // @Success      200  {object}  dto.Task
 // @Failure      400  {object}	errors.ErrResponse
@@ -104,7 +105,7 @@ func (dh *TaskHandler) Put(g *gin.Context) {
 // @Tags         Tasks
 // @Accept       json
 // @Produce      json
-// @Param        task body dto.Task true "Delete a task"
+// @Param        id path int true "Task ID"
 // @Success      200  {object}  dto.Task
 // @Failure      400  {object}	errors.ErrResponse
 // @Failure      422  {object}	errors.ErrResponse
@@ -144,8 +145,7 @@ func (dh *TaskHandler) Delete(g *gin.Context) {
 // @Tags         Tasks
 // @Accept       json
 // @Produce      json
-// @Param        task body dto.Task true "Get all tasks"
-// @Success      200  {object}  dto.Task
+// @Success      200  {array}  dto.Task
 // @Failure      422  {object}	errors.ErrResponse
 // @Failure      500  {object}	errors.ErrResponse
 // @Router       /tasks [get]
@@ -166,7 +166,7 @@ func (dh *TaskHandler) GetAll(g *gin.Context) {
 // @Tags         Tasks
 // @Accept       json
 // @Produce      json
-// @Param        task body dto.Task true "Get a task"
+// @Param        id path int true "Task ID"
 // @Success      200  {object}  dto.Task
 // @Failure      422  {object}	errors.ErrResponse
 // @Failure      500  {object}	errors.ErrResponse

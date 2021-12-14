@@ -1,5 +1,9 @@
 package constants
 
+type StateDTO struct {
+	State State `json:"state"`
+}
+
 type State string
 
 const (

@@ -22,8 +22,7 @@ type ProjectHandler struct {
 // @Tags         Projects
 // @Accept       json
 // @Produce      json
-// @Param        project body dto.Project true "Get all projects"
-// @Success      200  {object}  dto.Project
+// @Success      200  {array}  dto.Project
 // @Failure      422  {object}	errors.ErrResponse
 // @Failure      500  {object}	errors.ErrResponse
 // @Router       /projects [get]
@@ -44,7 +43,7 @@ func (ph *ProjectHandler) GetAll(g *gin.Context) {
 // @Tags         Projects
 // @Accept       json
 // @Produce      json
-// @Param        project body dto.Project true "Get a project"
+// @Param        id path int true "project ID"
 // @Success      200  {object}  dto.Project
 // @Failure      422  {object}	errors.ErrResponse
 // @Failure      500  {object}	errors.ErrResponse
@@ -102,7 +101,8 @@ func (ph *ProjectHandler) Post(g *gin.Context) {
 // @Tags         Projects
 // @Accept       json
 // @Produce      json
-// @Param        project body dto.Project true "Update a project's state"
+// @Param        id path int true "project ID"
+// @Param        state body constants.StateDTO true "Update a project's state"
 // @Success      200  {object}  dto.Project
 // @Failure      422  {object}	errors.ErrResponse
 // @Failure      500  {object}	errors.ErrResponse
@@ -148,6 +148,7 @@ func (ph *ProjectHandler) Patch(g *gin.Context) {
 // @Tags         Projects
 // @Accept       json
 // @Produce      json
+// @Param        id path int true "Project ID"
 // @Param        project body dto.Project true "Update a project"
 // @Success      200  {object}  dto.Project
 // @Failure      422  {object}	errors.ErrResponse
@@ -189,7 +190,7 @@ func (ph *ProjectHandler) Put(g *gin.Context) {
 // @Tags         Projects
 // @Accept       json
 // @Produce      json
-// @Param        project body dto.Project true "Delete a task"
+// @Param        project body dto.Project true "Delete a project"
 // @Success      200  {object}  dto.Project
 // @Failure      400  {object}	errors.ErrResponse
 // @Failure      422  {object}	errors.ErrResponse
