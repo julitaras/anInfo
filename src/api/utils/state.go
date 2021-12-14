@@ -1,4 +1,4 @@
-package constants
+package utils
 
 type StateDTO struct {
 	State State `json:"state"`
