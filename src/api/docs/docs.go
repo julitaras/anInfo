@@ -337,13 +337,21 @@ var doc = `{
                     "Tasks"
                 ],
                 "summary": "Get all tasks",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Project's ID to filter tasks",
+                        "name": "project_id",
+                        "in": "query"
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "OK",
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/utils.Project"
+                                "$ref": "#/definitions/utils.Task"
                             }
                         }
                     },
@@ -388,7 +396,7 @@ var doc = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/utils.Project"
+                            "$ref": "#/definitions/utils.Task"
                         }
                     },
                     "400": {
@@ -438,7 +446,7 @@ var doc = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/utils.Project"
+                            "$ref": "#/definitions/utils.Task"
                         }
                     },
                     "422": {
@@ -489,7 +497,7 @@ var doc = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/utils.Project"
+                            "$ref": "#/definitions/utils.Task"
                         }
                     },
                     "400": {
@@ -730,6 +738,55 @@ var doc = `{
                         "IN_PROGRESS",
                         "DONE"
                     ]
+                }
+            }
+        },
+        "utils.Task": {
+            "type": "object",
+            "required": [
+                "description",
+                "name",
+                "project_id"
+            ],
+            "properties": {
+                "assigned_to": {
+                    "type": "string"
+                },
+                "creation_date": {
+                    "type": "string",
+                    "example": "2021-12-14T12:41:09.993-04:00"
+                },
+                "description": {
+                    "type": "string",
+                    "example": "task's description"
+                },
+                "estimated_hours": {
+                    "type": "integer"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "name": {
+                    "type": "string",
+                    "example": "task's name"
+                },
+                "project_id": {
+                    "type": "integer"
+                },
+                "start_date": {
+                    "type": "string",
+                    "example": "2021-12-14T12:41:09.993-04:00"
+                },
+                "state": {
+                    "type": "string",
+                    "enum": [
+                        "TODO",
+                        "IN_PROGRESS",
+                        "DONE"
+                    ]
+                },
+                "worked_hours": {
+                    "type": "integer"
                 }
             }
         }

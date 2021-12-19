@@ -122,6 +122,41 @@ definitions:
         - DONE
         type: string
     type: object
+  utils.Task:
+    properties:
+      assigned_to:
+        type: string
+      creation_date:
+        example: "2021-12-14T12:41:09.993-04:00"
+        type: string
+      description:
+        example: task's description
+        type: string
+      estimated_hours:
+        type: integer
+      id:
+        type: integer
+      name:
+        example: task's name
+        type: string
+      project_id:
+        type: integer
+      start_date:
+        example: "2021-12-14T12:41:09.993-04:00"
+        type: string
+      state:
+        enum:
+        - TODO
+        - IN_PROGRESS
+        - DONE
+        type: string
+      worked_hours:
+        type: integer
+    required:
+    - description
+    - name
+    - project_id
+    type: object
 host: https://squad14-2c-2021.herokuapp.com/
 info:
   contact: {}
@@ -333,6 +368,11 @@ paths:
       consumes:
       - application/json
       description: Gat all the tasks
+      parameters:
+      - description: Project's ID to filter tasks
+        in: query
+        name: project_id
+        type: integer
       produces:
       - application/json
       responses:
@@ -340,7 +380,7 @@ paths:
           description: OK
           schema:
             items:
-              $ref: '#/definitions/utils.Project'
+              $ref: '#/definitions/utils.Task'
             type: array
         "422":
           description: Unprocessable Entity
@@ -370,7 +410,7 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/utils.Project'
+            $ref: '#/definitions/utils.Task'
         "400":
           description: Bad Request
           schema:
@@ -435,7 +475,7 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/utils.Project'
+            $ref: '#/definitions/utils.Task'
         "422":
           description: Unprocessable Entity
           schema:
@@ -469,7 +509,7 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/utils.Project'
+            $ref: '#/definitions/utils.Task'
         "400":
           description: Bad Request
           schema:

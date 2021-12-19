@@ -26,7 +26,7 @@ type TaskHandler struct {
 // @Accept       json
 // @Produce      json
 // @Param        task body dto.Task true "Create a task"
-// @Success      200  {object}  utils.Project
+// @Success      200  {object}  utils.Task
 // @Failure      400  {object}	errors.ErrResponse
 // @Failure      422  {object}	errors.ErrResponse
 // @Failure      500  {object}	errors.ErrResponse
@@ -73,7 +73,7 @@ func (dh *TaskHandler) Post(g *gin.Context) {
 // @Produce      json
 // @Param        id path int true "Task ID"
 // @Param        task body dto.Task true "Update a task"
-// @Success      200  {object}  utils.Project
+// @Success      200  {object}  utils.Task
 // @Failure      400  {object}	errors.ErrResponse
 // @Failure      422  {object}	errors.ErrResponse
 // @Failure      500  {object}	errors.ErrResponse
@@ -151,13 +151,15 @@ func (dh *TaskHandler) Delete(g *gin.Context) {
 // @Tags         Tasks
 // @Accept       json
 // @Produce      json
-// @Success      200  {array}  utils.Project
+// @Success      200  {array}  utils.Task
+// @Param        project_id query int false "Project's ID to filter tasks"
 // @Failure      422  {object} errors.ErrResponse
 // @Failure      500  {object} errors.ErrResponse
 // @Router       /tasks [get]
 func (dh *TaskHandler) GetAll(g *gin.Context) {
 
-	dm, err := dh.Service.GetAll(g)
+	projectID := g.Query("project_id")
+	dm, err := dh.Service.GetAll(g, projectID)
 	if err != nil {
 		g.AbortWithStatusJSON(http.StatusUnprocessableEntity, errors.NewErrResponse(err, "error.GetAll.tasks"))
 		return
@@ -173,7 +175,7 @@ func (dh *TaskHandler) GetAll(g *gin.Context) {
 // @Accept       json
 // @Produce      json
 // @Param        id path int true "Task ID"
-// @Success      200  {object}  utils.Project
+// @Success      200  {object}  utils.Task
 // @Failure      422  {object}	errors.ErrResponse
 // @Failure      500  {object}	errors.ErrResponse
 // @Router       /tasks/:id [get]

@@ -50,8 +50,8 @@ func (s *TaskService) Delete(ctx context.Context, t *model.Tasks) (*model.Tasks,
 }
 
 //GetAll service
-func (s *TaskService) GetAll(ctx context.Context) ([]*model.Tasks, error) {
-	r, err := s.r.GetAll(ctx)
+func (s *TaskService) GetAll(ctx context.Context, filter string) ([]*model.Tasks, error) {
+	r, err := s.r.GetAll(ctx, filter)
 	if err != nil {
 		return nil, err
 	}
