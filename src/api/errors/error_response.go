@@ -6,13 +6,13 @@ import (
 
 //ErrResponse struct
 type ErrResponse struct {
-	Err     error
-	Message string
+	ErrCode string `json:"err_code" example:"error.Put.validateState.projects"`
+	Message string `json:"message" example:"Invalid state sarcasm"`
 }
 
 //NewErrResponse constructor.
-func NewErrResponse(err error) *ErrResponse {
-	return &ErrResponse{Err: err, Message: err.Error()}
+func NewErrResponse(err error, errCode string) *ErrResponse {
+	return &ErrResponse{ErrCode: errCode, Message: err.Error()}
 }
 
 //Error taking the cause.

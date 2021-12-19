@@ -1,4 +1,8 @@
-package constants
+package utils
+
+type StateDTO struct {
+	State State `json:"state" enums:"TODO,IN_PROGRESS,DONE"`
+}
 
 type State string
 

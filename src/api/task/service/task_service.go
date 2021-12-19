@@ -28,6 +28,18 @@ func (s *TaskService) Insert(ctx context.Context, t *model.Tasks) (*model.Tasks,
 	return r, nil
 }
 
+//Update service
+func (s *TaskService) Update(ctx context.Context, t *model.Tasks) (*model.Tasks, error) {
+
+	r, err := s.r.Update(ctx, t)
+
+	if err != nil {
+		return nil, err
+	}
+
+	return r, nil
+}
+
 func (s *TaskService) Delete(ctx context.Context, t *model.Tasks) (*model.Tasks, error) {
 	r, err := s.r.Delete(ctx, t)
 	if err != nil {
@@ -38,8 +50,8 @@ func (s *TaskService) Delete(ctx context.Context, t *model.Tasks) (*model.Tasks,
 }
 
 //GetAll service
-func (s *TaskService) GetAll(ctx context.Context) ([]*model.Tasks, error) {
-	r, err := s.r.GetAll(ctx)
+func (s *TaskService) GetAll(ctx context.Context, filter string) ([]*model.Tasks, error) {
+	r, err := s.r.GetAll(ctx, filter)
 	if err != nil {
 		return nil, err
 	}

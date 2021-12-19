@@ -1,0 +1,528 @@
+definitions:
+  dto.Project:
+    properties:
+      description:
+        example: Project's description
+        type: string
+      finish_date:
+        example: "2021-12-14T12:41:09.993-04:00"
+        type: string
+      leader:
+        example: Project's leader
+        type: string
+      name:
+        example: Project's name
+        type: string
+      start_date:
+        example: "2021-12-14T12:41:09.993-04:00"
+        type: string
+      state:
+        enum:
+        - TODO
+        - IN_PROGRESS
+        - DONE
+        example: Project's state
+        type: string
+      worked_hours:
+        type: integer
+    required:
+    - description
+    - finish_date
+    - name
+    - start_date
+    type: object
+  dto.Task:
+    properties:
+      assigned_to:
+        type: string
+      creation_date:
+        example: "2021-12-14T12:41:09.993-04:00"
+        type: string
+      description:
+        example: task's description
+        type: string
+      estimated_hours:
+        type: integer
+      name:
+        example: task's name
+        type: string
+      project_id:
+        type: integer
+      start_date:
+        example: "2021-12-14T12:41:09.993-04:00"
+        type: string
+      state:
+        enum:
+        - TODO
+        - IN_PROGRESS
+        - DONE
+        type: string
+      worked_hours:
+        type: integer
+    required:
+    - description
+    - name
+    - project_id
+    type: object
+  errors.ErrResponse:
+    properties:
+      err_code:
+        example: error.Put.validateState.projects
+        type: string
+      message:
+        example: Invalid state sarcasm
+        type: string
+    type: object
+  utils.Project:
+    properties:
+      description:
+        example: Project's description
+        type: string
+      finish_date:
+        example: "2021-12-14T12:41:09.993-04:00"
+        type: string
+      id:
+        type: integer
+      leader:
+        example: Project's leader
+        type: string
+      name:
+        example: Project's name
+        type: string
+      start_date:
+        example: "2021-12-14T12:41:09.993-04:00"
+        type: string
+      state:
+        enum:
+        - TODO
+        - IN_PROGRESS
+        - DONE
+        example: Project's state
+        type: string
+      worked_hours:
+        type: integer
+    required:
+    - description
+    - finish_date
+    - name
+    - start_date
+    type: object
+  utils.Response:
+    properties:
+      message:
+        example: Deleted ok
+        type: string
+    type: object
+  utils.StateDTO:
+    properties:
+      state:
+        enum:
+        - TODO
+        - IN_PROGRESS
+        - DONE
+        type: string
+    type: object
+  utils.Task:
+    properties:
+      assigned_to:
+        type: string
+      creation_date:
+        example: "2021-12-14T12:41:09.993-04:00"
+        type: string
+      description:
+        example: task's description
+        type: string
+      estimated_hours:
+        type: integer
+      id:
+        type: integer
+      name:
+        example: task's name
+        type: string
+      project_id:
+        type: integer
+      start_date:
+        example: "2021-12-14T12:41:09.993-04:00"
+        type: string
+      state:
+        enum:
+        - TODO
+        - IN_PROGRESS
+        - DONE
+        type: string
+      worked_hours:
+        type: integer
+    required:
+    - description
+    - name
+    - project_id
+    type: object
+host: https://squad14-2c-2021.herokuapp.com/
+info:
+  contact: {}
+  description: This API gives access to the projects module.
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  title: PSA Projects API
+  version: "1.0"
+paths:
+  /projects:
+    get:
+      consumes:
+      - application/json
+      description: Get all the projects in the system
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/utils.Project'
+            type: array
+        "422":
+          description: Unprocessable Entity
+          schema:
+            $ref: '#/definitions/errors.ErrResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/errors.ErrResponse'
+      summary: Get all projects
+      tags:
+      - Projects
+    post:
+      consumes:
+      - application/json
+      description: Add a project to the system
+      parameters:
+      - description: Create a project
+        in: body
+        name: project
+        required: true
+        schema:
+          $ref: '#/definitions/dto.Project'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/utils.Project'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/errors.ErrResponse'
+        "422":
+          description: Unprocessable Entity
+          schema:
+            $ref: '#/definitions/errors.ErrResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/errors.ErrResponse'
+      summary: Create a project
+      tags:
+      - Projects
+  /projects/:id:
+    delete:
+      consumes:
+      - application/json
+      description: Delete a project that is already on the system
+      parameters:
+      - description: Project ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/utils.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/errors.ErrResponse'
+        "422":
+          description: Unprocessable Entity
+          schema:
+            $ref: '#/definitions/errors.ErrResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/errors.ErrResponse'
+      summary: Delete a project
+      tags:
+      - Projects
+    get:
+      consumes:
+      - application/json
+      description: Get a specific project based on it's ID
+      parameters:
+      - description: project ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/utils.Project'
+        "422":
+          description: Unprocessable Entity
+          schema:
+            $ref: '#/definitions/errors.ErrResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/errors.ErrResponse'
+      summary: Get a project
+      tags:
+      - Projects
+    put:
+      consumes:
+      - application/json
+      description: Modify a project that is already in the system
+      parameters:
+      - description: Project ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Update a project
+        in: body
+        name: project
+        required: true
+        schema:
+          $ref: '#/definitions/dto.Project'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/utils.Project'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/errors.ErrResponse'
+        "422":
+          description: Unprocessable Entity
+          schema:
+            $ref: '#/definitions/errors.ErrResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/errors.ErrResponse'
+      summary: Modify a project
+      tags:
+      - Projects
+  /projects/:id/state:
+    patch:
+      consumes:
+      - application/json
+      description: Update a project's state that is already in the system
+      parameters:
+      - description: project ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Update a project's state
+        in: body
+        name: state
+        required: true
+        schema:
+          $ref: '#/definitions/utils.StateDTO'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/utils.Project'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/errors.ErrResponse'
+        "422":
+          description: Unprocessable Entity
+          schema:
+            $ref: '#/definitions/errors.ErrResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/errors.ErrResponse'
+      summary: Update a project's state
+      tags:
+      - Projects
+  /tasks:
+    get:
+      consumes:
+      - application/json
+      description: Gat all the tasks
+      parameters:
+      - description: Project's ID to filter tasks
+        in: query
+        name: project_id
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/utils.Task'
+            type: array
+        "422":
+          description: Unprocessable Entity
+          schema:
+            $ref: '#/definitions/errors.ErrResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/errors.ErrResponse'
+      summary: Get all tasks
+      tags:
+      - Tasks
+    post:
+      consumes:
+      - application/json
+      description: Add a task to the system
+      parameters:
+      - description: Create a task
+        in: body
+        name: task
+        required: true
+        schema:
+          $ref: '#/definitions/dto.Task'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/utils.Task'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/errors.ErrResponse'
+        "422":
+          description: Unprocessable Entity
+          schema:
+            $ref: '#/definitions/errors.ErrResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/errors.ErrResponse'
+      summary: Create a task
+      tags:
+      - Tasks
+  /tasks/:id:
+    delete:
+      consumes:
+      - application/json
+      description: Delete a task that is already on the system
+      parameters:
+      - description: Task ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/utils.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/errors.ErrResponse'
+        "422":
+          description: Unprocessable Entity
+          schema:
+            $ref: '#/definitions/errors.ErrResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/errors.ErrResponse'
+      summary: Delete a task
+      tags:
+      - Tasks
+    get:
+      consumes:
+      - application/json
+      description: Gat a specific task based on it's ID
+      parameters:
+      - description: Task ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/utils.Task'
+        "422":
+          description: Unprocessable Entity
+          schema:
+            $ref: '#/definitions/errors.ErrResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/errors.ErrResponse'
+      summary: Get a task
+      tags:
+      - Tasks
+    put:
+      consumes:
+      - application/json
+      description: Update a task that is already on the system
+      parameters:
+      - description: Task ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Update a task
+        in: body
+        name: task
+        required: true
+        schema:
+          $ref: '#/definitions/dto.Task'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/utils.Task'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/errors.ErrResponse'
+        "422":
+          description: Unprocessable Entity
+          schema:
+            $ref: '#/definitions/errors.ErrResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/errors.ErrResponse'
+      summary: Update a task
+      tags:
+      - Tasks
+swagger: "2.0"

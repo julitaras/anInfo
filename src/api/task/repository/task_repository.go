@@ -30,6 +30,22 @@ func (t *TaskRepository) Create(_ context.Context, task *model.Tasks) (*model.Ta
 	return task, nil
 }
 
+func (t *TaskRepository) Update(_ context.Context, task *model.Tasks) (*model.Tasks, error) {
+	err := t.DB.Model(task).Updates(task).Error
+	if err != nil {
+		log.Printf("Error updating Task %v", err)
+		return nil, err
+	}
+
+	err = t.DB.Find(&task).Where("id = ?", task.ID).Error
+	if err != nil {
+		log.Printf("Error finding Task %v", err)
+		return nil, err
+	}
+
+	return task, nil
+}
+
 func (t *TaskRepository) Delete(_ context.Context, task *model.Tasks) (*model.Tasks, error) {
 	err := t.DB.Delete(&task).Error
 	if err != nil {
@@ -40,16 +56,25 @@ func (t *TaskRepository) Delete(_ context.Context, task *model.Tasks) (*model.Ta
 	return task, nil
 }
 
-func (t *TaskRepository) GetAll(_ context.Context) ([]*model.Tasks, error) {
+func (t *TaskRepository) GetAll(_ context.Context, filter string) ([]*model.Tasks, error) {
 	var tasks []*model.Tasks
+
+	if len(filter) > 0 {
+		err := t.DB.Where("project_id = ?", filter).Order("id desc").Find(&tasks).Error
+		if err != nil {
+			log.Printf("Error getting Tasks %v", err)
+			return nil, err
+		}
+		return tasks, nil
+	}
 
 	err := t.DB.Order("id desc").Find(&tasks).Error
 	if err != nil {
 		log.Printf("Error getting Tasks %v", err)
 		return nil, err
 	}
-
 	return tasks, nil
+
 }
 
 func (t *TaskRepository) GetById(_ context.Context, id string) (*model.Tasks, error) {
