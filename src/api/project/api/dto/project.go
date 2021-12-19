@@ -4,6 +4,7 @@ import (
 	"proyectos/src/api/errors"
 	"proyectos/src/api/project/domain/model"
 	"proyectos/src/api/utils"
+	"strings"
 	"time"
 )
 
@@ -42,7 +43,7 @@ func (p *Project) ToModel() *model.Projects {
 		WorkedHours: p.WorkedHours,
 		Leader:      p.Leader,
 		State:       state,
-		Members:	 p.Members,
+		Members:	 strings.Join(p.Members, ","),
 	}
 }
 
@@ -56,7 +57,7 @@ func FromModel(modelProject *model.Projects) *Project {
 		WorkedHours: modelProject.WorkedHours,
 		Leader:      modelProject.Leader,
 		State:       modelProject.State,
-		Members:	 modelProject.Members,
+		Members:	 strings.Split(modelProject.Members, ","),
 	}
 }
 
