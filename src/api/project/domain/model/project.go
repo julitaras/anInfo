@@ -15,5 +15,5 @@ type Projects struct {
 	WorkedHours int
 	Leader      string
 	State       string
-	Members		[]string
+	Members		[]int64
 }
