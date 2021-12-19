@@ -24,6 +24,7 @@ type Project struct {
 	WorkedHours int       `json:"worked_hours"`
 	Leader      string    `json:"leader" example:"Project's leader"`
 	State       string    `json:"state" example:"Project's state" enums:"TODO,IN_PROGRESS,DONE"`
+	Members     []string  `json:"members" example: Project's members'`
 }
 
 func (p *Project) ToModel() *model.Projects {
@@ -41,6 +42,7 @@ func (p *Project) ToModel() *model.Projects {
 		WorkedHours: p.WorkedHours,
 		Leader:      p.Leader,
 		State:       state,
+		Members:	 p.Members,
 	}
 }
 
@@ -54,6 +56,7 @@ func FromModel(modelProject *model.Projects) *Project {
 		WorkedHours: modelProject.WorkedHours,
 		Leader:      modelProject.Leader,
 		State:       modelProject.State,
+		Members:	 modelProject.Members,
 	}
 }
 
