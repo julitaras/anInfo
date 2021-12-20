@@ -33,9 +33,6 @@ func (p *Project) ToModel(isCreate bool) *model.Projects {
 			state = p.State
 		}
 	}
-	if !isCreate && len(p.Members) == 0 {
-		members = " "
-	}
 
 	return &model.Projects{
 		ID:          p.ID,
@@ -60,7 +57,7 @@ func FromModel(modelProject *model.Projects) *Project {
 		WorkedHours: modelProject.WorkedHours,
 		Leader:      modelProject.Leader,
 		State:       modelProject.State,
-		Members:     strings.Split(modelProject.Members, ","),
+		Members:	 strings.Split(modelProject.Members, ","),
 	}
 }
 

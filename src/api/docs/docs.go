@@ -592,6 +592,15 @@ var doc = `{
                     "type": "string",
                     "example": "Project's leader"
                 },
+                "members": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "example": [
+                        "Project's members"
+                    ]
+                },
                 "name": {
                     "type": "string",
                     "example": "Project's name"

@@ -96,7 +96,7 @@ func (ph *ProjectHandler) Post(g *gin.Context) {
 		}
 	}
 
-	dm, err := ph.Service.Insert(g, dp.ToModel())
+	dm, err := ph.Service.Insert(g, dp.ToModel(true))
 	if err != nil {
 		g.AbortWithStatusJSON(http.StatusUnprocessableEntity, errors.NewErrResponse(err, "error.Post.insert.projects"))
 		return
@@ -151,7 +151,7 @@ func (ph *ProjectHandler) Patch(g *gin.Context) {
 		return
 	}
 
-	dm, err := ph.Service.Update(g, dp.ToModel())
+	dm, err := ph.Service.Update(g, dp.ToModel(false))
 	if err != nil {
 		g.AbortWithStatusJSON(http.StatusUnprocessableEntity, errors.NewErrResponse(err, "error.Patch.update.projects"))
 		return
@@ -196,7 +196,7 @@ func (ph *ProjectHandler) Put(g *gin.Context) {
 		}
 	}
 
-	dm, err := ph.Service.Update(g, dp.ToModel())
+	dm, err := ph.Service.Update(g, dp.ToModel(false))
 	if err != nil {
 		g.AbortWithStatusJSON(http.StatusUnprocessableEntity, errors.NewErrResponse(err, "error.Put.update.projects"))
 		return
@@ -227,7 +227,7 @@ func (ph *ProjectHandler) Delete(g *gin.Context) {
 
 	dp.ID = i
 
-	_, err = ph.Service.Delete(g, dp.ToModel())
+	_, err = ph.Service.Delete(g, dp.ToModel(false))
 
 	if err != nil {
 		g.AbortWithStatusJSON(http.StatusBadRequest, errors.NewErrResponse(err, "error.Delete.delete.projects"))

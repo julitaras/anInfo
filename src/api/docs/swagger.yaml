@@ -10,6 +10,12 @@ definitions:
       leader:
         example: Project's leader
         type: string
+      members:
+        example:
+        - Project's members
+        items:
+          type: string
+        type: array
       name:
         example: Project's name
         type: string
