@@ -15,4 +15,10 @@ type Projects struct {
 	WorkedHours int
 	Leader      string
 	State       string
+	Members		string
+}
+
+type Member struct {
+	gorm.Model
+	ID 			int64
 }
