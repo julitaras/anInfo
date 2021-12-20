@@ -8,14 +8,6 @@ import (
 	"time"
 )
 
-type State string
-
-const (
-	Done       State = "DONE"
-	InProgress       = "IN_PROGRESS"
-	ToDo             = "TODO"
-)
-
 type Project struct {
 	ID          int64     `validate:"gt=0" json:"id" swaggerignore:"true"`
 	Name        string    `validate:"required,min=2,max=100" json:"name" example:"Project's name"`
