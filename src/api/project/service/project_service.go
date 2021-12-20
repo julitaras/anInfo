@@ -50,7 +50,6 @@ func (s *ProjectService) Insert(ctx context.Context, t *model.Projects) (*model.
 
 //Update service
 func (s *ProjectService) Update(ctx context.Context, t *model.Projects) (*model.Projects, error) {
-
 	r, err := s.r.Update(ctx, t)
 
 	if err != nil {
@@ -68,4 +67,3 @@ func (s *ProjectService) Delete(ctx context.Context, t *model.Projects) (*model.
 
 	return r, nil
 }
-
