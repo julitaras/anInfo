@@ -20,10 +20,17 @@ type Project struct {
 	Members     []string  `json:"members" example:"Project's members"`
 }
 
-func (p *Project) ToModel() *model.Projects {
-	state := utils.ToDo
-	if len(p.State) > 0 {
-		state = p.State
+func (p *Project) ToModel(isCreate bool) *model.Projects {
+	state := ""
+	members := strings.Join(p.Members, ",")
+	if isCreate {
+		state = utils.ToDo
+		if len(p.State) > 0 {
+			state = p.State
+		}
+	}
+	if !isCreate && len(p.Members) == 0 {
+		members = " "
 	}
 
 	return &model.Projects{
@@ -35,7 +42,7 @@ func (p *Project) ToModel() *model.Projects {
 		WorkedHours: p.WorkedHours,
 		Leader:      p.Leader,
 		State:       state,
-		Members:	 strings.Join(p.Members, ","),
+		Members:     members,
 	}
 }
 
@@ -49,7 +56,7 @@ func FromModel(modelProject *model.Projects) *Project {
 		WorkedHours: modelProject.WorkedHours,
 		Leader:      modelProject.Leader,
 		State:       modelProject.State,
-		Members:	 strings.Split(modelProject.Members, ","),
+		Members:     strings.Split(modelProject.Members, ","),
 	}
 }
 
